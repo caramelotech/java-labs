@@ -1,0 +1,56 @@
+# Configuração do GitHub Pages para Java4Beginners
+
+# Tema
+theme: jekyll-theme-cayman
+title: "Java4Beginners"
+description: "Base de conhecimento sobre Java para iniciantes"
+
+# URL e baseurl
+# url: "https://caramelotech.github.io"
+# baseurl: "/java4beginners"
+
+# SEO
+lang: pt-BR
+author: Caramelo Tech
+
+# Plugins
+plugins:
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-titles-from-headings
+
+# Configurações de markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Links relativos
+relative_links:
+  enabled: true
+  collections: false
+
+# Títulos automáticos dos headings
+titles_from_headings:
+  enabled: true
+  strip_title: true
+  collections: false
+
+# Incluir/excluir arquivos
+include:
+  - README.md
+  - docs
+  - codigos
+  - recursos
+
+exclude:
+  - .git
+  - .gitignore
+  - LICENSE
+  - node_modules
+  - vendor
+
+# Configurações adicionais
+show_downloads: false
+#google_analytics:
