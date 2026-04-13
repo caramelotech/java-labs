@@ -1,172 +1,69 @@
 # Guia de Contribuição
 
-Obrigado por considerar contribuir para o Java Labs! 🎉
+Obrigado por querer contribuir com o Java Labs!
 
-Este documento fornece diretrizes para contribuir com o projeto.
+## O que pode ser contribuido
 
-## 🤝 Como Contribuir
+- Melhorias e correções nos conteúdos (`/docs`)
+- Novos exemplos de código em `/codigos`
+- Exercícios adicionais em `/exercicios`
+- Projetos práticos em `/projetos`
+- Recursos recomendados em `/recursos`
 
-### Reportar Bugs ou Sugerir Melhorias
+## Processo
 
-1. Verifique se já não existe uma issue sobre o assunto
-2. Abra uma [nova issue](https://github.com/caramelotech/java-labs/issues/new)
-3. Descreva claramente o problema ou sugestão
-4. Adicione exemplos quando possível
-
-### Adicionar Conteúdo
-
-1. **Fork** o repositório
-2. **Clone** seu fork localmente
-3. Crie uma **branch** para sua contribuição:
-
-   ```bash
-   git checkout -b feature/meu-novo-conteudo
+1. Crie uma branch a partir de `main` seguindo o padrão:
+   ```
+   feature/descricao-curta
+   fix/descricao-curta
+   docs/descricao-curta
    ```
 
-4. **Use o template** disponível em `.github/TEMPLATE.md`
-
-5. **Adicione seu conteúdo** seguindo as diretrizes abaixo
-
-6. **Commit** suas mudanças:
-
-   ```bash
-   git add .
-   git commit -m "Adiciona conteúdo sobre [tópico]"
+2. Faça commits atômicos com mensagens no padrão de Conventional Commits:
+   ```
+   feat: adicionar exercícios sobre loops
+   fix: corrigir exemplo de recursão
+   docs: melhorar conteúdo sobre herança
    ```
 
-7. **Push** para seu fork:
+   Tipos válidos: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`
 
-   ```bash
-   git push origin feature/meu-novo-conteudo
-   ```
+3. Abra um Pull Request usando o template disponível e aguarde revisão.
 
-8. Abra um **Pull Request** descrevendo suas mudanças
+4. Após aprovação, o merge será feito por um mantenedor.
 
-## 📝 Diretrizes de Conteúdo
+## Padrões de conteúdo
 
-### Estrutura dos Arquivos
+### Documentação (Markdown)
 
-- **Conteúdos educacionais:** `docs/XX-nome-do-topico.md`
-  - Onde XX é o número sequencial (01, 02, 03...)
-  - Use kebab-case para nomes de arquivo
-- **Códigos de exemplo:** `codigos/XX-NomeDoExemplo/`
-  - Organize em pastas por tópico
-  - Inclua comentários explicativos
-- **Recursos:** `recursos/README.md`
-  - Adicione livros, cursos, artigos relevantes
-  - Mantenha organizado por categoria
+- Escreva em português (pt-BR)
+- Use títulos hierárquicos (`##`, `###`)
+- Prefira exemplos curtos e diretos
+- Inclua o "por quê", não apenas o "como"
+- Nomeie os arquivos com prefixo numérico sequencial: `03-nome-do-topico.md`
+- Atualize o índice em `docs/README.md` ao adicionar um novo tópico
 
-### Estilo de Escrita
+### Exemplos de código (`/codigos`)
 
-- ✅ Use linguagem clara e acessível
-- ✅ Explique conceitos complexos com analogias
-- ✅ Inclua exemplos práticos
-- ✅ Adicione código quando relevante
-- ✅ Use formatação Markdown corretamente
-- ❌ Evite jargões sem explicação
-- ❌ Não assuma conhecimento prévio avançado
-- ❌ Evite parágrafos muito longos
+- Um conceito por pasta, nomeada com prefixo sequencial: `02-NomeDoExemplo/`
+- Inclua um comentário no topo do arquivo explicando o que o exemplo demonstra
+- Adicione um `README.md` na pasta com instruções de execução
+- Teste o código antes de submeter: `javac Arquivo.java && java Arquivo`
 
-### Código
+### Exercícios (`/exercicios`)
 
-- ✅ Siga as convenções de código Java
-- ✅ Adicione comentários explicativos
-- ✅ Use nomes descritivos para variáveis/métodos
-- ✅ Teste o código antes de submeter
-- ✅ Inclua saída esperada quando aplicável
+- Descreva claramente o objetivo
+- Indique o nível de dificuldade (iniciante / intermediário / avançado)
+- Inclua exemplos de saída esperada
+- Use critérios de sucesso em formato de checklist
 
-### Numeração
+### Projetos (`/projetos`)
 
-Ao adicionar novo conteúdo:
+- Descreva o objetivo e o contexto
+- Liste os requisitos em formato de checklist
+- Inclua ao menos um exemplo de uso ou saída esperada
+- Adicione dicas para quem está começando
 
-1. Verifique o último número usado em `docs/`
-2. Use o próximo número sequencial
-3. Atualize o índice em `docs/README.md`
-4. Adicione links de navegação (anterior/próximo)
+## Dúvidas?
 
-## 🎨 Template
-
-Use sempre o template oficial em `.github/TEMPLATE.md` para criar novos conteúdos.
-
-### Seções Obrigatórias
-
-- Introdução
-- Explicação do conceito
-- Exemplos práticos
-- Exercícios (quando aplicável)
-
-### Seções Opcionais
-
-- Recursos adicionais
-- Perguntas frequentes
-- Conceitos relacionados
-
-## 🔍 Revisão
-
-Antes de submeter seu PR:
-
-- [ ] Revisei ortografia e gramática
-- [ ] Testei todos os links
-- [ ] Executei e testei códigos de exemplo
-- [ ] Segui o template oficial
-- [ ] Atualizei o índice/README quando necessário
-- [ ] Adicionei metadados (nível, tempo de leitura)
-
-## 📋 Tipos de Contribuição
-
-### Conteúdo Educacional
-
-- Novos tópicos sobre Java
-- Tutoriais práticos
-- Guias de conceitos
-
-### Código
-
-- Exemplos práticos
-- Exercícios resolvidos
-- Projetos de referência
-
-### Recursos
-
-- Livros recomendados
-- Cursos online
-- Artigos e vídeos
-- Ferramentas úteis
-
-### Melhorias
-
-- Correções de erros
-- Melhorias de texto
-- Atualização de links
-- Otimização de exemplos
-
-## 🌟 Boas Práticas
-
-1. **Seja consistente** com o estilo existente
-2. **Teste tudo** antes de submeter
-3. **Documente bem** seu código
-4. **Seja didático** - lembre-se do público iniciante
-5. **Mantenha simples** - prefira clareza à complexidade
-6. **Cite fontes** quando usar conteúdo de terceiros
-
-## ❓ Dúvidas
-
-Se tiver dúvidas sobre como contribuir:
-
-1. Consulte os [exemplos existentes](../docs/)
-2. Leia outros PRs aprovados
-3. Abra uma issue para discussão
-4. Entre em contato com os mantenedores
-
-## 📜 Código de Conduta
-
-- Seja respeitoso e profissional
-- Aceite críticas construtivas
-- Foque no melhor para o projeto
-- Ajude outros contribuidores
-
-## 🙏 Agradecimentos
-
-Toda contribuição é valiosa! Obrigado por ajudar a tornar o aprendizado de Java mais acessível.
-
-**[⬅️ Voltar ao README](../README.md)**
+Abra uma issue com a tag `question`.

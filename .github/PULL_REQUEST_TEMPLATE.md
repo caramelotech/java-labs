@@ -1,50 +1,27 @@
-## Descrição
+## O que este PR faz?
 
-<!-- Descreva resumidamente o que esta PR adiciona/altera/corrige -->
+<!-- Descreva de forma clara e objetiva o que foi adicionado, alterado ou corrigido. -->
 
-## Tipo de Mudança
+## Tipo de mudança
 
-<!-- Marque com [x] o tipo de mudança desta PR -->
-
-- [ ] 📝 Novo conteúdo educacional
-- [ ] 🐛 Correção de erro (typo, link quebrado, etc.)
-- [ ] ✨ Melhoria de conteúdo existente
-- [ ] 💻 Novo código de exemplo
-- [ ] 📚 Adição de recursos (livros, cursos, etc.)
-- [ ] 🔧 Configuração ou estrutura do repositório
-- [ ] 📖 Atualização de documentação
+- [ ] Novo conteúdo (`/docs`)
+- [ ] Novo exemplo de código (`/codigos`)
+- [ ] Novo exercício (`/exercicios`)
+- [ ] Novo projeto (`/projetos`)
+- [ ] Recurso recomendado (`/recursos`)
+- [ ] Correção de conteúdo existente
+- [ ] Outro: <!-- descreva -->
 
 ## Checklist
 
-<!-- Marque com [x] os itens concluídos -->
+- [ ] O conteúdo está em português
+- [ ] Os arquivos estão no diretório correto
+- [ ] Exemplos de código compilam e executam sem erros
+- [ ] Exercícios e projetos têm objetivo e critérios de sucesso descritos
+- [ ] O índice (`docs/README.md`) foi atualizado, se necessário
+- [ ] Minha branch está atualizada com `main`
+- [ ] Não há conflitos de merge
 
-- [ ] Segui as [diretrizes de contribuição](../CONTRIBUTING.md)
-- [ ] Usei o [template adequado](TEMPLATE.md) (se aplicável)
-- [ ] Revisei ortografia e gramática
-- [ ] Verifiquei que os links estão funcionando
-- [ ] Testei os códigos de exemplo (se aplicável)
-- [ ] Adicionei/atualizei o índice (README.md) se necessário
-- [ ] O conteúdo está numerado corretamente (se novo tópico)
+## Contexto adicional
 
-## Conteúdo Adicionado/Modificado
-
-<!-- Liste os arquivos principais afetados -->
-
-- [ ] `docs/XX-nome-do-topico.md`
-- [ ] `codigos/exemplo.java`
-- [ ] `recursos/README.md`
-- [ ] Outro:
-
-## Screenshots
-
-<!-- Se aplicável, adicione screenshots da renderização do conteúdo -->
-
-## Informações Adicionais
-
-<!-- Qualquer contexto adicional sobre a PR -->
-
-## Revisores
-
-<!-- @mencione revisores específicos se necessário -->
-
-cc: @caramelotech
+<!-- Alguma decisão de design, referência externa ou ponto que o revisor deve saber? Deixe em branco se não houver. -->

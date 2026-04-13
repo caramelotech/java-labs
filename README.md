@@ -7,8 +7,6 @@ Bem-vindo ao **Java Labs**! Este é um repositório dedicado a ensinar Java de f
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue)](https://caramelotech.github.io/java-labs/)
 [![License](https://img.shields.io/github/license/caramelotech/java-labs)](LICENSE)
 
----
-
 ## 📚 Sobre o Projeto
 
 O **Java Labs** é uma iniciativa educacional que visa fornecer:
@@ -19,8 +17,6 @@ O **Java Labs** é uma iniciativa educacional que visa fornecer:
 - ✅ Exercícios para fixação
 - ✅ Trilha de aprendizado estruturada
 - ✅ Recursos adicionais curados
-
----
 
 ## 🗂️ Estrutura do Repositório
 
@@ -34,14 +30,12 @@ java-labs/
 
 ### Navegação Rápida
 
-| Seção | Descrição | Link |
-|-------|-----------|------|
-| 📖 **Conteúdos** | Tópicos teóricos organizados | [docs/](docs/README.md) |
-| 💻 **Códigos** | Exemplos práticos em Java | [codigos/](codigos/README.md) |
-| 📚 **Recursos** | Livros, cursos, ferramentas | [recursos/](recursos/README.md) |
+| Seção             | Descrição                     | Link                                               |
+| ----------------- | ----------------------------- | -------------------------------------------------- |
+| 📖 **Conteúdos**  | Tópicos teóricos organizados  | [docs/](docs/README.md)                            |
+| 💻 **Códigos**    | Exemplos práticos em Java     | [codigos/](codigos/README.md)                      |
+| 📚 **Recursos**   | Livros, cursos, ferramentas   | [recursos/](recursos/README.md)                    |
 | 🤝 **Contribuir** | Como contribuir com o projeto | [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) |
-
----
 
 ## 🚀 Começando
 
@@ -67,8 +61,6 @@ Para executar os exemplos, você precisa ter o **JDK (Java Development Kit)** in
 java --version
 javac --version
 ```
-
----
 
 ## 📖 Índice de Conteúdos
 
@@ -98,8 +90,6 @@ javac --version
 
 **[Ver índice completo →](docs/README.md)**
 
----
-
 ## 💻 Exemplos de Código
 
 Todos os exemplos estão em [`codigos/`](codigos/) organizados por tópico:
@@ -108,8 +98,6 @@ Todos os exemplos estão em [`codigos/`](codigos/) organizados por tópico:
 - Variáveis (em breve)
 - Estruturas de Controle (em breve)
 - POO (em breve)
-
----
 
 ## 🎯 Objetivos de Aprendizado
 
@@ -121,8 +109,6 @@ Ao completar este curso, você será capaz de:
 - ✅ Tratar exceções e erros
 - ✅ Criar aplicações Java simples
 - ✅ Ter base sólida para frameworks avançados
-
----
 
 ## 🤝 Como Contribuir
 
@@ -140,37 +126,31 @@ Contribuições são muito bem-vindas! Veja como você pode ajudar:
 
 Se você é uma IA auxiliando neste projeto, consulte [AI_INSTRUCTIONS.md](.github/AI_INSTRUCTIONS.md) para diretrizes específicas.
 
----
-
 ## 📋 Templates Disponíveis
 
 - [Template de Conteúdo](.github/TEMPLATE.md) - Para criar novos tópicos
 - [Template de PR](.github/PULL_REQUEST_TEMPLATE.md) - Para pull requests
 - [Guia de Contribuição](.github/CONTRIBUTING.md) - Diretrizes gerais
 
----
-
 ## 📚 Recursos Recomendados
 
 ### Livros
+
 - "Use a Cabeça! Java" - Kathy Sierra & Bert Bates
 - "Java: Como Programar" - Deitel & Deitel
 
 ### Cursos Online
+
 - [Curso de Java - Curso em Vídeo](https://www.youtube.com/playlist?list=PLHz_AreHm4dkI2ZdjTwZA4mPMxWTfNSpR) (Gratuito, PT-BR)
 - [Java Programming - Coursera](https://www.coursera.org/specializations/java-programming)
 
 **[Ver lista completa de recursos →](recursos/README.md)**
-
----
 
 ## 🌐 GitHub Pages
 
 Este repositório está disponível online através do GitHub Pages:
 
 **🔗 [https://caramelotech.github.io/java-labs/](https://caramelotech.github.io/java-labs/)**
-
----
 
 ## 📊 Status do Projeto
 
@@ -189,27 +169,19 @@ Este projeto está em **desenvolvimento ativo**. Novos conteúdos são adicionad
 - [ ] POO Básica
 - [ ] Tópicos Avançados
 
----
-
 ## 📞 Contato e Suporte
 
 - 🐛 **Issues:** [GitHub Issues](https://github.com/caramelotech/java-labs/issues)
 - 💬 **Discussões:** [GitHub Discussions](https://github.com/caramelotech/java-labs/discussions)
 - 🌐 **Website:** [caramelotech.github.io/java-labs](https://caramelotech.github.io/java-labs/)
 
----
-
 ## 📄 Licença
 
 Este projeto está sob a licença especificada no arquivo [LICENSE](LICENSE).
 
----
-
 ## 🙏 Agradecimentos
 
 Agradecemos a todos que contribuem para tornar o aprendizado de Java mais acessível!
-
----
 
 ## ⭐ Apoie o Projeto
 
@@ -219,8 +191,6 @@ Se este repositório está ajudando você, considere:
 - 🔄 Compartilhar com amigos
 - 🤝 Contribuir com conteúdo
 - 📢 Divulgar nas redes sociais
-
----
 
 **Feito com ❤️ por [Caramelo Tech](https://github.com/caramelotech)**
 
