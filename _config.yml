@@ -1,13 +1,13 @@
-# Configuração do GitHub Pages para Java4Beginners
+# Configuração do GitHub Pages para Java Labs
 
 # Tema
 theme: jekyll-theme-cayman
-title: "Java4Beginners"
+title: "Java Labs"
 description: "Base de conhecimento sobre Java para iniciantes"
 
 # URL e baseurl
 # url: "https://caramelotech.github.io"
-# baseurl: "/java4beginners"
+# baseurl: "/java-labs"
 
 # SEO
 lang: pt-BR

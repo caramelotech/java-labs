@@ -1,14 +1,10 @@
 # Instruções para Assistentes de IA
 
-Este documento contém diretrizes para assistentes de IA que auxiliam na criação de conteúdo para o repositório Java4Beginners.
-
----
+Este documento contém diretrizes para assistentes de IA que auxiliam na criação de conteúdo para o repositório Java Labs.
 
 ## 🎯 Objetivo do Repositório
 
 Criar uma base de conhecimento completa e acessível sobre Java para iniciantes em português (pt-BR).
-
----
 
 ## 📋 Diretrizes Gerais
 
@@ -30,8 +26,6 @@ Criar uma base de conhecimento completa e acessível sobre Java para iniciantes 
 - ❌ Não assuma conhecimento prévio avançado
 - ❌ Evite linguagem muito técnica ou acadêmica
 
----
-
 ## 📚 Estrutura de Conteúdo
 
 ### Arquivos de Conteúdo
@@ -39,6 +33,7 @@ Criar uma base de conhecimento completa e acessível sobre Java para iniciantes 
 Localização: `docs/XX-nome-do-topico.md`
 
 Formato de numeração:
+
 - `01-introducao-java.md`
 - `02-variaveis-tipos-dados.md`
 - `03-estruturas-controle.md`
@@ -80,8 +75,6 @@ Formato de numeração:
    - Link para próximo tópico
    - Link para índice
 
----
-
 ## 💻 Código
 
 ### Padrões de Código Java
@@ -114,8 +107,6 @@ public class Calc {
 4. **Teste o código** antes de incluir
 5. **Inclua a saída esperada** quando relevante
 6. **Mantenha exemplos simples** e focados
-
----
 
 ## 📖 Progressão de Conteúdo
 
@@ -155,16 +146,17 @@ Organize tópicos em sequência didática:
 - Link para tópicos necessários
 - Recapitule conceitos importantes
 
----
-
 ## 🎨 Formatação Markdown
 
 ### Títulos
 
 ```markdown
 # Título Principal (H1) - Apenas um por arquivo
+
 ## Seção Principal (H2)
+
 ### Subseção (H3)
+
 #### Detalhes (H4)
 ```
 
@@ -185,7 +177,7 @@ public class Exemplo {
 
 ```markdown
 **Negrito** para ênfase
-*Itálico* para termos técnicos
+_Itálico_ para termos técnicos
 `código inline` para comandos/código
 ```
 
@@ -216,8 +208,6 @@ Resposta detalhada aqui.
 </details>
 ```
 
----
-
 ## 🔗 Links e Navegação
 
 ### Links Internos
@@ -241,12 +231,10 @@ Sempre inclua no final:
 **[⬅️ Voltar ao Índice](../README.md)** | **[➡️ Próximo Tópico](02-topico.md)**
 ```
 
----
-
 ## 📊 Organização de Arquivos
 
 ```
-java4beginners/
+java-labs/
 ├── docs/                    # Conteúdos numerados
 │   ├── README.md           # Índice de conteúdos
 │   ├── 01-introducao.md
@@ -265,8 +253,6 @@ java4beginners/
     └── AI_INSTRUCTIONS.md
 ```
 
----
-
 ## ✅ Checklist para Novos Conteúdos
 
 Antes de criar/sugerir novo conteúdo, verifique:
@@ -283,37 +269,38 @@ Antes de criar/sugerir novo conteúdo, verifique:
 - [ ] Navegação (anterior/próximo) configurada
 - [ ] README/índice atualizado
 
----
-
 ## 🎯 Princípios de Design Pedagógico
 
 ### 1. Progressão Gradual
+
 - Do simples ao complexo
 - Um conceito por vez
 - Revisão de conceitos anteriores
 
 ### 2. Aprendizado Ativo
+
 - Exercícios práticos
 - Desafios aplicáveis
 - Projetos incrementais
 
 ### 3. Contexto Relevante
+
 - Exemplos do mundo real
 - Problemas práticos
 - Aplicações concretas
 
 ### 4. Feedback Imediato
+
 - Saídas de código mostradas
 - Dicas para exercícios
 - Avisos sobre erros comuns
 
 ### 5. Múltiplas Representações
+
 - Texto explicativo
 - Código de exemplo
 - Analogias
 - Diagramas quando necessário
-
----
 
 ## 🚫 O Que Evitar
 
@@ -341,8 +328,6 @@ Antes de criar/sugerir novo conteúdo, verifique:
 - ❌ README não atualizado
 - ❌ Arquivos mal organizados
 
----
-
 ## 💡 Dicas para Criar Conteúdo de Qualidade
 
 1. **Comece com o "porquê":** Explique por que o tópico é importante
@@ -354,20 +339,22 @@ Antes de criar/sugerir novo conteúdo, verifique:
 7. **Pense no iniciante:** Se você não entenderia há 6 meses, simplifique
 8. **Incremental:** Construa conhecimento passo a passo
 
----
-
 ## 📝 Exemplos de Bom Conteúdo
 
 ### Título Descritivo
+
 ✅ "02 - Variáveis e Tipos de Dados em Java"
 ❌ "Vars"
 
 ### Explicação Clara
+
 ✅ "Uma variável é como uma caixa que armazena informações. Cada caixa tem um nome (identificador) e pode guardar um tipo específico de dado."
 ❌ "Variável é um identificador que referencia um espaço de memória."
 
 ### Exemplo Prático
-✅ 
+
+✅
+
 ```java
 // Declarando uma variável para armazenar a idade de uma pessoa
 int idade = 25;
@@ -375,11 +362,10 @@ System.out.println("A idade é: " + idade); // Saída: A idade é: 25
 ```
 
 ❌
+
 ```java
 int x = 25;
 ```
-
----
 
 ## 🔄 Processo de Criação
 
@@ -408,8 +394,6 @@ int x = 25;
    - Configure navegação
    - Verifique numeração
 
----
-
 ## 🎓 Recursos de Referência
 
 Ao criar conteúdo, consulte:
@@ -418,8 +402,6 @@ Ao criar conteúdo, consulte:
 - [Java Tutorial da Oracle](https://docs.oracle.com/javase/tutorial/)
 - Conteúdos já existentes no repositório para manter consistência
 
----
-
 ## 📞 Suporte
 
 Em caso de dúvidas sobre estas instruções:
@@ -427,7 +409,5 @@ Em caso de dúvidas sobre estas instruções:
 1. Consulte exemplos existentes em `docs/`
 2. Revise o template em `.github/TEMPLATE.md`
 3. Leia o guia de contribuição em `.github/CONTRIBUTING.md`
-
----
 
 **Lembre-se:** O objetivo é tornar o aprendizado de Java **acessível, prático e agradável** para iniciantes!

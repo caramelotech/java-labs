@@ -2,8 +2,6 @@
 
 <!-- Descreva resumidamente o que esta PR adiciona/altera/corrige -->
 
----
-
 ## Tipo de Mudança
 
 <!-- Marque com [x] o tipo de mudança desta PR -->
@@ -15,8 +13,6 @@
 - [ ] 📚 Adição de recursos (livros, cursos, etc.)
 - [ ] 🔧 Configuração ou estrutura do repositório
 - [ ] 📖 Atualização de documentação
-
----
 
 ## Checklist
 
@@ -30,8 +26,6 @@
 - [ ] Adicionei/atualizei o índice (README.md) se necessário
 - [ ] O conteúdo está numerado corretamente (se novo tópico)
 
----
-
 ## Conteúdo Adicionado/Modificado
 
 <!-- Liste os arquivos principais afetados -->
@@ -39,21 +33,15 @@
 - [ ] `docs/XX-nome-do-topico.md`
 - [ ] `codigos/exemplo.java`
 - [ ] `recursos/README.md`
-- [ ] Outro: 
-
----
+- [ ] Outro:
 
 ## Screenshots
 
 <!-- Se aplicável, adicione screenshots da renderização do conteúdo -->
 
----
-
 ## Informações Adicionais
 
 <!-- Qualquer contexto adicional sobre a PR -->
-
----
 
 ## Revisores
 

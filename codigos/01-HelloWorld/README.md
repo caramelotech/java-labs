@@ -2,8 +2,6 @@
 
 Este é o programa mais básico em Java - o famoso "Olá, Mundo!"
 
----
-
 ## 📝 Sobre
 
 Todo programador começa sua jornada com um programa Hello World. É uma tradição na computação e serve para:
@@ -12,13 +10,9 @@ Todo programador começa sua jornada com um programa Hello World. É uma tradiç
 - Entender a estrutura básica de um programa
 - Fazer seu primeiro código funcionar!
 
----
-
 ## 📂 Arquivos
 
 - `HelloWorld.java` - Código fonte do programa
-
----
 
 ## 🚀 Como Executar
 
@@ -44,8 +38,6 @@ Bem-vindo ao Java!
 Este é meu primeiro programa.
 ```
 
----
-
 ## 🔍 Entendendo o Código
 
 ### Linha por Linha
@@ -53,6 +45,7 @@ Este é meu primeiro programa.
 ```java
 public class HelloWorld {
 ```
+
 - `public` - modificador de acesso (classe pode ser acessada de qualquer lugar)
 - `class` - palavra-chave para definir uma classe
 - `HelloWorld` - nome da classe (deve ser igual ao nome do arquivo)
@@ -60,6 +53,7 @@ public class HelloWorld {
 ```java
 public static void main(String[] args) {
 ```
+
 - `public` - método pode ser chamado de qualquer lugar
 - `static` - método pertence à classe, não a uma instância
 - `void` - método não retorna nenhum valor
@@ -69,12 +63,11 @@ public static void main(String[] args) {
 ```java
 System.out.println("Olá, Mundo!");
 ```
+
 - `System` - classe do sistema Java
 - `out` - objeto de saída padrão (console)
 - `println` - método que imprime e pula linha
 - `"Olá, Mundo!"` - string (texto) a ser impressa
-
----
 
 ## 💡 Conceitos Importantes
 
@@ -93,21 +86,22 @@ Delimitam blocos de código (classes, métodos, etc.)
 ### 4. Case Sensitive
 
 Java diferencia maiúsculas de minúsculas:
+
 - `HelloWorld` ≠ `helloworld`
 - `System` ≠ `system`
-
----
 
 ## 🎯 Experimente
 
 Tente modificar o programa:
 
 1. **Mude a mensagem:**
+
    ```java
    System.out.println("Seu nome aqui!");
    ```
 
 2. **Adicione mais linhas:**
+
    ```java
    System.out.println("Linha 1");
    System.out.println("Linha 2");
@@ -120,14 +114,10 @@ Tente modificar o programa:
    System.out.print("fica na mesma linha");
    ```
 
----
-
 ## 🔗 Conceitos Relacionados
 
 - [📖 Introdução ao Java](../../docs/01-introducao-java.md)
 - [📖 Estrutura de um Programa Java](../../docs/03-primeiro-programa.md)
-
----
 
 ## ❓ Problemas Comuns
 
@@ -139,6 +129,7 @@ Veja: [Instalação e Configuração](../../docs/02-instalacao-configuracao.md)
 ### Erro: "Could not find or load main class HelloWorld"
 
 **Soluções:**
+
 1. Certifique-se que compilou: `javac HelloWorld.java`
 2. Execute no diretório correto (onde está o .class)
 3. Use `java HelloWorld` (sem .class no final)
@@ -146,10 +137,9 @@ Veja: [Instalação e Configuração](../../docs/02-instalacao-configuracao.md)
 ### Erro de compilação
 
 **Verifique:**
+
 - Nome do arquivo = nome da classe
 - Sintaxe correta (chaves, ponto e vírgula)
 - Case das palavras
-
----
 
 **[⬅️ Voltar ao Índice de Códigos](../README.md)**

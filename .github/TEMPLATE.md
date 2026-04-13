@@ -4,13 +4,9 @@
 > **Nível:** [Iniciante/Intermediário/Avançado]  
 > **Tempo de leitura:** [X minutos]
 
----
-
 ## Introdução
 
 [Breve introdução ao tópico - 2-3 parágrafos explicando o que será abordado e por que é importante]
-
----
 
 ## O que é [Tópico]?
 
@@ -23,8 +19,6 @@
 #### Analogia
 
 [Usar analogias do dia a dia para facilitar o entendimento. Exemplo: "Imagine que..."]
-
----
 
 ## Como Funciona
 
@@ -43,15 +37,11 @@ public class Exemplo {
 }
 ```
 
----
-
 ## Principais Características
 
 - **Característica 1:** [Descrição]
 - **Característica 2:** [Descrição]
 - **Característica 3:** [Descrição]
-
----
 
 ## Aplicações Práticas
 
@@ -60,8 +50,6 @@ public class Exemplo {
 1. **Aplicação 1:** [Descrição]
 2. **Aplicação 2:** [Descrição]
 3. **Aplicação 3:** [Descrição]
-
----
 
 ## Exemplos de Código
 
@@ -74,8 +62,6 @@ public class Exemplo {
 **Explicação:**
 [Explicação linha por linha ou conceitual do código]
 
----
-
 ## Conceitos Relacionados
 
 [Links para outros tópicos relacionados no repositório]
@@ -84,29 +70,22 @@ public class Exemplo {
 - [📖 Tópico Relacionado](../docs/XX-topico-relacionado.md)
 - [📖 Próximo Tópico](../docs/XX-proximo-topico.md)
 
----
-
 ## Recursos Adicionais
 
 ### Para Aprender Mais
 
 - 📚 **Livros:**
   - [Nome do Livro](link) - [Breve descrição]
-  
 - 🎓 **Cursos:**
   - [Nome do Curso](link) - [Plataforma] - [Nível]
-  
 - 📹 **Vídeos:**
   - [Título do Vídeo](link) - [Canal/Criador]
-  
 - 📰 **Artigos:**
   - [Título do Artigo](link) - [Autor/Fonte]
 
 ### Ferramentas Práticas
 
 - [Nome da Ferramenta](link) - [Descrição breve]
-
----
 
 ## Exercícios Práticos
 
@@ -115,6 +94,7 @@ public class Exemplo {
 **Objetivo:** [Descrição do objetivo]
 
 **Instruções:**
+
 1. [Passo 1]
 2. [Passo 2]
 3. [Passo 3]
@@ -126,10 +106,9 @@ public class Exemplo {
 **Objetivo:** [Descrição do objetivo]
 
 **Instruções:**
+
 1. [Passo 1]
 2. [Passo 2]
-
----
 
 ## Perguntas Frequentes
 
@@ -147,8 +126,6 @@ Resposta detalhada para a pergunta 2.
 
 </details>
 
----
-
 ## Resumo
 
 [Resumo dos pontos principais abordados neste tópico em bullet points]
@@ -157,15 +134,11 @@ Resposta detalhada para a pergunta 2.
 - Ponto 2
 - Ponto 3
 
----
-
 ## Próximos Passos
 
 [Sugestões do que estudar em seguida]
 
 1. [Próximo tópico recomendado](link)
 2. [Prática recomendada](link)
-
----
 
 **[⬅️ Voltar ao Índice](../README.md)** | **[➡️ Próximo Tópico](link)**

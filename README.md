@@ -1,17 +1,17 @@
-# ☕ Java4Beginners
+# ☕ Java Labs
 
 > Base de conhecimento completa sobre Java para iniciantes em português
 
-Bem-vindo ao **Java4Beginners**! Este é um repositório dedicado a ensinar Java de forma clara, prática e estruturada para quem está começando na programação.
+Bem-vindo ao **Java Labs**! Este é um repositório dedicado a ensinar Java de forma clara, prática e estruturada para quem está começando na programação.
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue)](https://caramelotech.github.io/java4beginners/)
-[![License](https://img.shields.io/github/license/caramelotech/java4beginners)](LICENSE)
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue)](https://caramelotech.github.io/java-labs/)
+[![License](https://img.shields.io/github/license/caramelotech/java-labs)](LICENSE)
 
 ---
 
 ## 📚 Sobre o Projeto
 
-O **Java4Beginners** é uma iniciativa educacional que visa fornecer:
+O **Java Labs** é uma iniciativa educacional que visa fornecer:
 
 - ✅ Conteúdo didático em português (pt-BR)
 - ✅ Explicações claras e acessíveis
@@ -25,7 +25,7 @@ O **Java4Beginners** é uma iniciativa educacional que visa fornecer:
 ## 🗂️ Estrutura do Repositório
 
 ```
-java4beginners/
+java-labs/
 ├── 📖 docs/              # Conteúdos teóricos numerados
 ├── 💻 codigos/           # Exemplos de código executáveis
 ├── 📚 recursos/          # Livros, cursos e materiais extras
@@ -168,7 +168,7 @@ Se você é uma IA auxiliando neste projeto, consulte [AI_INSTRUCTIONS.md](.gith
 
 Este repositório está disponível online através do GitHub Pages:
 
-**🔗 [https://caramelotech.github.io/java4beginners/](https://caramelotech.github.io/java4beginners/)**
+**🔗 [https://caramelotech.github.io/java-labs/](https://caramelotech.github.io/java-labs/)**
 
 ---
 
@@ -193,9 +193,9 @@ Este projeto está em **desenvolvimento ativo**. Novos conteúdos são adicionad
 
 ## 📞 Contato e Suporte
 
-- 🐛 **Issues:** [GitHub Issues](https://github.com/caramelotech/java4beginners/issues)
-- 💬 **Discussões:** [GitHub Discussions](https://github.com/caramelotech/java4beginners/discussions)
-- 🌐 **Website:** [caramelotech.github.io/java4beginners](https://caramelotech.github.io/java4beginners/)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/caramelotech/java-labs/issues)
+- 💬 **Discussões:** [GitHub Discussions](https://github.com/caramelotech/java-labs/discussions)
+- 🌐 **Website:** [caramelotech.github.io/java-labs](https://caramelotech.github.io/java-labs/)
 
 ---
 
