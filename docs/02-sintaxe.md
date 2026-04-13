@@ -24,8 +24,6 @@ Java possui palavras reservadas que não podem ser usadas como nomes de variáve
 
 `public`, `private`, `class`, `int`, `if`, `else`, `while`, `for`, `return`, `final`, `static`, `void`, `true`, `false`, `null`
 
----
-
 ## 1. Estrutura Básica de um Programa Java
 
 Todo programa Java começa com uma estrutura básica. Vamos entender cada parte:
@@ -47,8 +45,6 @@ public class MeuPrimeiroPrograma {
 - **Ponto e vírgula `;`**: Marca o fim de uma instrução
 
 > **Importante**: O nome do arquivo Java deve ser idêntico ao nome da classe pública, incluindo maiúsculas e minúsculas. Por exemplo, `MeuPrimeiroPrograma.java`.
-
----
 
 ## 2. Comentários
 
@@ -81,34 +77,32 @@ Comentários são textos ignorados pelo compilador, usados para documentar o có
 - ✅ Use JavaDoc para documentar classes e métodos públicos
 - ❌ Evite comentários óbvios que apenas repetem o código
 
----
-
 ## 3. Tipos de Dados Primitivos
 
 Java possui 8 tipos de dados primitivos, divididos em categorias:
 
 ### Números Inteiros:
 
-| Tipo    | Tamanho | Intervalo                                    | Uso Comum                    |
-|---------|---------|----------------------------------------------|------------------------------|
-| `byte`  | 8 bits  | -128 a 127                                   | Economizar memória           |
-| `short` | 16 bits | -32.768 a 32.767                             | Valores inteiros pequenos    |
-| `int`   | 32 bits | -2.147.483.648 a 2.147.483.647               | **Tipo padrão para inteiros**|
-| `long`  | 64 bits | -9.223.372.036.854.775.808 a ...             | Valores muito grandes        |
+| Tipo    | Tamanho | Intervalo                        | Uso Comum                     |
+| ------- | ------- | -------------------------------- | ----------------------------- |
+| `byte`  | 8 bits  | -128 a 127                       | Economizar memória            |
+| `short` | 16 bits | -32.768 a 32.767                 | Valores inteiros pequenos     |
+| `int`   | 32 bits | -2.147.483.648 a 2.147.483.647   | **Tipo padrão para inteiros** |
+| `long`  | 64 bits | -9.223.372.036.854.775.808 a ... | Valores muito grandes         |
 
 ### Números de Ponto Flutuante:
 
-| Tipo     | Tamanho | Precisão        | Uso Comum                       |
-|----------|---------|-----------------|----------------------------------|
-| `float`  | 32 bits | 6-7 dígitos     | Valores decimais com menos precisão |
-| `double` | 64 bits | 15 dígitos      | **Tipo padrão para decimais**   |
+| Tipo     | Tamanho | Precisão    | Uso Comum                           |
+| -------- | ------- | ----------- | ----------------------------------- |
+| `float`  | 32 bits | 6-7 dígitos | Valores decimais com menos precisão |
+| `double` | 64 bits | 15 dígitos  | **Tipo padrão para decimais**       |
 
 ### Outros Tipos:
 
-| Tipo      | Tamanho | Valores          | Uso                              |
-|-----------|---------|------------------|----------------------------------|
-| `boolean` | 1 bit   | `true` ou `false`| Lógica e condições               |
-| `char`    | 16 bits | 0 a 65.535       | Caractere Unicode único          |
+| Tipo      | Tamanho | Valores           | Uso                     |
+| --------- | ------- | ----------------- | ----------------------- |
+| `boolean` | 1 bit   | `true` ou `false` | Lógica e condições      |
+| `char`    | 16 bits | 0 a 65.535        | Caractere Unicode único |
 
 ### Exemplos Práticos:
 
@@ -129,8 +123,6 @@ boolean temDesconto = false;
 char inicial = 'A';
 char simbolo = '@';
 ```
-
----
 
 ## 4. Variáveis
 
@@ -196,11 +188,11 @@ int NomeDoUsuario;
 public class ExemploEscopo {
     // Variável de instância (pertence à classe)
     private int valorGlobal = 100;
-    
+
     public void metodoExemplo() {
         // Variável local (existe apenas dentro deste método)
         int valorLocal = 50;
-        
+
         if (valorLocal > 0) {
             // Variável de bloco (existe apenas dentro deste bloco if)
             int valorTemporario = 10;
@@ -210,8 +202,6 @@ public class ExemploEscopo {
     }
 }
 ```
-
----
 
 ## 5. Strings
 
@@ -253,8 +243,6 @@ for (int i = 0; i < 1000; i++) {
 }
 ```
 
----
-
 ## 6. Classes e Objetos
 
 Classes são modelos (blueprints) para criar objetos. Objetos são instâncias de classes.
@@ -271,28 +259,28 @@ public class Estudante {
     private String nome;
     private int idade;
     private double nota;
-    
+
     // Construtor (cria novos objetos)
     public Estudante(String nome, int idade, double nota) {
         this.nome = nome;
         this.idade = idade;
         this.nota = nota;
     }
-    
+
     // Métodos (comportamentos)
     public void estudar() {
         System.out.println(nome + " está estudando.");
     }
-    
+
     public boolean estaAprovado() {
         return nota >= 7.0;
     }
-    
+
     // Getters e Setters
     public String getNome() {
         return nome;
     }
-    
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -307,18 +295,16 @@ public class TesteEstudante {
         // Criando objetos
         Estudante aluno1 = new Estudante("Carlos", 20, 8.5);
         Estudante aluno2 = new Estudante("Ana", 19, 6.5);
-        
+
         // Usando métodos
         aluno1.estudar();
-        
+
         if (aluno1.estaAprovado()) {
             System.out.println(aluno1.getNome() + " foi aprovado!");
         }
     }
 }
 ```
-
----
 
 ## 7. Convenções de Nomenclatura para Classes
 
@@ -386,18 +372,16 @@ public void fazer() { }
 public void processar() { } // Muito genérico
 ```
 
----
-
 ## 8. Modificadores de Acesso
 
 Controlam a visibilidade de classes, atributos e métodos.
 
-| Modificador   | Classe | Pacote | Subclasse | Todos |
-|---------------|--------|--------|-----------|-------|
-| `public`      | ✅     | ✅     | ✅        | ✅    |
-| `protected`   | ✅     | ✅     | ✅        | ❌    |
-| `default`     | ✅     | ✅     | ❌        | ❌    |
-| `private`     | ✅     | ❌     | ❌        | ❌    |
+| Modificador | Classe | Pacote | Subclasse | Todos |
+| ----------- | ------ | ------ | --------- | ----- |
+| `public`    | ✅     | ✅     | ✅        | ✅    |
+| `protected` | ✅     | ✅     | ✅        | ❌    |
+| `default`   | ✅     | ✅     | ❌        | ❌    |
+| `private`   | ✅     | ❌     | ❌        | ❌    |
 
 ### Boas Práticas:
 
@@ -406,27 +390,25 @@ public class Exemplo {
     // ✅ BOM - Atributos privados (encapsulamento)
     private String nome;
     private int idade;
-    
+
     // ✅ BOM - Métodos públicos para acesso controlado
     public String getNome() {
         return nome;
     }
-    
+
     public void setNome(String nome) {
         // Validação antes de atribuir
         if (nome != null && !nome.isEmpty()) {
             this.nome = nome;
         }
     }
-    
+
     // ✅ BOM - Métodos auxiliares privados
     private void validarDados() {
         // Lógica interna da classe
     }
 }
 ```
-
----
 
 ## 9. Operadores Básicos
 
@@ -470,19 +452,17 @@ boolean ou = a || b;     // true  (OU lógico - OR)
 boolean nao = !a;        // false (NÃO lógico - NOT)
 ```
 
----
-
 ## 10. Resumo das Boas Práticas
 
 ### Nomenclatura:
 
-| Elemento   | Convenção    | Exemplo                    |
-|------------|--------------|----------------------------|
-| Classe     | PascalCase   | `ContaBancaria`            |
-| Método     | camelCase    | `calcularSaldo()`          |
-| Variável   | camelCase    | `saldoAtual`               |
-| Constante  | MAIÚSCULAS   | `TAXA_JUROS`               |
-| Pacote     | minúsculas   | `com.empresa.projeto`      |
+| Elemento  | Convenção  | Exemplo               |
+| --------- | ---------- | --------------------- |
+| Classe    | PascalCase | `ContaBancaria`       |
+| Método    | camelCase  | `calcularSaldo()`     |
+| Variável  | camelCase  | `saldoAtual`          |
+| Constante | MAIÚSCULAS | `TAXA_JUROS`          |
+| Pacote    | minúsculas | `com.empresa.projeto` |
 
 ### Princípios Gerais:
 
@@ -493,8 +473,6 @@ boolean nao = !a;        // false (NÃO lógico - NOT)
 5. **Comentários Úteis**: Documente o "porquê", não o "o quê"
 6. **Uma Responsabilidade**: Cada classe/método deve ter uma única responsabilidade bem definida
 
----
-
 ## Exercícios Práticos
 
 Para fixar o aprendizado, tente criar:
@@ -503,8 +481,6 @@ Para fixar o aprendizado, tente criar:
 2. Uma classe `Calculadora` com métodos para operações básicas
 3. Um programa que declare variáveis de diferentes tipos e imprima seus valores
 4. Pratique a nomenclatura correta em todos os seus exercícios
-
----
 
 ## Próximos Passos
 
