@@ -1,11 +1,11 @@
-## Programação Orientada a Objetos (POO) em Java
+# 11 - Programação Orientada a Objetos (POO) em Java
 
 Para desenvolver software de forma consistente em Java, é essencial compreender os pilares da POO.
 
-### Classe e Objeto
+## Classe e Objeto
 
-- **Classe** → Modelo ou estrutura (planta de uma casa)
-- **Objeto** → Instância da classe (casa construída)
+- **Classe** - Modelo ou estrutura (planta de uma casa)
+- **Objeto** - Instância da classe (casa construída)
 
 **Exemplo conceitual:**
 
@@ -14,7 +14,7 @@ Classe: Carro
 Objeto: MeuCarro (um carro específico, como um "Fusca azul, 1970")
 ```
 
-### Encapsulamento
+## Encapsulamento
 
 Consiste em **proteger os dados internos** de uma classe e permitir acesso controlado.
 
@@ -25,11 +25,11 @@ Consiste em **proteger os dados internos** de uma classe e permitir acesso contr
 
 **Benefícios:**
 
-- 🔒 Segurança
-- 📋 Organização
-- 🎯 Controle de acesso
+- Segurança
+- Organização
+- Controle de acesso
 
-### Abstração
+## Abstração
 
 Abstração significa representar apenas as **características essenciais** de um objeto, escondendo detalhes desnecessários.
 
@@ -37,7 +37,7 @@ Abstração significa representar apenas as **características essenciais** de u
 
 Um usuário dirige um carro sem precisar saber como o motor funciona internamente. Você apenas usa o volante, acelerador e freio (interface pública).
 
-### Herança
+## Herança
 
 Permite que uma classe **herde características** de outra.
 
@@ -51,11 +51,11 @@ Cachorro (classe filha - herda características de Animal)
 
 **Benefícios:**
 
-- ♻️ Reutilização de código
-- 📊 Hierarquia lógica
-- ⚡ Redução de duplicação
+- Reutilização de código
+- Hierarquia lógica
+- Redução de duplicação
 
-### Polimorfismo
+## Polimorfismo
 
 Significa "**muitas formas**".
 

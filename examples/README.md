@@ -7,7 +7,7 @@ Bem-vindo à seção de códigos! Aqui você encontrará exemplos práticos e fu
 Cada tópico possui sua própria pasta com exemplos executáveis:
 
 ```
-codigos/
+examples/
 ├── 01-HelloWorld/
 │   ├── HelloWorld.java
 │   └── README.md
@@ -50,7 +50,7 @@ codigos/
 ### 1. Navegue até a pasta do exemplo
 
 ```bash
-cd codigos/01-HelloWorld
+cd examples/01-HelloWorld
 ```
 
 ### 2. Compile o código
@@ -79,13 +79,13 @@ Todos os exemplos seguem as convenções Java:
 1. **Leia o README de cada pasta:** Contém explicações específicas
 2. **Execute os códigos:** Aprender fazendo é essencial
 3. **Modifique e experimente:** Altere os exemplos para testar
-4. **Compare com a teoria:** Relacione com os conteúdos em `/docs`
+4. **Compare com a teoria:** Relacione com os conteúdos em `/notes`
 
 ## 🆘 Problemas ao Executar?
 
 ### JDK não instalado?
 
-Veja o guia de instalação em [docs/02-instalacao-configuracao.md](../docs/02-instalacao-configuracao.md)
+Veja o guia de instalação em [notes/02-instalacao-configuracao.md](../notes/02-instalacao-configuracao.md)
 
 ### Erro de compilação?
 

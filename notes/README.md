@@ -79,7 +79,7 @@ Tópicos Avançados (19-23)
 
 ## 🔗 Recursos Relacionados
 
-- [💻 Códigos de Exemplo](../codigos/README.md)
+- [💻 Códigos de Exemplo](../examples/README.md)
 - [📚 Recursos Adicionais](../recursos/README.md)
 - [🤝 Guia de Contribuição](../.github/CONTRIBUTING.md)
 

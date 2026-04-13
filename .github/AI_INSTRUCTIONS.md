@@ -213,8 +213,8 @@ Resposta detalhada aqui.
 ### Links Internos
 
 ```markdown
-[📖 Tópico Relacionado](../docs/02-variaveis.md)
-[💻 Exemplo de Código](../codigos/01-HelloWorld/)
+[📖 Tópico Relacionado](../notes/02-variaveis.md)
+[💻 Exemplo de Código](../examples/01-HelloWorld/)
 ```
 
 ### Links Externos
@@ -235,16 +235,20 @@ Sempre inclua no final:
 
 ```
 java-labs/
-├── docs/                    # Conteúdos numerados
+├── notes/                   # Conteúdos numerados
 │   ├── README.md           # Índice de conteúdos
 │   ├── 01-introducao.md
 │   ├── 02-variaveis.md
 │   └── ...
-├── codigos/                 # Exemplos de código
+├── examples/                # Exemplos de código
 │   ├── README.md           # Índice de códigos
 │   ├── 01-HelloWorld/
 │   ├── 02-Variaveis/
 │   └── ...
+├── exercicios/              # Exercícios práticos
+│   └── README.md
+├── projetos/                # Mini projetos
+│   └── README.md
 ├── recursos/                # Livros, cursos, etc.
 │   └── README.md
 └── .github/

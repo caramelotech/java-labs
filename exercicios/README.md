@@ -6,7 +6,7 @@ Pratique o que aprendeu nos conteúdos e exemplos de código.
 
 1. Leia o enunciado do exercício
 2. Tente resolver por conta própria antes de buscar ajuda
-3. Consulte os `docs/` se precisar revisar algum conceito
+3. Consulte os `notes/` se precisar revisar algum conceito
 4. Compare sua solução com a dos colegas
 
 ## Exercício 01 - Hello World

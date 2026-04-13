@@ -4,8 +4,8 @@ Obrigado por querer contribuir com o Java Labs!
 
 ## O que pode ser contribuido
 
-- Melhorias e correções nos conteúdos (`/docs`)
-- Novos exemplos de código em `/codigos`
+- Melhorias e correções nos conteúdos (`/notes`)
+- Novos exemplos de código em `/examples`
 - Exercícios adicionais em `/exercicios`
 - Projetos práticos em `/projetos`
 - Recursos recomendados em `/recursos`
@@ -41,9 +41,9 @@ Obrigado por querer contribuir com o Java Labs!
 - Prefira exemplos curtos e diretos
 - Inclua o "por quê", não apenas o "como"
 - Nomeie os arquivos com prefixo numérico sequencial: `03-nome-do-topico.md`
-- Atualize o índice em `docs/README.md` ao adicionar um novo tópico
+- Atualize o índice em `notes/README.md` ao adicionar um novo tópico
 
-### Exemplos de código (`/codigos`)
+### Exemplos de código (`/examples`)
 
 - Um conceito por pasta, nomeada com prefixo sequencial: `02-NomeDoExemplo/`
 - Inclua um comentário no topo do arquivo explicando o que o exemplo demonstra

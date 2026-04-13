@@ -66,9 +66,9 @@ public class Exemplo {
 
 [Links para outros tópicos relacionados no repositório]
 
-- [📖 Tópico Anterior](../docs/XX-topico-anterior.md)
-- [📖 Tópico Relacionado](../docs/XX-topico-relacionado.md)
-- [📖 Próximo Tópico](../docs/XX-proximo-topico.md)
+- [📖 Tópico Anterior](../notes/XX-topico-anterior.md)
+- [📖 Tópico Relacionado](../notes/XX-topico-relacionado.md)
+- [📖 Próximo Tópico](../notes/XX-proximo-topico.md)
 
 ## Recursos Adicionais
 

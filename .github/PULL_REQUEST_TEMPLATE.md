@@ -18,7 +18,7 @@
 - [ ] Os arquivos estão no diretório correto
 - [ ] Exemplos de código compilam e executam sem erros
 - [ ] Exercícios e projetos têm objetivo e critérios de sucesso descritos
-- [ ] O índice (`docs/README.md`) foi atualizado, se necessário
+- [ ] O índice (`notes/README.md`) foi atualizado, se necessário
 - [ ] Minha branch está atualizada com `main`
 - [ ] Não há conflitos de merge
 

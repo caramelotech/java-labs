@@ -116,15 +116,15 @@ Tente modificar o programa:
 
 ## 🔗 Conceitos Relacionados
 
-- [📖 Introdução ao Java](../../docs/01-introducao-java.md)
-- [📖 Estrutura de um Programa Java](../../docs/03-primeiro-programa.md)
+- [📖 Introdução ao Java](../../notes/01-introducao-java.md)
+- [📖 Estrutura de um Programa Java](../../notes/03-primeiro-programa.md)
 
 ## ❓ Problemas Comuns
 
 ### Erro: "javac não é reconhecido"
 
 **Solução:** JDK não está instalado ou não está no PATH.
-Veja: [Instalação e Configuração](../../docs/02-instalacao-configuracao.md)
+Veja: [Instalação e Configuração](../../notes/02-instalacao-configuracao.md)
 
 ### Erro: "Could not find or load main class HelloWorld"
 

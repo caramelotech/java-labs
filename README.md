@@ -22,18 +22,22 @@ O **Java Labs** é uma iniciativa educacional que visa fornecer:
 
 ```
 java-labs/
-├── 📖 docs/              # Conteúdos teóricos numerados
-├── 💻 codigos/           # Exemplos de código executáveis
+├── 📖 notes/             # Conteúdos teóricos numerados
+├── 💻 examples/          # Exemplos de código executáveis
+├── 🧪 exercicios/        # Exercícios práticos
+├── 🚀 projetos/          # Mini projetos
 ├── 📚 recursos/          # Livros, cursos e materiais extras
-└── 🔧 .github/          # Templates e guias de contribuição
+└── 🔧 .github/           # Templates e guias de contribuição
 ```
 
 ### Navegação Rápida
 
 | Seção             | Descrição                     | Link                                               |
 | ----------------- | ----------------------------- | -------------------------------------------------- |
-| 📖 **Conteúdos**  | Tópicos teóricos organizados  | [docs/](docs/README.md)                            |
-| 💻 **Códigos**    | Exemplos práticos em Java     | [codigos/](codigos/README.md)                      |
+| 📖 **Conteúdos**  | Tópicos teóricos organizados  | [notes/](notes/README.md)                          |
+| 💻 **Códigos**    | Exemplos práticos em Java     | [examples/](examples/README.md)                    |
+| 🧪 **Exercícios** | Exercícios práticos           | [exercicios/](exercicios/README.md)                |
+| 🚀 **Projetos**   | Mini projetos                 | [projetos/](projetos/README.md)                    |
 | 📚 **Recursos**   | Livros, cursos, ferramentas   | [recursos/](recursos/README.md)                    |
 | 🤝 **Contribuir** | Como contribuir com o projeto | [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) |
 
@@ -43,10 +47,10 @@ java-labs/
 
 Se você é **totalmente iniciante**:
 
-1. 📖 Leia [Introdução ao Java](docs/01-introducao-java.md)
+1. 📖 Leia [Introdução ao Java](notes/01-introducao-java.md)
 2. 🔧 Configure seu ambiente (em breve)
-3. 💻 Execute o [Hello World](codigos/01-HelloWorld/)
-4. 📚 Continue seguindo a [trilha de conteúdos](docs/README.md)
+3. 💻 Execute o [Hello World](examples/01-HelloWorld/)
+4. 📚 Continue seguindo a [trilha de conteúdos](notes/README.md)
 
 ### 2. Instalação do Java
 
@@ -66,7 +70,7 @@ javac --version
 
 ### 🌱 Fundamentos
 
-1. [Introdução à Linguagem Java](docs/01-introducao-java.md) ✅
+1. [Introdução à Linguagem Java](notes/01-introducao-java.md) ✅
 2. Instalação e Configuração (em breve)
 3. Primeiro Programa - Hello World (em breve)
 4. Variáveis e Tipos de Dados (em breve)
@@ -88,13 +92,13 @@ javac --version
 14. Polimorfismo (em breve)
 15. Interfaces (em breve)
 
-**[Ver índice completo →](docs/README.md)**
+**[Ver índice completo →](notes/README.md)**
 
 ## 💻 Exemplos de Código
 
-Todos os exemplos estão em [`codigos/`](codigos/) organizados por tópico:
+Todos os exemplos estão em [`examples/`](examples/) organizados por tópico:
 
-- [Hello World](codigos/01-HelloWorld/) ✅
+- [Hello World](examples/01-HelloWorld/) ✅
 - Variáveis (em breve)
 - Estruturas de Controle (em breve)
 - POO (em breve)
@@ -145,6 +149,8 @@ Se você é uma IA auxiliando neste projeto, consulte [AI_INSTRUCTIONS.md](.gith
 - [Java Programming - Coursera](https://www.coursera.org/specializations/java-programming)
 
 **[Ver lista completa de recursos →](recursos/README.md)**
+
+
 
 ## 🌐 GitHub Pages
 
