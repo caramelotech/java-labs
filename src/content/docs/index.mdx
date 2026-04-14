@@ -1,0 +1,35 @@
+---
+title: Java Labs
+description: Base de conhecimento sobre Java para iniciantes
+template: splash
+hero:
+  tagline: Base de conhecimento sobre Java para iniciantes
+  actions:
+    - text: Começar agora
+      link: /java-labs/01-introducao-java/
+      icon: right-arrow
+      variant: primary
+    - text: GitHub
+      link: https://github.com/caramelotech/java-labs
+      icon: github
+      variant: minimal
+sidebar:
+  hidden: true
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+  <Card title="Notas" icon="open-book">
+    Conceitos explicados de forma clara e progressiva, do básico ao avançado.
+  </Card>
+  <Card title="Exemplos" icon="rocket">
+    Código funcional e comentado para ver os conceitos na prática.
+  </Card>
+  <Card title="Exercícios" icon="pencil">
+    Desafios para consolidar o aprendizado. Disponíveis em `examples/exercises.md`.
+  </Card>
+  <Card title="Projetos" icon="star">
+    Projetos completos para aplicar tudo que foi aprendido. Disponíveis em `examples/projects.md`.
+  </Card>
+</CardGrid>

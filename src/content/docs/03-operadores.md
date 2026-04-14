@@ -1,4 +1,11 @@
-# Operadores em Java e Boas Práticas de Código
+---
+title: "Operadores em Java"
+description: "Operadores aritméticos, relacionais, lógicos, ternário, comentários, JavaDoc e JavaBeans"
+lastUpdated: 2026-01-01
+sidebar:
+  order: 3
+tags: ["java", "operadores", "javadoc", "javabeans"]
+---
 
 Neste capítulo você aprenderá:
 
@@ -12,9 +19,9 @@ Neste capítulo você aprenderá:
 
 Esses conceitos são fundamentais para escrever código Java de forma correta e profissional.
 
-# Operadores de Atribuição e Aritméticos
+## Operadores de Atribuição e Aritméticos
 
-## Operador de Atribuição
+### Operador de Atribuição
 
 O operador de atribuição é usado para armazenar um valor em uma variável.
 
@@ -26,7 +33,7 @@ O símbolo `=` significa:
 
 > Receba o valor da direita e armazene na variável da esquerda.
 
-## Operadores Aritméticos
+### Operadores Aritméticos
 
 São usados para realizar cálculos matemáticos.
 
@@ -38,7 +45,7 @@ São usados para realizar cálculos matemáticos.
 | `/`      | Divisão                   | a / b   |
 | `%`      | Resto da divisão (módulo) | a % b   |
 
-### Exemplo
+#### Exemplo
 
 ```java
 int a = 10;
@@ -51,7 +58,7 @@ int div = a / b;        // 3
 int resto = a % b;      // 1
 ```
 
-## Operadores de Atribuição Combinados
+### Operadores de Atribuição Combinados
 
 Java permite simplificar operações com atribuição.
 
@@ -63,7 +70,7 @@ Java permite simplificar operações com atribuição.
 | `/=`     | a = a / b   |
 | `%=`     | a = a % b   |
 
-### Exemplo
+#### Exemplo
 
 ```java
 int x = 10;
@@ -73,7 +80,7 @@ x -= 3;  // x = 12
 x *= 2;  // x = 24
 ```
 
-# Operadores Relacionais
+## Operadores Relacionais
 
 São usados para comparar valores.
 
@@ -106,11 +113,11 @@ System.out.println(idade < 18);  // false
 
 Erro comum de iniciantes!
 
-# Operadores Unários
+## Operadores Unários
 
 Operam sobre apenas **um operando**.
 
-## Principais Operadores Unários
+### Principais Operadores Unários
 
 | Operador | Função         |
 | -------- | -------------- |
@@ -120,9 +127,9 @@ Operam sobre apenas **um operando**.
 | `--`     | Decremento     |
 | `!`      | Negação lógica |
 
-## Incremento e Decremento
+### Incremento e Decremento
 
-### Pré-incremento
+#### Pré-incremento
 
 Incrementa antes de usar.
 
@@ -131,7 +138,7 @@ int x = 5;
 int y = ++x; // x = 6, y = 6
 ```
 
-### Pós-incremento
+#### Pós-incremento
 
 Incrementa depois de usar.
 
@@ -140,7 +147,7 @@ int x = 5;
 int y = x++; // x = 6, y = 5
 ```
 
-## Negação Lógica
+### Negação Lógica
 
 ```java
 boolean ativo = true;
@@ -148,17 +155,17 @@ boolean ativo = true;
 System.out.println(!ativo); // false
 ```
 
-# Operadores Lógicos
+## Operadores Lógicos
 
 Usados para combinar expressões booleanas.
 
-| Operador | Nome | Significado |     |           |
-| -------- | ---- | ----------- | --- | --------- |
-| `&&`     | AND  | E lógico    |     |           |
-| `        |      | `           | OR  | OU lógico |
-| `!`      | NOT  | Negação     |     |           |
+| Operador | Nome | Significado |
+| -------- | ---- | ----------- |
+| `&&`     | AND  | E lógico    |
+| `\|\|`   | OR   | OU lógico   |
+| `!`      | NOT  | Negação     |
 
-## Exemplo
+### Exemplo
 
 ```java
 int idade = 20;
@@ -169,17 +176,17 @@ if (idade >= 18 && temCarteira) {
 }
 ```
 
-# Operador Ternário
+## Operador Ternário
 
 O operador ternário é uma forma reduzida de escrever um `if-else`.
 
-## Sintaxe
+### Sintaxe
 
 ```java
 condicao ? valorSeVerdadeiro : valorSeFalso;
 ```
 
-## Exemplo
+### Exemplo
 
 ```java
 int idade = 18;
@@ -201,7 +208,7 @@ if (idade >= 18) {
 }
 ```
 
-# Comentários em Java
+## Comentários em Java
 
 Comentários servem para:
 
@@ -212,14 +219,14 @@ Comentários servem para:
 
 Java possui três tipos de comentários.
 
-## Comentário de Linha
+### Comentário de Linha
 
 ```java
 // Este é um comentário de linha
 int idade = 25;
 ```
 
-## Comentário de Bloco
+### Comentário de Bloco
 
 ```java
 /*
@@ -229,7 +236,7 @@ de múltiplas linhas
 int idade = 25;
 ```
 
-## Comentário de Documentação (JavaDoc)
+### Comentário de Documentação (JavaDoc)
 
 ```java
 /**
@@ -239,13 +246,13 @@ int idade = 25;
 
 Esse tipo gera documentação automática.
 
-# JavaDoc
+## JavaDoc
 
 JavaDoc é uma ferramenta oficial do Java para gerar documentação a partir do código.
 
 Muito usado em projetos profissionais e bibliotecas.
 
-## Exemplo de JavaDoc em Método
+### Exemplo de JavaDoc em Método
 
 ```java
 /**
@@ -260,7 +267,7 @@ public int somar(int a, int b) {
 }
 ```
 
-## Principais Tags JavaDoc
+### Principais Tags JavaDoc
 
 | Tag        | Função       |
 | ---------- | ------------ |
@@ -272,7 +279,7 @@ public int somar(int a, int b) {
 | `@see`     | Referência   |
 | `@since`   | Desde versão |
 
-## Gerar Documentação
+### Gerar Documentação
 
 Comando:
 
@@ -280,7 +287,7 @@ Comando:
 javadoc NomeArquivo.java
 ```
 
-# JavaBeans
+## JavaBeans
 
 JavaBeans é um padrão de classe Java usado principalmente para:
 
@@ -289,7 +296,7 @@ JavaBeans é um padrão de classe Java usado principalmente para:
 - Modelar objetos de domínio
 - Frameworks (Spring, Hibernate, etc.)
 
-## Características de um JavaBean
+### Características de um JavaBean
 
 Um JavaBean deve:
 
@@ -298,7 +305,7 @@ Um JavaBean deve:
 3. Possuir métodos getters e setters públicos
 4. Ser serializável (opcional, mas comum)
 
-## Exemplo de JavaBean
+### Exemplo de JavaBean
 
 ```java
 import java.io.Serializable;
@@ -329,7 +336,7 @@ public class Pessoa implements Serializable {
 }
 ```
 
-## Por que JavaBeans são importantes?
+### Por que JavaBeans são importantes?
 
 Porque muitos frameworks Java dependem desse padrão:
 
@@ -339,7 +346,7 @@ Porque muitos frameworks Java dependem desse padrão:
 - Bibliotecas de serialização
 - APIs REST
 
-# Boas Práticas Importantes
+## Boas Práticas Importantes
 
 ✅ Use nomes claros para variáveis
 ✅ Evite comentários óbvios
@@ -347,7 +354,7 @@ Porque muitos frameworks Java dependem desse padrão:
 ✅ Use operadores com clareza
 ✅ Evite ternário complexo
 
-# Resumo
+## Resumo
 
 Neste capítulo você aprendeu:
 

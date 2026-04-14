@@ -1,4 +1,11 @@
-# 11 - Programação Orientada a Objetos (POO) em Java
+---
+title: "Programação Orientada a Objetos"
+description: "Conceitos de POO em Java: classe, objeto, encapsulamento, abstração, herança e polimorfismo"
+lastUpdated: 2026-01-01
+sidebar:
+  order: 11
+tags: ["java", "poo", "orientação-a-objetos", "herança"]
+---
 
 Para desenvolver software de forma consistente em Java, é essencial compreender os pilares da POO.
 

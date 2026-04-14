@@ -96,3 +96,24 @@ _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
+
+# Build output
+dist/
+
+# Astro
+.astro/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo

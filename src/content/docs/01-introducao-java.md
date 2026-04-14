@@ -1,8 +1,11 @@
-# 01 - Introdução à Linguagem Java
-
-> **Última atualização:** 01/03/2026  
-> **Nível:** Iniciante  
-> **Tempo de leitura:** 15 minutos
+---
+title: "Introdução ao Java"
+description: "Conheça Java, suas características, JVM, JDK e o ecossistema da plataforma"
+lastUpdated: 2026-03-01
+sidebar:
+  order: 1
+tags: ["java", "jvm", "fundamentos", "iniciante"]
+---
 
 ## Introdução
 
@@ -28,7 +31,7 @@ Inicialmente, Java foi desenvolvida para dispositivos eletrônicos embarcados, m
 
 Um dos lemas mais conhecidos da linguagem é:
 
-> **WORA — Write Once, Run Anywhere**
+> **WORA - Write Once, Run Anywhere**
 >
 > (Escreva uma vez, execute em qualquer lugar)
 
@@ -153,7 +156,7 @@ java MeuPrograma
 
 **Importante:** O arquivo `.class` **não contém código de máquina nativo**, mas sim **bytecode**, que é interpretado ou compilado dinamicamente pela JVM.
 
-## JVM — Java Virtual Machine
+## JVM - Java Virtual Machine
 
 A **JVM** é o coração do Java.
 
@@ -167,7 +170,7 @@ A **JVM** é o coração do Java.
 
 **Importante:** Cada sistema operacional possui sua própria implementação de JVM, mas todas executam o mesmo bytecode Java.
 
-## JDK — Java Development Kit
+## JDK - Java Development Kit
 
 O **JDK** é o **kit completo para desenvolvimento Java**.
 
@@ -180,7 +183,7 @@ O **JDK** é o **kit completo para desenvolvimento Java**.
 
 **Se você quer programar em Java, você precisa do JDK.**
 
-## JRE — Java Runtime Environment
+## JRE - Java Runtime Environment
 
 O **JRE** é o **ambiente de execução**.
 
@@ -211,7 +214,7 @@ O **JRE** é o **ambiente de execução**.
 - Sistemas backend
 - Fundamentos do Java
 
-### Java EE (Enterprise Edition) — Atualmente Jakarta EE
+### Java EE (Enterprise Edition) - Atualmente Jakarta EE
 
 **Voltado para sistemas corporativos.**
 
@@ -309,7 +312,7 @@ Neste tópico, você aprendeu:
 
 Agora que você entende o que é Java e suas características principais, está pronto para:
 
-1. **[Instalar o JDK e configurar seu ambiente de desenvolvimento](02-instalacao-configuracao.md)**
+1. **Instalar o JDK e configurar seu ambiente de desenvolvimento**
 2. **Escrever seu primeiro programa "Olá, Mundo!"**
 3. **Aprender sobre variáveis e tipos de dados**
 
@@ -335,5 +338,3 @@ Sim! Java continua sendo uma das linguagens mais utilizadas no mundo, especialme
 Java tem uma curva de aprendizado moderada. Com os conceitos básicos de lógica de programação e POO, você consegue criar aplicações funcionais. Este repositório foi criado justamente para facilitar seu aprendizado!
 
 </details>
-
-**[⬅️ Voltar ao Índice](../README.md)** | **[➡️ Próximo: Instalação e Configuração](02-instalacao-configuracao.md)**

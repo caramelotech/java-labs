@@ -1,8 +1,15 @@
-# 📚 Recursos Adicionais
+---
+title: "Recursos Adicionais"
+description: "Livros, cursos, ferramentas e comunidades para aprofundar o aprendizado de Java"
+lastUpdated: 2026-03-01
+sidebar:
+  order: 100
+tags: ["java", "recursos", "livros", "cursos"]
+---
 
 Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferramentas** para complementar seu aprendizado de Java.
 
-## 📖 Livros Recomendados
+## Livros Recomendados
 
 ### Para Iniciantes
 
@@ -26,7 +33,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Java Concurrency in Practice**          | Brian Goetz      | Programação concorrente e threads                     | [Amazon](https://www.amazon.com.br/) |
 | **Designing Data-Intensive Applications** | Martin Kleppmann | Arquitetura de sistemas (conceitos aplicáveis a Java) | [Amazon](https://www.amazon.com.br/) |
 
-## 🎓 Cursos Online
+## Cursos Online
 
 ### Gratuitos
 
@@ -45,7 +52,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Formação Java**                | Alura                | Todos                  | Assinatura   | [Alura](https://www.alura.com.br/formacao-java)                                |
 | **Java Web Full-Stack**          | DevSuperior          | Intermediário/Avançado | Variável     | [DevSuperior](https://devsuperior.com.br/)                                     |
 
-## 📹 Canais no YouTube
+## Canais no YouTube
 
 | Canal                     | Descrição                              | Nível                   | Idioma |
 | ------------------------- | -------------------------------------- | ----------------------- | ------ |
@@ -55,7 +62,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Java Brains**           | Conceitos avançados e frameworks       | Intermediário/Avançado  | EN     |
 | **Programming with Mosh** | Tutoriais claros e diretos             | Iniciante/Intermediário | EN     |
 
-## 📰 Blogs e Sites
+## Blogs e Sites
 
 | Site                          | Descrição                               | Link                                                                          |
 | ----------------------------- | --------------------------------------- | ----------------------------------------------------------------------------- |
@@ -65,7 +72,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Java Code Geeks**           | Tutoriais e exemplos                    | [javacodegeeks.com](https://www.javacodegeeks.com/)                           |
 | **Dev.to #java**              | Comunidade com artigos diversos         | [dev.to/t/java](https://dev.to/t/java)                                        |
 
-## 🛠️ Ferramentas e IDEs
+## Ferramentas e IDEs
 
 ### IDEs Recomendadas
 
@@ -91,7 +98,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Replit**    | IDE online colaborativa      | [replit.com](https://replit.com/)                                                    |
 | **OnlineGDB** | Compilador e debugger online | [onlinegdb.com/online_java_compiler](https://www.onlinegdb.com/online_java_compiler) |
 
-## 📱 Aplicativos Mobile
+## Aplicativos Mobile
 
 | App             | Plataforma  | Descrição                                 |
 | --------------- | ----------- | ----------------------------------------- |
@@ -99,7 +106,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Grasshopper** | Android/iOS | Jogos para aprender lógica de programação |
 | **Enki**        | Android/iOS | Desafios diários de programação           |
 
-## 🎮 Plataformas de Prática
+## Plataformas de Prática
 
 | Plataforma           | Descrição               | Link                                                        |
 | -------------------- | ----------------------- | ----------------------------------------------------------- |
@@ -109,7 +116,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Exercism**         | Exercícios com mentoria | [exercism.io/tracks/java](https://exercism.io/tracks/java)  |
 | **URI Online Judge** | Problemas de competição | [urionlinejudge.com.br](https://www.urionlinejudge.com.br/) |
 
-## 🌐 Comunidades
+## Comunidades
 
 | Comunidade             | Descrição                  | Link                                                                                       |
 | ---------------------- | -------------------------- | ------------------------------------------------------------------------------------------ |
@@ -118,7 +125,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Discord - Java**     | Servidores de discussão    | Vários disponíveis                                                                         |
 | **GitHub Discussions** | Discussões sobre Java      | Diversos repositórios                                                                      |
 
-## 📄 Documentação Oficial
+## Documentação Oficial
 
 | Recurso                    | Descrição                     | Link                                                                            |
 | -------------------------- | ----------------------------- | ------------------------------------------------------------------------------- |
@@ -126,7 +133,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Java Tutorial**          | Tutorial oficial da Oracle    | [docs.oracle.com/javase/tutorial](https://docs.oracle.com/javase/tutorial/)     |
 | **Java API Specification** | Referência da API Java        | [docs.oracle.com/javase/8/docs/api](https://docs.oracle.com/javase/8/docs/api/) |
 
-## 🎯 Trilhas de Aprendizado Complementares
+## Trilhas de Aprendizado Complementares
 
 ### Frontend com Java
 
@@ -143,7 +150,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 
 - **Android Development:** Desenvolvimento Android com Java/Kotlin
 
-## 💡 Dicas de Uso
+## Dicas de Uso
 
 1. **Escolha recursos adequados ao seu nível** - Não pule etapas
 2. **Combine teoria e prática** - Livros + plataformas de código
@@ -151,7 +158,7 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 4. **Pratique regularmente** - Consistência é mais importante que intensidade
 5. **Construa projetos** - Aplique o que aprendeu em projetos reais
 
-## 🤝 Contribuindo
+## Contribuindo
 
 Conhece um recurso excelente que não está aqui?
 
@@ -160,17 +167,12 @@ Conhece um recurso excelente que não está aqui?
 3. Adicione seguindo o formato existente
 4. Envie um Pull Request
 
-Veja o [Guia de Contribuição](../.github/CONTRIBUTING.md) para mais detalhes.
+Veja o [Guia de Contribuição](https://github.com/caramelotech/java-labs/blob/main/.github/CONTRIBUTING.md) para mais detalhes.
 
-## ⭐ Recursos em Destaque
+## Recursos em Destaque
 
-### 🏆 Top 3 para Iniciantes
+### Top 3 para Iniciantes
 
 1. **Curso de Java - Curso em Vídeo** (Gratuito, PT-BR, Excelente didática)
 2. **Use a Cabeça! Java** (Livro visual e prático)
 3. **HackerRank** (Prática com feedback imediato)
-
-**[⬅️ Voltar para o início](../README.md)**
-
-> **Última atualização:** 01/03/2026  
-> **Nota:** Links e preços podem mudar. Verifique diretamente nas plataformas.

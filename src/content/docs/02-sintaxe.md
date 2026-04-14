@@ -1,4 +1,11 @@
-# 02 - Sintaxe Java
+---
+title: "Sintaxe Java"
+description: "Regras de escrita, tipos de dados, variáveis, strings, classes e modificadores de acesso em Java"
+lastUpdated: 2026-01-01
+sidebar:
+  order: 2
+tags: ["java", "sintaxe", "variáveis", "tipos-de-dados"]
+---
 
 ## Introdução
 
