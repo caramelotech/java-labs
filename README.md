@@ -1,203 +1,158 @@
-# ☕ Java Labs
+# Java Labs
 
-> Base de conhecimento completa sobre Java para iniciantes em português
+> Base de conhecimento completa sobre Java para iniciantes em portugues.
 
-Bem-vindo ao **Java Labs**! Este é um repositório dedicado a ensinar Java de forma clara, prática e estruturada para quem está começando na programação.
+Bem-vindo ao **Java Labs**. Este repositorio foi organizado para ensinar Java de forma clara, pratica e progressiva, combinando notas publicadas com Astro + Starlight, exemplos executaveis e desafios para consolidar o aprendizado.
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue)](https://caramelotech.github.io/java-labs/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue)](https://caramelotech.github.io/java-labs)
 [![License](https://img.shields.io/github/license/caramelotech/java-labs)](LICENSE)
 
-## 📚 Sobre o Projeto
+## Sobre o projeto
 
-O **Java Labs** é uma iniciativa educacional que visa fornecer:
+O **Java Labs** e uma iniciativa educacional com foco em:
 
-- ✅ Conteúdo didático em português (pt-BR)
-- ✅ Explicações claras e acessíveis
-- ✅ Exemplos práticos e funcionais
-- ✅ Exercícios para fixação
-- ✅ Trilha de aprendizado estruturada
-- ✅ Recursos adicionais curados
+- Conteudo didatico em portugues (pt-BR)
+- Explicacoes claras e acessiveis
+- Exemplos praticos e funcionais
+- Exercicios para fixacao
+- Projetos para aplicar os conceitos em contexto real
+- Recursos adicionais curados
 
-## 🗂️ Estrutura do Repositório
+## Estrutura do repositorio
 
-```
+```text
 java-labs/
-├── 📖 notes/             # Conteúdos teóricos numerados
-├── 💻 examples/          # Exemplos de código executáveis
-├── 🧪 exercicios/        # Exercícios práticos
-├── 🚀 projetos/          # Mini projetos
-├── 📚 recursos/          # Livros, cursos e materiais extras
-└── 🔧 .github/           # Templates e guias de contribuição
+├── src/content/docs/   -> Anotacoes e estudos publicados no site
+├── examples/           -> Exemplos de codigo, exercicios e projetos praticos
+├── src/styles/         -> Estilos customizados do tema Starlight
+└── .github/            -> Workflows, templates e guias de contribuicao
 ```
 
-### Navegação Rápida
+### Navegacao rapida
 
-| Seção             | Descrição                     | Link                                               |
-| ----------------- | ----------------------------- | -------------------------------------------------- |
-| 📖 **Conteúdos**  | Tópicos teóricos organizados  | [notes/](notes/README.md)                          |
-| 💻 **Códigos**    | Exemplos práticos em Java     | [examples/](examples/README.md)                    |
-| 🧪 **Exercícios** | Exercícios práticos           | [exercicios/](exercicios/README.md)                |
-| 🚀 **Projetos**   | Mini projetos                 | [projetos/](projetos/README.md)                    |
-| 📚 **Recursos**   | Livros, cursos, ferramentas   | [recursos/](recursos/README.md)                    |
-| 🤝 **Contribuir** | Como contribuir com o projeto | [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) |
+| Secao        | Descricao                        | Link                                                                         |
+| ------------ | -------------------------------- | ---------------------------------------------------------------------------- |
+| Site         | Documentacao publicada           | [caramelotech.github.io/java-labs](https://caramelotech.github.io/java-labs) |
+| Notas        | Conteudos teoricos em Markdown   | [src/content/docs/](src/content/docs/)                                       |
+| Exemplos     | Codigos organizados por topico   | [examples/README.md](examples/README.md)                                     |
+| Exercicios   | Desafios praticos de estudo      | [examples/exercises.md](examples/exercises.md)                               |
+| Projetos     | Propostas de aplicacao integrada | [examples/projects.md](examples/projects.md)                                 |
+| Contribuicao | Guia para contribuir             | [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)                           |
 
-## 🚀 Começando
+## Como usar
 
-### 1. Por Onde Começar?
+Se voce esta comecando agora, este fluxo funciona bem:
 
-Se você é **totalmente iniciante**:
+1. Leia [Introducao ao Java](src/content/docs/01-introducao-java.md)
+2. Continue pelas notas em `src/content/docs/` seguindo a ordem numerica
+3. Execute o exemplo [Hello World](examples/01-HelloWorld/)
+4. Resolva os desafios em [examples/exercises.md](examples/exercises.md)
+5. Escolha um projeto em [examples/projects.md](examples/projects.md)
+6. Consulte [recursos adicionais](src/content/docs/recursos.md) para aprofundar
 
-1. 📖 Leia [Introdução ao Java](notes/01-introducao-java.md)
-2. 🔧 Configure seu ambiente (em breve)
-3. 💻 Execute o [Hello World](examples/01-HelloWorld/)
-4. 📚 Continue seguindo a [trilha de conteúdos](notes/README.md)
+## Conteudo atual
 
-### 2. Instalação do Java
+### Notas publicadas
 
-Para executar os exemplos, você precisa ter o **JDK (Java Development Kit)** instalado.
+- [01 - Introducao ao Java](src/content/docs/01-introducao-java.md)
+- [02 - Sintaxe Java](src/content/docs/02-sintaxe.md)
+- [03 - Operadores em Java](src/content/docs/03-operadores.md)
+- [11 - Programacao Orientada a Objetos](src/content/docs/11-orientacao-a-objeto.md)
+- [Recursos adicionais](src/content/docs/recursos.md)
 
-- **Download:** [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) ou [OpenJDK](https://openjdk.org/)
-- **Versão recomendada:** Java 17 LTS ou superior
+### Exemplos de codigo
 
-### 3. Testando a Instalação
+- [01-HelloWorld](examples/01-HelloWorld/)
+
+### Pratica guiada
+
+- [Exercicios](examples/exercises.md)
+- [Projetos](examples/projects.md)
+
+## Rodando localmente
+
+Instale as dependencias e inicie o site Astro:
 
 ```bash
-java --version
-javac --version
+npm install
+npm run dev
 ```
 
-## 📖 Índice de Conteúdos
+O servidor local roda em `http://localhost:4321`.
 
-### 🌱 Fundamentos
+Outros comandos uteis:
 
-1. [Introdução à Linguagem Java](notes/01-introducao-java.md) ✅
-2. Instalação e Configuração (em breve)
-3. Primeiro Programa - Hello World (em breve)
-4. Variáveis e Tipos de Dados (em breve)
-5. Operadores (em breve)
+```bash
+npm run build
+npm run preview
+```
 
-### 🔧 Estruturas Básicas
+Versao publicada:
 
-6. Estruturas de Decisão (if/else) (em breve)
-7. Switch Case (em breve)
-8. Laços de Repetição (for) (em breve)
-9. Laços de Repetição (while/do-while) (em breve)
-10. Arrays (em breve)
+`https://caramelotech.github.io/java-labs`
 
-### 🎨 Orientação a Objetos
+## Executando os exemplos Java
 
-11. Classes e Objetos (em breve)
-12. Encapsulamento (em breve)
-13. Herança (em breve)
-14. Polimorfismo (em breve)
-15. Interfaces (em breve)
+Para compilar e executar um exemplo localmente:
 
-**[Ver índice completo →](notes/README.md)**
+```bash
+cd examples/01-HelloWorld
+javac HelloWorld.java
+java HelloWorld
+```
 
-## 💻 Exemplos de Código
+Recomendacao de ambiente:
 
-Todos os exemplos estão em [`examples/`](examples/) organizados por tópico:
+- JDK 17 LTS ou superior
+- `java --version`
+- `javac --version`
 
-- [Hello World](examples/01-HelloWorld/) ✅
-- Variáveis (em breve)
-- Estruturas de Controle (em breve)
-- POO (em breve)
+## Adicionando notas
 
-## 🎯 Objetivos de Aprendizado
+Novas anotacoes devem ser criadas em `src/content/docs/`, podendo usar subpastas quando fizer sentido. Use nomes descritivos com prefixo numerico para manter a ordem no menu lateral.
 
-Ao completar este curso, você será capaz de:
+Exemplo de frontmatter padrao Starlight:
 
-- ✅ Compreender os fundamentos da programação Java
-- ✅ Escrever programas orientados a objetos
-- ✅ Utilizar estruturas de dados básicas
-- ✅ Tratar exceções e erros
-- ✅ Criar aplicações Java simples
-- ✅ Ter base sólida para frameworks avançados
+```md
+---
+title: "Titulo da nota"
+description: "Resumo curto explicando o foco da pagina."
+lastUpdated: 2026-01-01
+sidebar:
+  order: 4
+tags: ["java", "tema", "iniciante"]
+---
+```
 
-## 🤝 Como Contribuir
+Boas praticas:
 
-Contribuições são muito bem-vindas! Veja como você pode ajudar:
+- Escreva em portugues (pt-BR)
+- Comece pelo conceito e depois mostre exemplos
+- Mantenha descricoes curtas e objetivas no frontmatter
+- Atualize links internos quando criar novas paginas ou subpastas
 
-1. 🐛 Reportar erros ou typos
-2. ✨ Sugerir melhorias de conteúdo
-3. 📝 Adicionar novos tópicos
-4. 💻 Contribuir com exemplos de código
-5. 📚 Recomendar recursos úteis
+## Objetivos de aprendizado
 
-**Leia o [Guia de Contribuição](.github/CONTRIBUTING.md)** para mais detalhes.
+Ao seguir a trilha do Java Labs, voce deve conseguir:
 
-### Para Assistentes de IA
+- Compreender os fundamentos da linguagem Java
+- Escrever programas orientados a objetos
+- Utilizar estruturas de controle e tipos de dados basicos
+- Resolver exercicios progressivos com autonomia
+- Criar pequenas aplicacoes Java e evoluir para frameworks mais avancados
 
-Se você é uma IA auxiliando neste projeto, consulte [AI_INSTRUCTIONS.md](.github/AI_INSTRUCTIONS.md) para diretrizes específicas.
+## Como contribuir
 
-## 📋 Templates Disponíveis
+Contribuicoes sao muito bem-vindas. Voce pode ajudar com:
 
-- [Template de Conteúdo](.github/TEMPLATE.md) - Para criar novos tópicos
-- [Template de PR](.github/PULL_REQUEST_TEMPLATE.md) - Para pull requests
-- [Guia de Contribuição](.github/CONTRIBUTING.md) - Diretrizes gerais
+- Melhorias nas notas de `src/content/docs/`
+- Novos exemplos em `examples/`
+- Novos exercicios em `examples/exercises.md`
+- Novos projetos em `examples/projects.md`
+- Curadoria de recursos em `src/content/docs/recursos.md`
 
-## 📚 Recursos Recomendados
+Antes de abrir um PR, leia o [Guia de Contribuicao](.github/CONTRIBUTING.md).
 
-### Livros
+## Licenca
 
-- "Use a Cabeça! Java" - Kathy Sierra & Bert Bates
-- "Java: Como Programar" - Deitel & Deitel
-
-### Cursos Online
-
-- [Curso de Java - Curso em Vídeo](https://www.youtube.com/playlist?list=PLHz_AreHm4dkI2ZdjTwZA4mPMxWTfNSpR) (Gratuito, PT-BR)
-- [Java Programming - Coursera](https://www.coursera.org/specializations/java-programming)
-
-**[Ver lista completa de recursos →](recursos/README.md)**
-
-
-
-## 🌐 GitHub Pages
-
-Este repositório está disponível online através do GitHub Pages:
-
-**🔗 [https://caramelotech.github.io/java-labs/](https://caramelotech.github.io/java-labs/)**
-
-## 📊 Status do Projeto
-
-Este projeto está em **desenvolvimento ativo**. Novos conteúdos são adicionados regularmente.
-
-### Progresso Atual
-
-- [x] Estrutura do repositório
-- [x] Template de conteúdos
-- [x] Guias de contribuição
-- [x] Introdução ao Java
-- [x] Exemplo Hello World
-- [ ] Instalação e Configuração
-- [ ] Variáveis e Tipos
-- [ ] Estruturas de Controle
-- [ ] POO Básica
-- [ ] Tópicos Avançados
-
-## 📞 Contato e Suporte
-
-- 🐛 **Issues:** [GitHub Issues](https://github.com/caramelotech/java-labs/issues)
-- 💬 **Discussões:** [GitHub Discussions](https://github.com/caramelotech/java-labs/discussions)
-- 🌐 **Website:** [caramelotech.github.io/java-labs](https://caramelotech.github.io/java-labs/)
-
-## 📄 Licença
-
-Este projeto está sob a licença especificada no arquivo [LICENSE](LICENSE).
-
-## 🙏 Agradecimentos
-
-Agradecemos a todos que contribuem para tornar o aprendizado de Java mais acessível!
-
-## ⭐ Apoie o Projeto
-
-Se este repositório está ajudando você, considere:
-
-- ⭐ Dar uma estrela no repositório
-- 🔄 Compartilhar com amigos
-- 🤝 Contribuir com conteúdo
-- 📢 Divulgar nas redes sociais
-
-**Feito com ❤️ por [Caramelo Tech](https://github.com/caramelotech)**
-
-**Bons estudos! 🚀**
+Este projeto esta sob a licenca definida em [LICENSE](LICENSE).

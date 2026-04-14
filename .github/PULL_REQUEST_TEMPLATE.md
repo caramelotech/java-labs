@@ -4,21 +4,22 @@
 
 ## Tipo de mudança
 
-- [ ] Novo conteúdo (`/docs`)
-- [ ] Novo exemplo de código (`/codigos`)
-- [ ] Novo exercício (`/exercicios`)
-- [ ] Novo projeto (`/projetos`)
-- [ ] Recurso recomendado (`/recursos`)
+- [ ] Nova anotação (`src/content/docs/`)
+- [ ] Novo exemplo (`examples/`)
+- [ ] Novo exercício (`examples/exercises.md`)
+- [ ] Novo projeto (`examples/projects.md`)
 - [ ] Correção de conteúdo existente
+- [ ] Melhoria no site (Astro/Starlight)
 - [ ] Outro: <!-- descreva -->
 
 ## Checklist
 
 - [ ] O conteúdo está em português
 - [ ] Os arquivos estão no diretório correto
+- [ ] As notas usam frontmatter Starlight válido, quando aplicável
 - [ ] Exemplos de código compilam e executam sem erros
 - [ ] Exercícios e projetos têm objetivo e critérios de sucesso descritos
-- [ ] O índice (`notes/README.md`) foi atualizado, se necessário
+- [ ] Links e referências internas foram revisados
 - [ ] Minha branch está atualizada com `main`
 - [ ] Não há conflitos de merge
 

@@ -1,69 +1,106 @@
-# Guia de Contribuição
+# Guia de Contribuicao
 
-Obrigado por querer contribuir com o Java Labs!
+Obrigado por querer contribuir com o Java Labs.
 
 ## O que pode ser contribuido
 
-- Melhorias e correções nos conteúdos (`/notes`)
-- Novos exemplos de código em `/examples`
-- Exercícios adicionais em `/exercicios`
-- Projetos práticos em `/projetos`
-- Recursos recomendados em `/recursos`
+- Melhorias e correcoes nas notas em `src/content/docs/`
+- Novos exemplos de codigo em `examples/`
+- Exercicios adicionais em `examples/exercises.md`
+- Projetos praticos em `examples/projects.md`
+- Recursos recomendados em `src/content/docs/recursos.md`
+- Melhorias no site Astro + Starlight
 
 ## Processo
 
-1. Crie uma branch a partir de `main` seguindo o padrão:
-   ```
+1. Crie uma branch a partir de `main` seguindo o padrao:
+
+   ```text
    feature/descricao-curta
    fix/descricao-curta
    docs/descricao-curta
    ```
 
-2. Faça commits atômicos com mensagens no padrão de Conventional Commits:
+2. Faca commits atomicos com mensagens no padrao Conventional Commits:
+
+   ```text
+   feat: adicionar exercicios sobre loops
+   fix: corrigir exemplo de recursao
+   docs: melhorar conteudo sobre heranca
    ```
-   feat: adicionar exercícios sobre loops
-   fix: corrigir exemplo de recursão
-   docs: melhorar conteúdo sobre herança
-   ```
 
-   Tipos válidos: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`
+   Tipos validos: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`
 
-3. Abra um Pull Request usando o template disponível e aguarde revisão.
+3. Abra um Pull Request usando o template do repositorio.
 
-4. Após aprovação, o merge será feito por um mantenedor.
+4. Apos aprovacao, o merge sera feito por uma pessoa mantenedora.
 
-## Padrões de conteúdo
+## Rodando o site localmente
 
-### Documentação (Markdown)
+O Java Labs usa Astro + Starlight para publicar a documentacao.
 
-- Escreva em português (pt-BR)
-- Use títulos hierárquicos (`##`, `###`)
-- Prefira exemplos curtos e diretos
-- Inclua o "por quê", não apenas o "como"
-- Nomeie os arquivos com prefixo numérico sequencial: `03-nome-do-topico.md`
-- Atualize o índice em `notes/README.md` ao adicionar um novo tópico
+```bash
+npm install
+npm run dev
+```
 
-### Exemplos de código (`/examples`)
+O site fica disponivel em `http://localhost:4321`.
 
-- Um conceito por pasta, nomeada com prefixo sequencial: `02-NomeDoExemplo/`
-- Inclua um comentário no topo do arquivo explicando o que o exemplo demonstra
-- Adicione um `README.md` na pasta com instruções de execução
-- Teste o código antes de submeter: `javac Arquivo.java && java Arquivo`
+Para validar antes de abrir o PR:
 
-### Exercícios (`/exercicios`)
+```bash
+npm run build
+npm run preview
+```
+
+## Padroes de conteudo
+
+### Notas em `src/content/docs/`
+
+- Escreva em portugues (pt-BR)
+- Use titulos hierarquicos (`##`, `###`)
+- Prefira exemplos curtos e objetivos
+- Explique o "por que" alem do "como"
+- Nomeie arquivos com prefixo numerico quando fizer parte da trilha, por exemplo `04-variaveis.md`
+- Use frontmatter Starlight completo
+
+Frontmatter recomendado:
+
+```yaml
+---
+title: "Titulo da nota"
+description: "Resumo curto explicando o foco da pagina."
+lastUpdated: 2026-01-01
+sidebar:
+  order: 4
+tags: ["java", "tema", "iniciante"]
+---
+```
+
+Se a nota ficar melhor agrupada por assunto, voce pode criar subpastas dentro de `src/content/docs/`.
+
+### Exemplos em `examples/`
+
+- Um conceito por pasta, nomeada com prefixo sequencial quando fizer sentido, por exemplo `02-Variaveis/`
+- Inclua um comentario no topo do arquivo explicando o objetivo do exemplo
+- Adicione um `README.md` na pasta com contexto e instrucoes de execucao
+- Teste o codigo antes de submeter com `javac Arquivo.java` e `java NomeDaClasse`
+
+### Exercicios em `examples/exercises.md`
 
 - Descreva claramente o objetivo
-- Indique o nível de dificuldade (iniciante / intermediário / avançado)
-- Inclua exemplos de saída esperada
-- Use critérios de sucesso em formato de checklist
+- Indique o nivel de dificuldade quando necessario
+- Inclua exemplos de saida esperada
+- Use criterios de sucesso em formato de checklist
+- Aponte para notas relacionadas em `src/content/docs/` quando isso ajudar
 
-### Projetos (`/projetos`)
+### Projetos em `examples/projects.md`
 
 - Descreva o objetivo e o contexto
-- Liste os requisitos em formato de checklist
-- Inclua ao menos um exemplo de uso ou saída esperada
-- Adicione dicas para quem está começando
+- Liste requisitos em formato de checklist
+- Inclua ao menos um exemplo de uso ou saida esperada
+- Adicione dicas para quem esta comecando
 
-## Dúvidas?
+## Duvidas
 
 Abra uma issue com a tag `question`.

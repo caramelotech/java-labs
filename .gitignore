@@ -1,16 +1,32 @@
-# Compiled class files
+# Build output
+dist/
+
+# Astro
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Java
 *.class
-
-# Log files
 *.log
-
-# BlueJ files
 *.ctxt
-
-# Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
-# Package Files
 *.jar
 *.war
 *.nar
@@ -18,10 +34,9 @@
 *.zip
 *.tar.gz
 *.rar
-
-# Virtual machine crash logs
 hs_err_pid*
 replay_pid*
+local.properties
 
 # Eclipse
 .classpath
@@ -30,7 +45,6 @@ replay_pid*
 bin/
 
 # IntelliJ IDEA
-.idea/
 *.iml
 *.iws
 *.ipr
@@ -40,12 +54,8 @@ out/
 nbproject/
 build/
 nbbuild/
-dist/
 nbdist/
 .nb-gradle/
-
-# VS Code
-.vscode/
 *.code-workspace
 
 # Maven
@@ -62,58 +72,4 @@ buildNumber.properties
 
 # Gradle
 .gradle/
-build/
 !gradle-wrapper.jar
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-
-# Linux
-*~
-.directory
-
-# Temporary files
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-
-# Node (for any web tools)
-node_modules/
-npm-debug.log*
-
-# Jekyll
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-
-# Build output
-dist/
-
-# Astro
-.astro/
-
-# Environment
-.env
-.env.*
-!.env.example
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
