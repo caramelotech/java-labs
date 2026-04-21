@@ -1,7 +1,7 @@
 ---
 title: "Sintaxe Java"
-description: "Regras de escrita, tipos de dados, variáveis, strings, classes e modificadores de acesso em Java"
-lastUpdated: 2026-01-01
+description: "Regras de escrita, tipos de dados primitivos, variáveis, strings e convenções de nomenclatura em Java"
+lastUpdated: 2026-04-21
 sidebar:
   order: 2
 tags: ["java", "sintaxe", "variáveis", "tipos-de-dados"]
@@ -86,30 +86,16 @@ Comentários são textos ignorados pelo compilador, usados para documentar o có
 
 ## 3. Tipos de Dados Primitivos
 
-Java possui 8 tipos de dados primitivos, divididos em categorias:
+Java possui 8 tipos primitivos, mas no dia a dia você vai usar principalmente 4:
 
-### Números Inteiros:
+| Tipo      | Para quê                          | Exemplo             |
+| --------- | --------------------------------- | ------------------- |
+| `int`     | Números inteiros                  | `int idade = 25;`   |
+| `double`  | Números decimais                  | `double preco = 9.99;` |
+| `boolean` | Verdadeiro ou falso               | `boolean ativo = true;` |
+| `char`    | Um único caractere                | `char letra = 'A';` |
 
-| Tipo    | Tamanho | Intervalo                        | Uso Comum                     |
-| ------- | ------- | -------------------------------- | ----------------------------- |
-| `byte`  | 8 bits  | -128 a 127                       | Economizar memória            |
-| `short` | 16 bits | -32.768 a 32.767                 | Valores inteiros pequenos     |
-| `int`   | 32 bits | -2.147.483.648 a 2.147.483.647   | **Tipo padrão para inteiros** |
-| `long`  | 64 bits | -9.223.372.036.854.775.808 a ... | Valores muito grandes         |
-
-### Números de Ponto Flutuante:
-
-| Tipo     | Tamanho | Precisão    | Uso Comum                           |
-| -------- | ------- | ----------- | ----------------------------------- |
-| `float`  | 32 bits | 6-7 dígitos | Valores decimais com menos precisão |
-| `double` | 64 bits | 15 dígitos  | **Tipo padrão para decimais**       |
-
-### Outros Tipos:
-
-| Tipo      | Tamanho | Valores           | Uso                     |
-| --------- | ------- | ----------------- | ----------------------- |
-| `boolean` | 1 bit   | `true` ou `false` | Lógica e condições      |
-| `char`    | 16 bits | 0 a 65.535        | Caractere Unicode único |
+Os outros quatro (`byte`, `short`, `long`, `float`) existem para casos específicos de performance ou precisão — você vai encontrá-los eventualmente, mas não precisa memorizá-los agora.
 
 ### Exemplos Práticos:
 
@@ -234,232 +220,28 @@ boolean contem = nome.contains("Maria");  // Verifica se contém um texto
 ### Boas Práticas com Strings:
 
 ```java
-// ✅ BOM - Use aspas duplas para Strings
+// ✅ Use aspas duplas para Strings
 String texto = "Olá, Mundo!";
 
-// ✅ BOM - Use StringBuilder para concatenações em loops
-StringBuilder sb = new StringBuilder();
-for (int i = 0; i < 1000; i++) {
-    sb.append(i);
-}
+// ✅ Concatene com + para casos simples
+String saudacao = "Olá, " + nome + "!";
 
-// ❌ RUIM - Concatenação em loops (ineficiente)
-String resultado = "";
-for (int i = 0; i < 1000; i++) {
-    resultado += i; // Cria muitos objetos temporários
-}
+// ❌ Não confunda aspas simples (char) com aspas duplas (String)
+char letra = 'A';    // char — um único caractere
+String nome = "Ana"; // String — qualquer texto
 ```
 
-## 6. Classes e Objetos
+## 6. Próximos Conceitos
 
-Classes são modelos (blueprints) para criar objetos. Objetos são instâncias de classes.
+Com a sintaxe básica dominada, os próximos passos naturais são:
 
-### Estrutura de uma Classe:
+- **Operadores** — aritméticos, de comparação e lógicos (próximo tópico)
+- **Classes e Objetos** — como modelar entidades do mundo real em código (módulo 11)
+- **Modificadores de acesso** (`public`, `private`, `protected`) — controle de visibilidade, abordado junto com OOP
 
-```java
-/**
- * Classe que representa um Estudante
- * @author Seu Nome
- */
-public class Estudante {
-    // Atributos (características)
-    private String nome;
-    private int idade;
-    private double nota;
+Por enquanto, foque em escrever e ler código com variáveis, tipos e Strings. A fluência vem com prática.
 
-    // Construtor (cria novos objetos)
-    public Estudante(String nome, int idade, double nota) {
-        this.nome = nome;
-        this.idade = idade;
-        this.nota = nota;
-    }
-
-    // Métodos (comportamentos)
-    public void estudar() {
-        System.out.println(nome + " está estudando.");
-    }
-
-    public boolean estaAprovado() {
-        return nota >= 7.0;
-    }
-
-    // Getters e Setters
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-}
-```
-
-### Criando e Usando Objetos:
-
-```java
-public class TesteEstudante {
-    public static void main(String[] args) {
-        // Criando objetos
-        Estudante aluno1 = new Estudante("Carlos", 20, 8.5);
-        Estudante aluno2 = new Estudante("Ana", 19, 6.5);
-
-        // Usando métodos
-        aluno1.estudar();
-
-        if (aluno1.estaAprovado()) {
-            System.out.println(aluno1.getNome() + " foi aprovado!");
-        }
-    }
-}
-```
-
-## 7. Convenções de Nomenclatura para Classes
-
-As convenções de nomenclatura tornam o código mais legível e profissional.
-
-### ✅ **Regras para Classes:**
-
-```java
-// ✅ BOM - PascalCase (cada palavra começa com maiúscula)
-public class ContaBancaria { }
-public class UsuarioSistema { }
-public class RelatorioVendas { }
-
-// ✅ BOM - Substantivos descritivos
-public class Pessoa { }
-public class Produto { }
-public class Cliente { }
-
-// ✅ BOM - Nomes específicos e significativos
-public class GerenciadorDeArquivos { }
-public class ProcessadorDePagamentos { }
-
-// ❌ RUIM - Começar com minúscula
-public class contaBancaria { }
-
-// ❌ RUIM - Usar underscores
-public class Conta_Bancaria { }
-
-// ❌ RUIM - Nomes genéricos ou sem significado
-public class Classe1 { }
-public class Dados { }
-public class Teste { }
-```
-
-### ✅ **Regras para Pacotes:**
-
-```java
-// ✅ BOM - Tudo em minúsculas
-package com.empresa.projeto.modulo;
-package br.com.meusite.utils;
-
-// ❌ RUIM - Usar maiúsculas
-package Com.Empresa.Projeto;
-```
-
-### ✅ **Regras para Métodos:**
-
-```java
-// ✅ BOM - camelCase (começa com minúscula)
-public void calcularTotal() { }
-public void enviarEmail() { }
-public boolean verificarDisponibilidade() { }
-
-// ✅ BOM - Verbos que descrevem a ação
-public void salvar() { }
-public void atualizar() { }
-public String obterNome() { }
-public boolean isAtivo() { } // Prefixo 'is' para métodos booleanos
-
-// ❌ RUIM - Começar com maiúscula
-public void CalcularTotal() { }
-
-// ❌ RUIM - Nomes não descritivos
-public void fazer() { }
-public void processar() { } // Muito genérico
-```
-
-## 8. Modificadores de Acesso
-
-Controlam a visibilidade de classes, atributos e métodos.
-
-| Modificador | Classe | Pacote | Subclasse | Todos |
-| ----------- | ------ | ------ | --------- | ----- |
-| `public`    | ✅     | ✅     | ✅        | ✅    |
-| `protected` | ✅     | ✅     | ✅        | ❌    |
-| `default`   | ✅     | ✅     | ❌        | ❌    |
-| `private`   | ✅     | ❌     | ❌        | ❌    |
-
-### Boas Práticas:
-
-```java
-public class Exemplo {
-    // ✅ BOM - Atributos privados (encapsulamento)
-    private String nome;
-    private int idade;
-
-    // ✅ BOM - Métodos públicos para acesso controlado
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        // Validação antes de atribuir
-        if (nome != null && !nome.isEmpty()) {
-            this.nome = nome;
-        }
-    }
-
-    // ✅ BOM - Métodos auxiliares privados
-    private void validarDados() {
-        // Lógica interna da classe
-    }
-}
-```
-
-## 9. Operadores Básicos
-
-### Operadores Aritméticos:
-
-```java
-int a = 10, b = 3;
-
-int soma = a + b;        // 13
-int subtracao = a - b;   // 7
-int multiplicacao = a * b; // 30
-int divisao = a / b;     // 3 (divisão inteira)
-int resto = a % b;       // 1 (módulo/resto)
-
-// Incremento e Decremento
-int contador = 0;
-contador++;  // contador = 1
-contador--;  // contador = 0
-```
-
-### Operadores de Comparação:
-
-```java
-int x = 5, y = 10;
-
-boolean igual = (x == y);           // false
-boolean diferente = (x != y);       // true
-boolean maior = (x > y);            // false
-boolean menor = (x < y);            // true
-boolean maiorIgual = (x >= y);      // false
-boolean menorIgual = (x <= y);      // true
-```
-
-### Operadores Lógicos:
-
-```java
-boolean a = true, b = false;
-
-boolean e = a && b;      // false (E lógico - AND)
-boolean ou = a || b;     // true  (OU lógico - OR)
-boolean nao = !a;        // false (NÃO lógico - NOT)
-```
-
-## 10. Resumo das Boas Práticas
+## 7. Resumo das Boas Práticas
 
 ### Nomenclatura:
 
@@ -476,27 +258,39 @@ boolean nao = !a;        // false (NÃO lógico - NOT)
 1. **Legibilidade**: Escreva código que outros possam entender facilmente
 2. **Nomenclatura Clara**: Use nomes descritivos e significativos
 3. **Consistência**: Siga as mesmas convenções em todo o projeto
-4. **Encapsulamento**: Mantenha atributos privados e forneça métodos públicos
-5. **Comentários Úteis**: Documente o "porquê", não o "o quê"
-6. **Uma Responsabilidade**: Cada classe/método deve ter uma única responsabilidade bem definida
+4. **Comentários Úteis**: Documente o "porquê", não o "o quê"
+
+## Verifique seu Entendimento
+
+Antes de avançar, tente responder mentalmente:
+
+1. Qual a diferença entre `int` e `double`? Quando usar cada um?
+2. O que acontece se você tentar usar uma palavra reservada como nome de variável?
+3. Qual o nome correto para uma variável que guarda o preço de um produto — `p`, `preco_produto` ou `precoProduto`?
+4. `String` é um tipo primitivo? Por que não?
+
+<details>
+<summary>Ver respostas</summary>
+
+1. `int` armazena números inteiros (sem casas decimais); `double` armazena números decimais. Use `int` para idade, quantidade, contadores — e `double` para preço, peso, temperatura.
+2. O compilador retorna um erro de sintaxe — palavras reservadas têm significado especial para o Java e não podem ser redefinidas.
+3. `precoProduto` — camelCase é a convenção Java para variáveis. `p` é pouco descritivo e `preco_produto` usa underscore (convenção de outras linguagens, não de Java).
+4. Não. `String` é uma classe (tipo de referência), não um primitivo. Por isso começa com maiúscula e tem métodos como `.length()` e `.toUpperCase()`.
+
+</details>
 
 ## Exercícios Práticos
 
-Para fixar o aprendizado, tente criar:
-
-1. Uma classe `Livro` com atributos título, autor e número de páginas
-2. Uma classe `Calculadora` com métodos para operações básicas
-3. Um programa que declare variáveis de diferentes tipos e imprima seus valores
-4. Pratique a nomenclatura correta em todos os seus exercícios
+1. Declare variáveis dos 4 tipos principais (`int`, `double`, `boolean`, `char`) com valores e imprima cada uma com `System.out.println()`
+2. Crie uma variável `String` com seu nome completo e imprima quantos caracteres ela tem (dica: `.length()`)
+3. Declare uma constante `VELOCIDADE_LUZ` com o valor `299792458` e imprima uma mensagem usando ela
+4. Corrija os nomes das variáveis abaixo para seguir as convenções Java:
+   ```java
+   int Idade_usuario = 20;
+   String nome_completo = "João";
+   final double taxajuros = 0.05;
+   ```
 
 ## Próximos Passos
 
-Após dominar a sintaxe básica, você estará pronto para:
-
-- Estruturas de controle (if, else, switch)
-- Laços de repetição (for, while, do-while)
-- Arrays e Collections
-- Orientação a Objetos avançada
-- Tratamento de exceções
-
-Continue praticando! A sintaxe se torna natural com a prática constante. 🚀
+Com a sintaxe básica dominada, o próximo passo é aprender os **operadores** — como fazer cálculos, comparações e combinar condições lógicas.

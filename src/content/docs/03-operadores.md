@@ -1,10 +1,10 @@
 ---
 title: "Operadores em Java"
-description: "Operadores aritméticos, relacionais, lógicos, ternário, comentários, JavaDoc e JavaBeans"
-lastUpdated: 2026-01-01
+description: "Operadores aritméticos, relacionais, lógicos, unários e ternário em Java"
+lastUpdated: 2026-04-21
 sidebar:
   order: 3
-tags: ["java", "operadores", "javadoc", "javabeans"]
+tags: ["java", "operadores", "iniciante"]
 ---
 
 Neste capítulo você aprenderá:
@@ -12,12 +12,10 @@ Neste capítulo você aprenderá:
 - Operadores aritméticos e de atribuição
 - Operadores relacionais
 - Operadores unários
-- Operadores ternários e lógicos
-- Comentários
-- JavaDoc
-- JavaBeans
+- Operadores lógicos
+- Operador ternário
 
-Esses conceitos são fundamentais para escrever código Java de forma correta e profissional.
+Esses conceitos são fundamentais para escrever condições, cálculos e lógica em qualquer programa Java.
 
 ## Operadores de Atribuição e Aritméticos
 
@@ -57,6 +55,17 @@ int mult = a * b;       // 30
 int div = a / b;        // 3
 int resto = a % b;      // 1
 ```
+
+> ⚠️ **Armadilha: divisão inteira**
+>
+> Quando os dois operandos são `int`, o resultado é sempre inteiro — a parte decimal é descartada, sem arredondamento.
+>
+> ```java
+> int resultado = 10 / 3;      // 3, não 3.33
+> double correto = 10.0 / 3;   // 3.3333... (um dos lados deve ser double)
+> ```
+>
+> Esse é um dos erros mais comuns para quem está começando.
 
 ### Operadores de Atribuição Combinados
 
@@ -208,144 +217,6 @@ if (idade >= 18) {
 }
 ```
 
-## Comentários em Java
-
-Comentários servem para:
-
-- Explicar código
-- Documentar decisões
-- Melhorar manutenção
-- Ajudar outros desenvolvedores
-
-Java possui três tipos de comentários.
-
-### Comentário de Linha
-
-```java
-// Este é um comentário de linha
-int idade = 25;
-```
-
-### Comentário de Bloco
-
-```java
-/*
-Este é um comentário
-de múltiplas linhas
-*/
-int idade = 25;
-```
-
-### Comentário de Documentação (JavaDoc)
-
-```java
-/**
- * Este é um comentário JavaDoc
- */
-```
-
-Esse tipo gera documentação automática.
-
-## JavaDoc
-
-JavaDoc é uma ferramenta oficial do Java para gerar documentação a partir do código.
-
-Muito usado em projetos profissionais e bibliotecas.
-
-### Exemplo de JavaDoc em Método
-
-```java
-/**
- * Calcula a soma de dois números.
- *
- * @param a Primeiro número
- * @param b Segundo número
- * @return Resultado da soma
- */
-public int somar(int a, int b) {
-    return a + b;
-}
-```
-
-### Principais Tags JavaDoc
-
-| Tag        | Função       |
-| ---------- | ------------ |
-| `@author`  | Autor        |
-| `@version` | Versão       |
-| `@param`   | Parâmetro    |
-| `@return`  | Retorno      |
-| `@throws`  | Exceções     |
-| `@see`     | Referência   |
-| `@since`   | Desde versão |
-
-### Gerar Documentação
-
-Comando:
-
-```bash
-javadoc NomeArquivo.java
-```
-
-## JavaBeans
-
-JavaBeans é um padrão de classe Java usado principalmente para:
-
-- Representar entidades
-- Transferir dados
-- Modelar objetos de domínio
-- Frameworks (Spring, Hibernate, etc.)
-
-### Características de um JavaBean
-
-Um JavaBean deve:
-
-1. Possuir construtor vazio
-2. Ter atributos privados (`private`)
-3. Possuir métodos getters e setters públicos
-4. Ser serializável (opcional, mas comum)
-
-### Exemplo de JavaBean
-
-```java
-import java.io.Serializable;
-
-public class Pessoa implements Serializable {
-
-    private String nome;
-    private int idade;
-
-    public Pessoa() {
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-}
-```
-
-### Por que JavaBeans são importantes?
-
-Porque muitos frameworks Java dependem desse padrão:
-
-- Spring Boot
-- Hibernate / JPA
-- JSF
-- Bibliotecas de serialização
-- APIs REST
-
 ## Boas Práticas Importantes
 
 ✅ Use nomes claros para variáveis
@@ -354,17 +225,46 @@ Porque muitos frameworks Java dependem desse padrão:
 ✅ Use operadores com clareza
 ✅ Evite ternário complexo
 
+## Verifique seu Entendimento
+
+Antes de avançar, tente responder mentalmente:
+
+1. Qual o resultado de `7 / 2` em Java? E de `7.0 / 2`?
+2. Qual a diferença entre `==` e `=`?
+3. O que `++x` faz diferente de `x++` quando usado dentro de uma expressão?
+4. Reescreva o código abaixo sem usar o operador ternário:
+   ```java
+   String msg = (nota >= 7) ? "Aprovado" : "Reprovado";
+   ```
+
+<details>
+<summary>Ver respostas</summary>
+
+1. `7 / 2` resulta em `3` (divisão inteira, parte decimal descartada). `7.0 / 2` resulta em `3.5` (um dos operandos é `double`).
+2. `==` **compara** dois valores (retorna `true` ou `false`). `=` **atribui** um valor a uma variável. Confundir os dois é um erro clássico de iniciante.
+3. `++x` incrementa primeiro e depois usa o valor. `x++` usa o valor primeiro e incrementa depois. Ex: se `x = 5`, então `y = ++x` resulta em `x=6, y=6`; mas `y = x++` resulta em `x=6, y=5`.
+4.
+```java
+String msg;
+if (nota >= 7) {
+    msg = "Aprovado";
+} else {
+    msg = "Reprovado";
+}
+```
+
+</details>
+
 ## Resumo
 
 Neste capítulo você aprendeu:
 
-- Operadores aritméticos e de atribuição
-- Operadores relacionais
-- Operadores unários
-- Operadores lógicos
-- Operador ternário
-- Comentários em Java
-- JavaDoc
-- JavaBeans
+- Operadores aritméticos e de atribuição (incluindo a armadilha da divisão inteira)
+- Operadores relacionais e a diferença entre `==` e `=`
+- Operadores unários e o comportamento de pré vs pós-incremento
+- Operadores lógicos (`&&`, `||`, `!`) para combinar condições
+- Operador ternário como forma compacta de `if-else`
 
-Esses conceitos são fundamentais para escrever programas Java profissionais.
+## Próximos Passos
+
+Com operadores dominados, você tem o necessário para escrever condições reais. O próximo passo é aprender as **estruturas de controle** — `if`, `else` e `switch` — para que seu programa tome decisões com base nesses operadores.

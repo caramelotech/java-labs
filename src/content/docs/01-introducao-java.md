@@ -1,7 +1,7 @@
 ---
 title: "Introdução ao Java"
 description: "Conheça Java, suas características, JVM, JDK e o ecossistema da plataforma"
-lastUpdated: 2026-03-01
+lastUpdated: 2026-04-21
 sidebar:
   order: 1
 tags: ["java", "jvm", "fundamentos", "iniciante"]
@@ -122,39 +122,45 @@ O fluxo de desenvolvimento Java segue etapas bem definidas:
 
 ### 1️⃣ Criação do Código Fonte
 
-Todo código Java é escrito em arquivos de texto com extensão `.java`
+Todo código Java é escrito em arquivos de texto com extensão `.java`.
 
-**Exemplo:**
+Veja como é o programa mais simples possível em Java — o famoso "Olá, Mundo!":
 
+```java
+public class OlaMundo {
+    public static void main(String[] args) {
+        System.out.println("Olá, Mundo!");
+    }
+}
 ```
-MeuPrograma.java
-```
+
+Salve esse conteúdo em um arquivo chamado `OlaMundo.java`. Não se preocupe em entender cada palavra agora — você vai aprender o que `public`, `class` e `static` significam nos próximos tópicos. Por enquanto, saiba que o Java **sempre começa pelo método `main`**.
 
 ### 2️⃣ Compilação
 
 O compilador Java (`javac`) transforma o código fonte em **bytecode**.
 
-**Comando:**
-
 ```bash
-javac MeuPrograma.java
+javac OlaMundo.java
 ```
 
-**Isso gera:**
-
-```
-MeuPrograma.class
-```
+Isso gera um arquivo `OlaMundo.class` com o bytecode — uma linguagem intermediária que a JVM entende.
 
 ### 3️⃣ Execução
 
 O arquivo `.class` é executado pela JVM:
 
 ```bash
-java MeuPrograma
+java OlaMundo
 ```
 
-**Importante:** O arquivo `.class` **não contém código de máquina nativo**, mas sim **bytecode**, que é interpretado ou compilado dinamicamente pela JVM.
+**Saída esperada:**
+
+```
+Olá, Mundo!
+```
+
+O arquivo `.class` não contém código de máquina nativo, mas bytecode — e é por isso que o mesmo arquivo roda em qualquer sistema que tenha a JVM instalada.
 
 ## JVM - Java Virtual Machine
 
@@ -198,55 +204,9 @@ O **JRE** é o **ambiente de execução**.
 
 ## Plataformas Java
 
-### Java SE (Standard Edition)
+Java existe em diferentes versões para diferentes propósitos. No começo da sua jornada, você vai trabalhar com o **Java SE (Standard Edition)** — a base da linguagem, com toda a sintaxe, bibliotecas fundamentais e APIs principais.
 
-**Base da linguagem Java.**
-
-**Inclui:**
-
-- Sintaxe da linguagem
-- Bibliotecas fundamentais
-- APIs principais
-
-**Usado para:**
-
-- Aplicações desktop
-- Sistemas backend
-- Fundamentos do Java
-
-### Java EE (Enterprise Edition) - Atualmente Jakarta EE
-
-**Voltado para sistemas corporativos.**
-
-**Inclui:**
-
-- Servlets
-- APIs Web
-- Persistência
-- Segurança
-- Microsserviços
-
-**Muito usado em empresas e sistemas de grande porte.**
-
-### Java ME (Micro Edition)
-
-**Versão para dispositivos com recursos limitados:**
-
-- Dispositivos embarcados
-- Sistemas antigos de celulares
-- IoT (Internet of Things)
-
-**Hoje menos comum.**
-
-### JavaFX
-
-**Framework para criação de interfaces gráficas modernas em Java.**
-
-**Permite:**
-
-- Interfaces desktop
-- Animações
-- Componentes visuais avançados
+As demais plataformas (Jakarta EE para sistemas corporativos, Java ME para dispositivos embarcados, JavaFX para interfaces gráficas) são especializações que fazem sentido explorar depois que você dominar o Java SE.
 
 ## Resumo Visual do Ecossistema
 
@@ -261,60 +221,43 @@ JDK (Java Development Kit)
       └── debugger, etc.
 ```
 
-## Outras Características Importantes
-
-### Multiplataforma
-
-Executa em diversos sistemas operacionais sem alterações.
-
-### Portável (WORA)
-
-Write Once, Run Anywhere - Escreva uma vez, rode em qualquer lugar.
-
-### Robusta
-
-Java foi projetada para reduzir erros comuns:
-
-- Verificação de tipos em tempo de compilação
-- Gerenciamento automático de memória
-- Tratamento de exceções
-- Verificação de acesso
-
-### Segura
-
-Possui mecanismos de segurança como:
-
-- Bytecode verification
-- ClassLoader
-- Security Manager (em contextos específicos)
-- Sem ponteiros diretos como em C/C++
-
-### Interpretada + Compilada
-
-Java é considerada híbrida:
-
-- Compilada para bytecode
-- Executada pela JVM (interpretação ou JIT compilation)
-
 ## Resumo
 
 Neste tópico, você aprendeu:
 
 - ✅ Java é uma linguagem portável, robusta e orientada a objetos
 - ✅ O lema WORA (Write Once, Run Anywhere) é possível graças à JVM
-- ✅ Java é compilada para bytecode e executada pela JVM
-- ✅ Os pilares da POO são: classes, objetos, encapsulamento, herança, polimorfismo e abstração
-- ✅ JDK é para desenvolvimento, JRE é para execução
-- ✅ Java possui gerenciamento automático de memória (Garbage Collector)
-- ✅ Existem diferentes plataformas Java (SE, EE, ME, JavaFX)
+- ✅ Java é compilada para bytecode (`javac`) e executada pela JVM (`java`)
+- ✅ JDK é para desenvolvimento, JRE é para execução (nas versões modernas, o JRE já vem embutido no JDK)
+- ✅ Java possui gerenciamento automático de memória via Garbage Collector
+- ✅ Para iniciantes, o foco é o Java SE — as demais plataformas vêm depois
 
 ## Próximos Passos
 
 Agora que você entende o que é Java e suas características principais, está pronto para:
 
 1. **Instalar o JDK e configurar seu ambiente de desenvolvimento**
-2. **Escrever seu primeiro programa "Olá, Mundo!"**
-3. **Aprender sobre variáveis e tipos de dados**
+2. **Aprender sobre variáveis e tipos de dados**
+3. **Entender a sintaxe básica do Java**
+
+## Verifique seu Entendimento
+
+Antes de avançar, tente responder mentalmente:
+
+1. O que significa WORA e o que torna isso possível?
+2. Qual a diferença entre JDK e JRE? Qual você precisa instalar para programar?
+3. O que o comando `javac OlaMundo.java` produz?
+4. Por que o mesmo arquivo `.class` funciona no Windows e no Linux?
+
+<details>
+<summary>Ver respostas</summary>
+
+1. **WORA** significa "Write Once, Run Anywhere". É possível graças à JVM — cada sistema operacional tem sua própria JVM, mas todas executam o mesmo bytecode.
+2. O **JDK** inclui tudo para desenvolver (compilador, JVM, bibliotecas). O **JRE** só executa programas. Para programar, você precisa do **JDK**.
+3. O `javac` gera o arquivo `OlaMundo.class` com o **bytecode** — a versão compilada do seu programa.
+4. Porque o `.class` contém bytecode, não código de máquina nativo. A JVM de cada sistema operacional sabe interpretar esse bytecode.
+
+</details>
 
 ## Perguntas Frequentes
 
