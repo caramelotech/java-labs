@@ -1,7 +1,7 @@
 ---
 title: "Introdução ao Java"
 description: "Conheça Java, suas características, JVM, JDK e o ecossistema da plataforma"
-lastUpdated: 2026-03-01
+lastUpdated: 2026-04-21
 sidebar:
   order: 1
 tags: ["java", "jvm", "fundamentos", "iniciante"]

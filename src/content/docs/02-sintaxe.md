@@ -1,7 +1,7 @@
 ---
 title: "Sintaxe Java"
 description: "Regras de escrita, tipos de dados primitivos, variáveis, strings e convenções de nomenclatura em Java"
-lastUpdated: 2026-01-01
+lastUpdated: 2026-04-21
 sidebar:
   order: 2
 tags: ["java", "sintaxe", "variáveis", "tipos-de-dados"]
