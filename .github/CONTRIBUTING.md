@@ -72,12 +72,14 @@ title: "Titulo da nota"
 description: "Resumo curto explicando o foco da pagina."
 lastUpdated: 2026-01-01
 sidebar:
-  order: 4
+  order: 1
 tags: ["java", "tema", "iniciante"]
 ---
 ```
 
-Se a nota ficar melhor agrupada por assunto, voce pode criar subpastas dentro de `src/content/docs/`.
+`sidebar.order` e sequencial por diretorio, nao global. A ordem entre secoes e definida pelo array `sidebar` em `astro.config.mjs`. Dentro de cada pasta, numere a partir de 1.
+
+Se a nota ficar melhor agrupada por assunto, voce pode criar subpastas dentro de `src/content/docs/`. Para que a nova pasta apareça na sidebar, adicione uma entrada `autogenerate` em `astro.config.mjs` (veja instrucoes em `CLAUDE.md`).
 
 ### Exemplos em `examples/`
 
