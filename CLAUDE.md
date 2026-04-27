@@ -27,6 +27,19 @@ Deploy to GitHub Pages happens automatically on push to `main` via `.github/work
 ## Content conventions
 
 - All content is in **Brazilian Portuguese**.
-- Doc filenames follow the pattern `NN-slug.md` (e.g. `01-introducao-java.md`). The `sidebar.order` frontmatter controls ordering when set explicitly.
+- Doc filenames follow the pattern `NN-slug.md` (e.g. `01-introducao-java.md`).
+- `sidebar.order` is **sequential per directory**, not global. Order between sections is controlled by the `sidebar` array in `astro.config.mjs`. Within each folder, number files starting from 1.
 - The `roadmap.md` file uses `sidebar.order: 99` to keep it at the bottom.
 - Internal links between docs use the Starlight-relative path `/java-labs/<slug>/`.
+
+### Adding a new top-level section
+
+1. Create the directory under `src/content/docs/nova-categoria/`
+2. Add an `index.md` as the landing page
+3. Add an `autogenerate` entry in `astro.config.mjs`:
+   ```javascript
+   {
+     label: "Título da Seção",
+     autogenerate: { directory: "nova-categoria" },
+   }
+   ```

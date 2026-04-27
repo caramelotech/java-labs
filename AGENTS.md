@@ -39,7 +39,8 @@ java NomeDaClasse    # Executar
 ### Notas em `src/content/docs/`
 
 1. **Numeração**: Arquivos numerados (`01-`, `02-`) indicam trilha obrigatória; outros são suplementares
-2. **Frontmatter Starlight obrigatório**:
+2. **`sidebar.order` é sequencial por diretório**, não global. A ordem entre seções é controlada pelo array `sidebar` em `astro.config.mjs`. Dentro de cada pasta, numere os arquivos a partir de 1.
+3. **Frontmatter Starlight obrigatório**:
    ```yaml
    ---
    title: "Título"
@@ -50,8 +51,21 @@ java NomeDaClasse    # Executar
    tags: ["java", "tema", "nível"]
    ---
    ```
-3. **Estilo**: Português BR, progressivo, explica "por quê", exemplos curtos
-4. **Estrutura**: Headings `##` (primeira seção), `###` (subsections), não use `#` (Starlight gerencia)
+4. **Estilo**: Português BR, progressivo, explica "por quê", exemplos curtos
+5. **Estrutura**: Headings `##` (primeira seção), `###` (subsections), não use `#` (Starlight gerencia)
+
+### Criando uma nova seção superior
+
+Para adicionar uma nova seção no topo da sidebar (ex: `nova-categoria/`):
+1. Crie o diretório em `src/content/docs/nova-categoria/`
+2. Adicione um arquivo `index.md` como página de destino
+3. Adicione entrada `autogenerate` em `astro.config.mjs`:
+   ```javascript
+   {
+     label: "Título da Seção",
+     autogenerate: { directory: "nova-categoria" },
+   }
+   ```
 
 ### Exemplos em `examples/`
 
