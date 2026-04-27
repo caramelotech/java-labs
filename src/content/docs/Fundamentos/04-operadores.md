@@ -56,7 +56,7 @@ int div = a / b;        // 3
 int resto = a % b;      // 1
 ```
 
-> **Armadilha: divisão inteira**
+> ⚠️ **Armadilha: divisão inteira**
 >
 > Quando os dois operandos são `int`, o resultado é sempre inteiro - a parte decimal é descartada, sem arredondamento.
 >
@@ -113,7 +113,7 @@ System.out.println(idade >= 18); // true
 System.out.println(idade < 18);  // false
 ```
 
-Atenção importante:
+⚠️ Atenção importante:
 
 ```java
 ==   → comparação
@@ -219,11 +219,11 @@ if (idade >= 18) {
 
 ## Boas Práticas Importantes
 
-- Use nomes claros para variáveis
-- Evite comentários óbvios
-- Prefira JavaDoc em APIs públicas
-- Use operadores com clareza
-- Evite ternário complexo
+✅ Use nomes claros para variáveis
+✅ Evite comentários óbvios
+✅ Prefira JavaDoc em APIs públicas
+✅ Use operadores com clareza
+✅ Evite ternário complexo
 
 ## Verifique seu Entendimento
 

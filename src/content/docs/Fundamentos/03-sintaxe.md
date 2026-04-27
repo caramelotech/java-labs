@@ -77,10 +77,10 @@ Comentários são textos ignorados pelo compilador, usados para documentar o có
 
 ### Boas Práticas com Comentários:
 
-- Explique o "porquê", não o "o quê" (o código deve ser autoexplicativo)
-- Mantenha os comentários atualizados com o código
-- Use JavaDoc para documentar classes e métodos públicos
-- Evite comentários óbvios que apenas repetem o código
+- ✅ Explique o "porquê", não o "o quê" (o código deve ser autoexplicativo)
+- ✅ Mantenha os comentários atualizados com o código
+- ✅ Use JavaDoc para documentar classes e métodos públicos
+- ❌ Evite comentários óbvios que apenas repetem o código
 
 ## 3. Tipos de Dados Primitivos
 
@@ -138,38 +138,38 @@ final int DIAS_DA_SEMANA = 7;
 
 ### Convenções de Nomenclatura para Variáveis:
 
-#### Regras Obrigatórias:
+#### ✅ **Regras Obrigatórias:**
 
 1. Deve começar com letra, `$` ou `_` (underscore)
 2. Não pode começar com número
 3. Não pode usar palavras reservadas do Java
 4. É case-sensitive (`idade` ≠ `Idade`)
 
-#### Boas Práticas (Convenção camelCase):
+#### ✅ **Boas Práticas (Convenção camelCase):**
 
 ```java
-// BOM - Use camelCase (primeira palavra minúscula, demais iniciam com maiúscula)
+// ✅ BOM - Use camelCase (primeira palavra minúscula, demais iniciam com maiúscula)
 int idadeDoUsuario;
 String nomeCompleto;
 double salarioMensal;
 boolean estaCadastrado;
 
-// BOM - Nomes descritivos e significativos
+// ✅ BOM - Nomes descritivos e significativos
 int quantidadeDeAlunos;
 double precoComDesconto;
 
-// BOM - Constantes em MAIÚSCULAS com underscore
+// ✅ BOM - Constantes em MAIÚSCULAS com underscore
 final int IDADE_MINIMA = 18;
 final double TAXA_DE_JUROS = 0.05;
 
-// RUIM - Nomes muito curtos ou sem significado
+// ❌ RUIM - Nomes muito curtos ou sem significado
 int a, b, c;
 String s;
 
-// RUIM - Não usar underscores em variáveis normais
+// ❌ RUIM - Não usar underscores em variáveis normais
 int nome_do_usuario; // Evite, use camelCase
 
-// RUIM - Começar com letra maiúscula (reservado para classes)
+// ❌ RUIM - Começar com letra maiúscula (reservado para classes)
 int NomeDoUsuario;
 ```
 
@@ -218,13 +218,13 @@ boolean contem = nome.contains("Maria");  // Verifica se contém um texto
 ### Boas Práticas com Strings:
 
 ```java
-// Use aspas duplas para Strings
+// ✅ Use aspas duplas para Strings
 String texto = "Olá, Mundo!";
 
-// Concatene com + para casos simples
+// ✅ Concatene com + para casos simples
 String saudacao = "Olá, " + nome + "!";
 
-// Não confunda aspas simples (char) com aspas duplas (String)
+// ❌ Não confunda aspas simples (char) com aspas duplas (String)
 char letra = 'A';    // char - um único caractere
 String nome = "Ana"; // String - qualquer texto
 ```

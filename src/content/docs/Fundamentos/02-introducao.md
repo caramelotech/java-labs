@@ -46,7 +46,13 @@ Java não é compilado diretamente para código de máquina específico de um si
 1. O código Java é compilado para **bytecode**
 2. O bytecode é executado pela **JVM**
 
-Isso permite que o mesmo programa funcione em Windows, Linux, macOS, servidores e dispositivos embarcados.
+Isso permite que o mesmo programa funcione em:
+
+- ✅ Windows
+- ✅ Linux
+- ✅ macOS
+- ✅ Servidores
+- ✅ Dispositivos embarcados
 
 #### Analogia
 
@@ -160,11 +166,11 @@ A **JVM** é o coração do Java.
 
 **Ela é responsável por:**
 
-- Executar bytecode
-- Gerenciar memória
-- Executar Garbage Collector
-- Controlar threads
-- Garantir portabilidade
+- ⚙️ Executar bytecode
+- 💾 Gerenciar memória
+- 🗑️ Executar Garbage Collector
+- 🔄 Controlar threads
+- 🌍 Garantir portabilidade
 
 **Importante:** Cada sistema operacional possui sua própria implementação de JVM, mas todas executam o mesmo bytecode Java.
 
@@ -217,12 +223,12 @@ JDK (Java Development Kit)
 
 Neste tópico, você aprendeu:
 
-- Java é uma linguagem portável, robusta e orientada a objetos
-- O lema WORA (Write Once, Run Anywhere) é possível graças à JVM
-- Java é compilada para bytecode (`javac`) e executada pela JVM (`java`)
-- JDK é para desenvolvimento, JRE é para execução (nas versões modernas, o JRE já vem embutido no JDK)
-- Java possui gerenciamento automático de memória via Garbage Collector
-- Para iniciantes, o foco é o Java SE - as demais plataformas vêm depois
+- ✅ Java é uma linguagem portável, robusta e orientada a objetos
+- ✅ O lema WORA (Write Once, Run Anywhere) é possível graças à JVM
+- ✅ Java é compilada para bytecode (`javac`) e executada pela JVM (`java`)
+- ✅ JDK é para desenvolvimento, JRE é para execução (nas versões modernas, o JRE já vem embutido no JDK)
+- ✅ Java possui gerenciamento automático de memória via Garbage Collector
+- ✅ Para iniciantes, o foco é o Java SE - as demais plataformas vêm depois
 
 ## Verifique seu Entendimento
 
