@@ -1,13 +1,11 @@
 ---
 title: "Introdução ao Java"
 description: "Conheça Java, suas características, JVM, JDK e o ecossistema da plataforma"
-lastUpdated: 2026-04-21
+lastUpdated: 2026-04-26
 sidebar:
-  order: 1
+  order: 2
 tags: ["java", "jvm", "fundamentos", "iniciante"]
 ---
-
-## Introdução
 
 Java é uma das linguagens de programação mais populares e amplamente utilizadas no mundo. Criada com o objetivo de ser **portável, segura e robusta**, Java permite que você escreva um programa uma vez e execute em praticamente qualquer plataforma, desde computadores desktop até dispositivos móveis e servidores corporativos.
 
@@ -48,13 +46,7 @@ Java não é compilado diretamente para código de máquina específico de um si
 1. O código Java é compilado para **bytecode**
 2. O bytecode é executado pela **JVM**
 
-Isso permite que o mesmo programa funcione em:
-
-- ✅ Windows
-- ✅ Linux
-- ✅ macOS
-- ✅ Servidores
-- ✅ Dispositivos embarcados
+Isso permite que o mesmo programa funcione em Windows, Linux, macOS, servidores e dispositivos embarcados.
 
 #### Analogia
 
@@ -73,10 +65,10 @@ Isso significa que programas são organizados em:
 
 **Benefícios da POO:**
 
-- 📦 Reutilização de código
-- 🔧 Facilidade de manutenção
-- 📈 Escalabilidade
-- 🗂️ Organização lógica
+- Reutilização de código
+- Facilidade de manutenção
+- Escalabilidade
+- Organização lógica
 
 ### 3. Garbage Collector (Coletor de Lixo)
 
@@ -120,11 +112,11 @@ Java possui um sistema robusto de tratamento de erros chamado **Exceptions**.
 
 O fluxo de desenvolvimento Java segue etapas bem definidas:
 
-### 1️⃣ Criação do Código Fonte
+### 1. Criação do Código Fonte
 
 Todo código Java é escrito em arquivos de texto com extensão `.java`.
 
-Veja como é o programa mais simples possível em Java — o famoso "Olá, Mundo!":
+Veja como é o programa mais simples possível em Java - o famoso "Olá, Mundo!":
 
 ```java
 public class OlaMundo {
@@ -134,9 +126,9 @@ public class OlaMundo {
 }
 ```
 
-Salve esse conteúdo em um arquivo chamado `OlaMundo.java`. Não se preocupe em entender cada palavra agora — você vai aprender o que `public`, `class` e `static` significam nos próximos tópicos. Por enquanto, saiba que o Java **sempre começa pelo método `main`**.
+Salve esse conteúdo em um arquivo chamado `OlaMundo.java`. Não se preocupe em entender cada palavra agora - você vai aprender o que `public`, `class` e `static` significam nos próximos tópicos. Por enquanto, saiba que o Java **sempre começa pelo método `main`**.
 
-### 2️⃣ Compilação
+### 2. Compilação
 
 O compilador Java (`javac`) transforma o código fonte em **bytecode**.
 
@@ -144,9 +136,9 @@ O compilador Java (`javac`) transforma o código fonte em **bytecode**.
 javac OlaMundo.java
 ```
 
-Isso gera um arquivo `OlaMundo.class` com o bytecode — uma linguagem intermediária que a JVM entende.
+Isso gera um arquivo `OlaMundo.class` com o bytecode - uma linguagem intermediária que a JVM entende.
 
-### 3️⃣ Execução
+### 3. Execução
 
 O arquivo `.class` é executado pela JVM:
 
@@ -160,7 +152,7 @@ java OlaMundo
 Olá, Mundo!
 ```
 
-O arquivo `.class` não contém código de máquina nativo, mas bytecode — e é por isso que o mesmo arquivo roda em qualquer sistema que tenha a JVM instalada.
+O arquivo `.class` não contém código de máquina nativo, mas bytecode - e é por isso que o mesmo arquivo roda em qualquer sistema que tenha a JVM instalada.
 
 ## JVM - Java Virtual Machine
 
@@ -168,11 +160,11 @@ A **JVM** é o coração do Java.
 
 **Ela é responsável por:**
 
-- ⚙️ Executar bytecode
-- 💾 Gerenciar memória
-- 🗑️ Executar Garbage Collector
-- 🔄 Controlar threads
-- 🌍 Garantir portabilidade
+- Executar bytecode
+- Gerenciar memória
+- Executar Garbage Collector
+- Controlar threads
+- Garantir portabilidade
 
 **Importante:** Cada sistema operacional possui sua própria implementação de JVM, mas todas executam o mesmo bytecode Java.
 
@@ -204,7 +196,7 @@ O **JRE** é o **ambiente de execução**.
 
 ## Plataformas Java
 
-Java existe em diferentes versões para diferentes propósitos. No começo da sua jornada, você vai trabalhar com o **Java SE (Standard Edition)** — a base da linguagem, com toda a sintaxe, bibliotecas fundamentais e APIs principais.
+Java existe em diferentes versões para diferentes propósitos. No começo da sua jornada, você vai trabalhar com o **Java SE (Standard Edition)** - a base da linguagem, com toda a sintaxe, bibliotecas fundamentais e APIs principais.
 
 As demais plataformas (Jakarta EE para sistemas corporativos, Java ME para dispositivos embarcados, JavaFX para interfaces gráficas) são especializações que fazem sentido explorar depois que você dominar o Java SE.
 
@@ -225,20 +217,12 @@ JDK (Java Development Kit)
 
 Neste tópico, você aprendeu:
 
-- ✅ Java é uma linguagem portável, robusta e orientada a objetos
-- ✅ O lema WORA (Write Once, Run Anywhere) é possível graças à JVM
-- ✅ Java é compilada para bytecode (`javac`) e executada pela JVM (`java`)
-- ✅ JDK é para desenvolvimento, JRE é para execução (nas versões modernas, o JRE já vem embutido no JDK)
-- ✅ Java possui gerenciamento automático de memória via Garbage Collector
-- ✅ Para iniciantes, o foco é o Java SE — as demais plataformas vêm depois
-
-## Próximos Passos
-
-Agora que você entende o que é Java e suas características principais, está pronto para:
-
-1. **Instalar o JDK e configurar seu ambiente de desenvolvimento**
-2. **Aprender sobre variáveis e tipos de dados**
-3. **Entender a sintaxe básica do Java**
+- Java é uma linguagem portável, robusta e orientada a objetos
+- O lema WORA (Write Once, Run Anywhere) é possível graças à JVM
+- Java é compilada para bytecode (`javac`) e executada pela JVM (`java`)
+- JDK é para desenvolvimento, JRE é para execução (nas versões modernas, o JRE já vem embutido no JDK)
+- Java possui gerenciamento automático de memória via Garbage Collector
+- Para iniciantes, o foco é o Java SE - as demais plataformas vêm depois
 
 ## Verifique seu Entendimento
 
@@ -252,9 +236,9 @@ Antes de avançar, tente responder mentalmente:
 <details>
 <summary>Ver respostas</summary>
 
-1. **WORA** significa "Write Once, Run Anywhere". É possível graças à JVM — cada sistema operacional tem sua própria JVM, mas todas executam o mesmo bytecode.
+1. **WORA** significa "Write Once, Run Anywhere". É possível graças à JVM - cada sistema operacional tem sua própria JVM, mas todas executam o mesmo bytecode.
 2. O **JDK** inclui tudo para desenvolver (compilador, JVM, bibliotecas). O **JRE** só executa programas. Para programar, você precisa do **JDK**.
-3. O `javac` gera o arquivo `OlaMundo.class` com o **bytecode** — a versão compilada do seu programa.
+3. O `javac` gera o arquivo `OlaMundo.class` com o **bytecode** - a versão compilada do seu programa.
 4. Porque o `.class` contém bytecode, não código de máquina nativo. A JVM de cada sistema operacional sabe interpretar esse bytecode.
 
 </details>

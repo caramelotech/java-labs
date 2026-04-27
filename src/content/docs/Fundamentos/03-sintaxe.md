@@ -1,13 +1,11 @@
 ---
 title: "Sintaxe Java"
 description: "Regras de escrita, tipos de dados primitivos, variáveis, strings e convenções de nomenclatura em Java"
-lastUpdated: 2026-04-21
+lastUpdated: 2026-04-26
 sidebar:
-  order: 2
+  order: 3
 tags: ["java", "sintaxe", "variáveis", "tipos-de-dados"]
 ---
-
-## Introdução
 
 A sintaxe Java é o conjunto de regras que define como um programa Java deve ser escrito. Compreender a sintaxe é fundamental para escrever código que o compilador Java possa entender e executar corretamente.
 
@@ -79,10 +77,10 @@ Comentários são textos ignorados pelo compilador, usados para documentar o có
 
 ### Boas Práticas com Comentários:
 
-- ✅ Explique o "porquê", não o "o quê" (o código deve ser autoexplicativo)
-- ✅ Mantenha os comentários atualizados com o código
-- ✅ Use JavaDoc para documentar classes e métodos públicos
-- ❌ Evite comentários óbvios que apenas repetem o código
+- Explique o "porquê", não o "o quê" (o código deve ser autoexplicativo)
+- Mantenha os comentários atualizados com o código
+- Use JavaDoc para documentar classes e métodos públicos
+- Evite comentários óbvios que apenas repetem o código
 
 ## 3. Tipos de Dados Primitivos
 
@@ -95,7 +93,7 @@ Java possui 8 tipos primitivos, mas no dia a dia você vai usar principalmente 4
 | `boolean` | Verdadeiro ou falso               | `boolean ativo = true;` |
 | `char`    | Um único caractere                | `char letra = 'A';` |
 
-Os outros quatro (`byte`, `short`, `long`, `float`) existem para casos específicos de performance ou precisão — você vai encontrá-los eventualmente, mas não precisa memorizá-los agora.
+Os outros quatro (`byte`, `short`, `long`, `float`) existem para casos específicos de performance ou precisão - você vai encontrá-los eventualmente, mas não precisa memorizá-los agora.
 
 ### Exemplos Práticos:
 
@@ -140,38 +138,38 @@ final int DIAS_DA_SEMANA = 7;
 
 ### Convenções de Nomenclatura para Variáveis:
 
-#### ✅ **Regras Obrigatórias:**
+#### Regras Obrigatórias:
 
 1. Deve começar com letra, `$` ou `_` (underscore)
 2. Não pode começar com número
 3. Não pode usar palavras reservadas do Java
 4. É case-sensitive (`idade` ≠ `Idade`)
 
-#### ✅ **Boas Práticas (Convenção camelCase):**
+#### Boas Práticas (Convenção camelCase):
 
 ```java
-// ✅ BOM - Use camelCase (primeira palavra minúscula, demais iniciam com maiúscula)
+// BOM - Use camelCase (primeira palavra minúscula, demais iniciam com maiúscula)
 int idadeDoUsuario;
 String nomeCompleto;
 double salarioMensal;
 boolean estaCadastrado;
 
-// ✅ BOM - Nomes descritivos e significativos
+// BOM - Nomes descritivos e significativos
 int quantidadeDeAlunos;
 double precoComDesconto;
 
-// ✅ BOM - Constantes em MAIÚSCULAS com underscore
+// BOM - Constantes em MAIÚSCULAS com underscore
 final int IDADE_MINIMA = 18;
 final double TAXA_DE_JUROS = 0.05;
 
-// ❌ RUIM - Nomes muito curtos ou sem significado
+// RUIM - Nomes muito curtos ou sem significado
 int a, b, c;
 String s;
 
-// ❌ RUIM - Não usar underscores em variáveis normais
+// RUIM - Não usar underscores em variáveis normais
 int nome_do_usuario; // Evite, use camelCase
 
-// ❌ RUIM - Começar com letra maiúscula (reservado para classes)
+// RUIM - Começar com letra maiúscula (reservado para classes)
 int NomeDoUsuario;
 ```
 
@@ -220,28 +218,18 @@ boolean contem = nome.contains("Maria");  // Verifica se contém um texto
 ### Boas Práticas com Strings:
 
 ```java
-// ✅ Use aspas duplas para Strings
+// Use aspas duplas para Strings
 String texto = "Olá, Mundo!";
 
-// ✅ Concatene com + para casos simples
+// Concatene com + para casos simples
 String saudacao = "Olá, " + nome + "!";
 
-// ❌ Não confunda aspas simples (char) com aspas duplas (String)
-char letra = 'A';    // char — um único caractere
-String nome = "Ana"; // String — qualquer texto
+// Não confunda aspas simples (char) com aspas duplas (String)
+char letra = 'A';    // char - um único caractere
+String nome = "Ana"; // String - qualquer texto
 ```
 
-## 6. Próximos Conceitos
-
-Com a sintaxe básica dominada, os próximos passos naturais são:
-
-- **Operadores** — aritméticos, de comparação e lógicos (próximo tópico)
-- **Classes e Objetos** — como modelar entidades do mundo real em código (módulo 11)
-- **Modificadores de acesso** (`public`, `private`, `protected`) — controle de visibilidade, abordado junto com OOP
-
-Por enquanto, foque em escrever e ler código com variáveis, tipos e Strings. A fluência vem com prática.
-
-## 7. Resumo das Boas Práticas
+## 6. Resumo das Boas Práticas
 
 ### Nomenclatura:
 
@@ -266,15 +254,15 @@ Antes de avançar, tente responder mentalmente:
 
 1. Qual a diferença entre `int` e `double`? Quando usar cada um?
 2. O que acontece se você tentar usar uma palavra reservada como nome de variável?
-3. Qual o nome correto para uma variável que guarda o preço de um produto — `p`, `preco_produto` ou `precoProduto`?
+3. Qual o nome correto para uma variável que guarda o preço de um produto - `p`, `preco_produto` ou `precoProduto`?
 4. `String` é um tipo primitivo? Por que não?
 
 <details>
 <summary>Ver respostas</summary>
 
-1. `int` armazena números inteiros (sem casas decimais); `double` armazena números decimais. Use `int` para idade, quantidade, contadores — e `double` para preço, peso, temperatura.
-2. O compilador retorna um erro de sintaxe — palavras reservadas têm significado especial para o Java e não podem ser redefinidas.
-3. `precoProduto` — camelCase é a convenção Java para variáveis. `p` é pouco descritivo e `preco_produto` usa underscore (convenção de outras linguagens, não de Java).
+1. `int` armazena números inteiros (sem casas decimais); `double` armazena números decimais. Use `int` para idade, quantidade, contadores - e `double` para preço, peso, temperatura.
+2. O compilador retorna um erro de sintaxe - palavras reservadas têm significado especial para o Java e não podem ser redefinidas.
+3. `precoProduto` - camelCase é a convenção Java para variáveis. `p` é pouco descritivo e `preco_produto` usa underscore (convenção de outras linguagens, não de Java).
 4. Não. `String` é uma classe (tipo de referência), não um primitivo. Por isso começa com maiúscula e tem métodos como `.length()` e `.toUpperCase()`.
 
 </details>
@@ -293,4 +281,4 @@ Antes de avançar, tente responder mentalmente:
 
 ## Próximos Passos
 
-Com a sintaxe básica dominada, o próximo passo é aprender os **operadores** — como fazer cálculos, comparações e combinar condições lógicas.
+Com a sintaxe básica dominada, o próximo passo é aprender os **operadores** - como fazer cálculos, comparações e combinar condições lógicas.

@@ -1,9 +1,9 @@
 ---
 title: "Operadores em Java"
 description: "Operadores aritméticos, relacionais, lógicos, unários e ternário em Java"
-lastUpdated: 2026-04-21
+lastUpdated: 2026-04-26
 sidebar:
-  order: 3
+  order: 4
 tags: ["java", "operadores", "iniciante"]
 ---
 
@@ -56,9 +56,9 @@ int div = a / b;        // 3
 int resto = a % b;      // 1
 ```
 
-> ⚠️ **Armadilha: divisão inteira**
+> **Armadilha: divisão inteira**
 >
-> Quando os dois operandos são `int`, o resultado é sempre inteiro — a parte decimal é descartada, sem arredondamento.
+> Quando os dois operandos são `int`, o resultado é sempre inteiro - a parte decimal é descartada, sem arredondamento.
 >
 > ```java
 > int resultado = 10 / 3;      // 3, não 3.33
@@ -113,7 +113,7 @@ System.out.println(idade >= 18); // true
 System.out.println(idade < 18);  // false
 ```
 
-⚠️ Atenção importante:
+Atenção importante:
 
 ```java
 ==   → comparação
@@ -219,11 +219,11 @@ if (idade >= 18) {
 
 ## Boas Práticas Importantes
 
-✅ Use nomes claros para variáveis
-✅ Evite comentários óbvios
-✅ Prefira JavaDoc em APIs públicas
-✅ Use operadores com clareza
-✅ Evite ternário complexo
+- Use nomes claros para variáveis
+- Evite comentários óbvios
+- Prefira JavaDoc em APIs públicas
+- Use operadores com clareza
+- Evite ternário complexo
 
 ## Verifique seu Entendimento
 
@@ -267,4 +267,4 @@ Neste capítulo você aprendeu:
 
 ## Próximos Passos
 
-Com operadores dominados, você tem o necessário para escrever condições reais. O próximo passo é aprender as **estruturas de controle** — `if`, `else` e `switch` — para que seu programa tome decisões com base nesses operadores.
+Com operadores dominados, você tem o necessário para escrever condições reais. O próximo passo é aprender as **estruturas de controle** - `if`, `else` e `switch` - para que seu programa tome decisões com base nesses operadores.
