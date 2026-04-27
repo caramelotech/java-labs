@@ -47,13 +47,13 @@ public class EntradaDados {
 
 #### Métodos de leitura
 
-| Método           | Tipo lido       |
-| ---------------- | --------------- |
-| `nextLine()`     | String (linha)  |
-| `next()`         | String (palavra)|
-| `nextInt()`      | int             |
-| `nextDouble()`   | double          |
-| `nextBoolean()`  | boolean         |
+| Método          | Tipo lido        |
+| --------------- | ---------------- |
+| `nextLine()`    | String (linha)   |
+| `next()`        | String (palavra) |
+| `nextInt()`     | int              |
+| `nextDouble()`  | double           |
+| `nextBoolean()` | boolean          |
 
 > **Atenção:** `nextInt()` e similares não consomem a quebra de linha. Se quiser ler uma String depois, chame `scanner.nextLine()` uma vez antes para limpar o buffer.
 

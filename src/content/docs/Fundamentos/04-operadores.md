@@ -244,6 +244,7 @@ Antes de avançar, tente responder mentalmente:
 2. `==` **compara** dois valores (retorna `true` ou `false`). `=` **atribui** um valor a uma variável. Confundir os dois é um erro clássico de iniciante.
 3. `++x` incrementa primeiro e depois usa o valor. `x++` usa o valor primeiro e incrementa depois. Ex: se `x = 5`, então `y = ++x` resulta em `x=6, y=6`; mas `y = x++` resulta em `x=6, y=5`.
 4.
+
 ```java
 String msg;
 if (nota >= 7) {

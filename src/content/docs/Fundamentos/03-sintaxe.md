@@ -86,12 +86,12 @@ Comentários são textos ignorados pelo compilador, usados para documentar o có
 
 Java possui 8 tipos primitivos, mas no dia a dia você vai usar principalmente 4:
 
-| Tipo      | Para quê                          | Exemplo             |
-| --------- | --------------------------------- | ------------------- |
-| `int`     | Números inteiros                  | `int idade = 25;`   |
-| `double`  | Números decimais                  | `double preco = 9.99;` |
-| `boolean` | Verdadeiro ou falso               | `boolean ativo = true;` |
-| `char`    | Um único caractere                | `char letra = 'A';` |
+| Tipo      | Para quê            | Exemplo                 |
+| --------- | ------------------- | ----------------------- |
+| `int`     | Números inteiros    | `int idade = 25;`       |
+| `double`  | Números decimais    | `double preco = 9.99;`  |
+| `boolean` | Verdadeiro ou falso | `boolean ativo = true;` |
+| `char`    | Um único caractere  | `char letra = 'A';`     |
 
 Os outros quatro (`byte`, `short`, `long`, `float`) existem para casos específicos de performance ou precisão - você vai encontrá-los eventualmente, mas não precisa memorizá-los agora.
 
