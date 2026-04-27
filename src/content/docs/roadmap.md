@@ -1,5 +1,5 @@
 ---
-title: "Java Backend Roadmap"
+title: "Backend Roadmap"
 description: "Um guia prático e progressivo para dominar Java moderno e backend."
 lastUpdated: 2026-04-15
 sidebar:

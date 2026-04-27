@@ -1,9 +1,9 @@
 ---
 title: "Operadores em Java"
 description: "Operadores aritméticos, relacionais, lógicos, unários e ternário em Java"
-lastUpdated: 2026-04-21
+lastUpdated: 2026-04-26
 sidebar:
-  order: 3
+  order: 4
 tags: ["java", "operadores", "iniciante"]
 ---
 
@@ -58,7 +58,7 @@ int resto = a % b;      // 1
 
 > ⚠️ **Armadilha: divisão inteira**
 >
-> Quando os dois operandos são `int`, o resultado é sempre inteiro — a parte decimal é descartada, sem arredondamento.
+> Quando os dois operandos são `int`, o resultado é sempre inteiro - a parte decimal é descartada, sem arredondamento.
 >
 > ```java
 > int resultado = 10 / 3;      // 3, não 3.33
@@ -244,6 +244,7 @@ Antes de avançar, tente responder mentalmente:
 2. `==` **compara** dois valores (retorna `true` ou `false`). `=` **atribui** um valor a uma variável. Confundir os dois é um erro clássico de iniciante.
 3. `++x` incrementa primeiro e depois usa o valor. `x++` usa o valor primeiro e incrementa depois. Ex: se `x = 5`, então `y = ++x` resulta em `x=6, y=6`; mas `y = x++` resulta em `x=6, y=5`.
 4.
+
 ```java
 String msg;
 if (nota >= 7) {
@@ -267,4 +268,4 @@ Neste capítulo você aprendeu:
 
 ## Próximos Passos
 
-Com operadores dominados, você tem o necessário para escrever condições reais. O próximo passo é aprender as **estruturas de controle** — `if`, `else` e `switch` — para que seu programa tome decisões com base nesses operadores.
+Com operadores dominados, você tem o necessário para escrever condições reais. O próximo passo é aprender as **estruturas de controle** - `if`, `else` e `switch` - para que seu programa tome decisões com base nesses operadores.

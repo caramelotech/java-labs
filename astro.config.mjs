@@ -2,18 +2,33 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
-  site: 'https://caramelotech.github.io',
+  site: 'https://caramelotech.com.br',
   base: '/java-labs',
   integrations: [
     starlight({
-      title: 'Java Labs',
+      title: 'Caramelo Tech',
       customCss: ['./src/styles/custom.css'],
       social: [
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/caramelotech/java-labs',
+          href: 'https://github.com/caramelotech',
         },
+        {
+          icon: 'linkedin',
+          label: 'LinkedIn',
+          href: 'https://www.linkedin.com/company/caramelotech/',
+        },
+        {
+          icon: 'instagram',
+          label: 'Instagram',
+          href: 'https://www.instagram.com/caramelo_tech/',
+        },
+      ],
+      sidebar: [
+        { label: 'Fundamentos', autogenerate: { directory: 'Fundamentos' } },
+        { label: 'Java', autogenerate: { directory: 'Java' } },
+        { label: 'Spring', autogenerate: { directory: 'Spring' } },
       ],
       defaultLocale: 'root',
       locales: {

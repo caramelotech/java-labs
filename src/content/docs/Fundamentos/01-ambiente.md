@@ -1,21 +1,19 @@
 ---
 title: "Configurando o Ambiente"
 description: "Instale o JDK, configure variáveis de ambiente e escolha uma IDE para começar a programar em Java"
-lastUpdated: 2026-04-21
+lastUpdated: 2026-04-26
 sidebar:
-  order: 0
+  order: 1
 tags: ["java", "jdk", "ambiente", "sdkman", "iniciante"]
 ---
 
 Antes de escrever qualquer código Java, você precisa de três coisas:
 
-1. **JDK** — o kit de desenvolvimento que inclui o compilador e a JVM
-2. **Variáveis de ambiente** — para que o terminal encontre o Java
-3. **IDE** — um editor com suporte a Java para escrever seu código
+1. **JDK** - o kit de desenvolvimento que inclui o compilador e a JVM
+2. **Variáveis de ambiente** - para que o terminal encontre o Java
+3. **IDE** - um editor com suporte a Java para escrever seu código
 
 Este guia cobre os dois caminhos mais comuns: Mac/Linux (usando SDKMAN) e Windows (instalação manual).
-
----
 
 ## Instalando o JDK no Mac ou Linux (SDKMAN)
 
@@ -73,8 +71,6 @@ Se aparecer um número de versão, está funcionando.
 
 > **SDKMAN não funciona no Windows nativo.** Se você usa Windows, siga a seção abaixo. Se usa WSL (Windows Subsystem for Linux), o SDKMAN funciona normalmente dentro do WSL.
 
----
-
 ## Instalando o JDK no Windows (manual)
 
 ### 1. Baixar o instalador
@@ -89,7 +85,7 @@ https://adoptium.net
 - Baixe o instalador `.msi` para Windows x64
 - Execute o instalador e siga os passos
 
-> Durante a instalação, marque a opção **"Set JAVA_HOME variable"** se disponível — isso configura a variável automaticamente.
+> Durante a instalação, marque a opção **"Set JAVA_HOME variable"** se disponível - isso configura a variável automaticamente.
 
 ### 2. Configurar JAVA_HOME manualmente (se necessário)
 
@@ -113,8 +109,6 @@ javac --version
 ```
 
 Se aparecer a versão, está configurado corretamente.
-
----
 
 ## Verificando que tudo funciona
 
@@ -145,8 +139,6 @@ Ambiente configurado com sucesso!
 
 Se isso funcionar, seu ambiente está pronto.
 
----
-
 ## Escolhendo uma IDE
 
 Uma IDE (Integrated Development Environment) é um editor de código com recursos como autocomplete, destaque de erros e execução integrada. Para Java, as opções mais usadas são:
@@ -166,9 +158,7 @@ Uma IDE (Integrated Development Environment) é um editor de código com recurso
 
 ### Qual escolher?
 
-Se você está começando do zero em Java, o **IntelliJ IDEA Community** oferece a melhor experiência — ele entende Java profundamente e sugere erros antes mesmo de compilar. O VS Code é uma boa alternativa se você já o usa e prefere um ambiente mais leve.
-
----
+Se você está começando do zero em Java, o **IntelliJ IDEA Community** oferece a melhor experiência - ele entende Java profundamente e sugere erros antes mesmo de compilar. O VS Code é uma boa alternativa se você já o usa e prefere um ambiente mais leve.
 
 ## Verifique seu Entendimento
 
@@ -183,4 +173,4 @@ Se algum item falhou, revise a seção correspondente acima antes de continuar.
 
 ## Próximos Passos
 
-Com o ambiente configurado, você está pronto para começar a aprender Java de verdade. Continue para [Introdução ao Java](/java-labs/01-introducao-java/) e escreva seu primeiro programa.
+Com o ambiente configurado, você está pronto para começar a aprender Java de verdade. Continue para [Introdução ao Java](/java-labs/fundamentos/02-introducao/) e escreva seu primeiro programa.
