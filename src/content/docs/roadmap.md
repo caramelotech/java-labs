@@ -1,7 +1,7 @@
 ---
 title: "Backend Roadmap"
 description: "Um guia prático e progressivo para dominar Java moderno e backend."
-lastUpdated: 2026-04-15
+lastUpdated: 2026-05-07
 sidebar:
   order: 99
 tags: ["java", "roadmap"]
@@ -117,7 +117,7 @@ Um guia prático e progressivo para dominar Java moderno e backend.
 - Streams API
 - Optional
 
-#### Novidades recentes
+#### Novidades recentes (Java 14+)
 
 - Records
 - Text Blocks
@@ -137,7 +137,31 @@ Um guia prático e progressivo para dominar Java moderno e backend.
 - JIT Compiler
 - Memory model
 
-## 🌿 4. Git e GitHub
+## ☕ 4. JDK & Distribuições
+
+- OpenJDK
+- Temurin (Adoptium)
+- Azul Zulu
+- GraalVM
+
+## 🔧 5. Build & Dependências
+
+### Ferramentas de build
+
+- Maven
+- Gradle
+- Bazel
+
+### Gerenciamento de versões
+
+- SDKMAN!
+
+### Comparativo
+
+- Maven vs Gradle: quando usar cada um
+- Estrutura de `pom.xml` e `build.gradle`
+
+## 🌿 6. Git e GitHub
 
 ### Versionamento
 
@@ -164,7 +188,7 @@ git pull
 - Merge
 - Resolução de conflitos
 
-## 🗄️ 5. Banco de Dados (SQL)
+## 🗄️ 7. Banco de Dados (SQL)
 
 ### Fundamentos
 
@@ -188,7 +212,7 @@ git pull
 - FULL OUTER JOIN
 - SELF JOIN
 
-## 🌐 6. HTTP, APIs e REST
+## 🌐 8. HTTP, APIs e REST
 
 ### Conceitos
 
@@ -200,11 +224,11 @@ git pull
 
 - Métodos: GET, POST, PUT, DELETE, PATCH
 - Status codes:
-  - 1xx → Informacional
-  - 2xx → Sucesso
-  - 3xx → Redirecionamento
-  - 4xx → Erro do cliente
-  - 5xx → Erro do servidor
+  - 1xx - Informacional
+  - 2xx - Sucesso
+  - 3xx - Redirecionamento
+  - 4xx - Erro do cliente
+  - 5xx - Erro do servidor
 
 ### Boas práticas REST
 
@@ -212,46 +236,38 @@ git pull
 - Idempotência
 - Versionamento
 
-## 🌱 7. Spring Web
+## 🌱 9. Frameworks Web
 
-### Setup
+### Spring Boot
 
 - Spring Initializr
-- Maven vs Gradle
-
-### Fundamentos
-
 - IoC (Inversão de Controle)
 - Injeção de dependência
 - Beans
-
-### Desenvolvimento
-
 - Controllers (`@RestController`)
 - Rotas (`@RequestMapping`)
 - Teste com Postman / Insomnia
-
-### Integrações
-
 - Consumo de APIs externas
-- Comunicação entre serviços
 
-## 🗃️ 8. Spring Data
+### Alternativas modernas
 
-### Persistência
+- Quarkus (foco em cloud-native e GraalVM)
+- Micronaut (AOT, startup rápido)
+- Helidon (compatível com MicroProfile e Jakarta EE)
+
+## 🗃️ 10. Persistência & ORM
+
+### JPA e Hibernate
 
 - JPA
 - Hibernate
 - DAO Pattern
 
-### Repositórios
+### Spring Data
 
 - `CrudRepository`
 - `JpaRepository`
-
-### Banco em memória
-
-- H2 Database
+- H2 Database (banco em memória)
 
 ### CRUD completo
 
@@ -260,30 +276,57 @@ git pull
 - Atualizar
 - Deletar
 
-## 🔐 9. Spring Security
+### Outras opções
+
+- jOOQ (SQL type-safe via DSL)
+- MyBatis (mapeamento SQL explícito)
+
+## 🔄 11. Programação Reativa
+
+- Spring WebFlux
+- Project Reactor
+- RxJava
+- Virtual Threads como alternativa ao modelo reativo
+
+## 🔗 12. APIs & Integração
+
+### Documentação e contratos
+
+- Swagger / OpenAPI
+- Spring GraphQL
+
+### Comunicação entre serviços
+
+- Feign Client (REST declarativo)
+- gRPC Java (RPC de alta performance)
+- Spring Integration
+
+## 🔐 13. Segurança & Auth
 
 ### Conceitos
 
 - Autenticação vs autorização
 
-### Segurança
+### Spring Security
 
 - Basic Auth
 - JWT
-- OAuth2
-
-### Implementação
-
+- OAuth 2 + OIDC
 - Login com JWT
 - Refresh Token
 - Password encoder (BCrypt)
 
-## 🧪 10. Qualidade de Software
+### Gerenciamento de identidade
+
+- Keycloak
+
+## 🧪 14. Qualidade de Software
 
 ### Testes
 
-- Testes unitários (JUnit, Mockito)
-- Testes de integração
+- Testes unitários (JUnit 5, Mockito)
+- Assertions fluentes com AssertJ
+- Testes de integração com Testcontainers
 - Testes de contrato
 
 ### Boas práticas
@@ -291,32 +334,57 @@ git pull
 - SOLID
 - Clean Code
 
-## ☁️ 11. Ecossistema Backend
+## 📨 15. Mensageria
 
-### Arquitetura
+- Apache Kafka
+- RabbitMQ
+- Spring Integration
+- ActiveMQ Artemis
 
-- Arquitetura em camadas
-- Arquitetura hexagonal
-- Microsserviços
+## 📊 16. Observability
 
-### Infraestrutura
+- Micrometer (métricas)
+- Prometheus (coleta de métricas)
+- OpenTelemetry (rastreamento distribuído)
+- Grafana (visualização)
+- Logging estruturado
+
+## ☁️ 17. Cloud & Containers
+
+### Containers
 
 - Docker
-- Cloud (AWS, GCP, Azure)
+- Kubernetes
+- Jib (build de imagens Docker sem Dockerfile)
 
-### Dados e mensageria
+### Cloud
 
-- NoSQL (MongoDB, Redis)
-- Filas (RabbitMQ, Kafka)
+- AWS, GCP, Azure
+- Native Image (GraalVM)
 
-## 🛡️ 12. Segurança e Produção
+## 🛡️ 18. Segurança e Produção
 
 - OWASP Top 10
-- Logging e observabilidade
-- Monitoramento
 - Resiliência (retry, circuit breaker)
+- Monitoramento e alertas
 
-## 🎯 13. Outros tópicos
+## 🛠️ 19. IDEs & Ferramentas
+
+### IDEs
+
+- IntelliJ IDEA
+- Eclipse
+
+### Qualidade de código
+
+- SonarQube
+
+### Migração de banco
+
+- Flyway
+- Liquibase
+
+## 🎯 20. Outros tópicos
 
 - System Design
 - Performance tuning
@@ -324,17 +392,26 @@ git pull
 - Engenharia de plataforma
 - IA aplicada ao desenvolvimento
 
+## 🚀 Próximos Passos - Da Sintaxe à Produção
+
+1. Domine Java 21+: Records, Virtual Threads, Pattern Matching
+2. Spring Boot + JPA + Testes (JUnit 5, Mockito, Testcontainers)
+3. Kafka + Security (JWT, OAuth 2 + Keycloak) + OpenAPI
+4. Docker + Kubernetes + Observability (OpenTelemetry, Grafana)
+5. GraalVM Native Image + Performance Tuning
+
 ## 🧠 Dica
 
 > Foque em **projetos reais** ao invés de só teoria.
 
 Sugestões:
 
-- API REST completa com autenticação
-- Sistema com mensageria (Kafka)
-- Microsserviço com Spring Boot
+- API REST completa com autenticação (Spring Boot + JWT + OpenAPI)
+- Sistema com mensageria (Kafka + Spring Integration)
+- Microsserviço com Spring Boot + Docker + Kubernetes
+- Serviço reativo com Spring WebFlux + Project Reactor
 
 ---
 
 🔥 **Regra de ouro:**
-Aprenda → Aplique → Ensine → Repita
+Aprenda - Aplique - Ensine - Repita
