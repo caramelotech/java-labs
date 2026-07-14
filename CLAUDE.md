@@ -1,45 +1,62 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Orientações para agentes de IA que trabalham neste repositório.
 
-## Overview
+## Visão geral
 
-`java-labs` is an educational documentation site about Java, published to GitHub Pages at `https://caramelotech.github.io/java-labs`. It is built with [Astro](https://astro.build/) + [Starlight](https://starlight.astro.build/) and contains no application code - only Markdown/MDX content and runnable Java examples.
+Repositório de **conteúdo puro** do Java Labs (Caramelo Tech). Contém notas em Markdown e exemplos Java executáveis - não há build de site, dependências Node ou linting.
 
-## Commands
+As notas são publicadas no site do Caramelo Labs em `https://caramelotech.com.br/labs/java/`. Quem monta e publica o site é o repositório hub [labs](https://github.com/caramelotech/labs): a cada push em `main` que altere `notes/` ou `sidebar.json`, o workflow `.github/workflows/notify-hub.yml` dispara o rebuild do hub via `repository_dispatch`.
 
-```bash
-npm run dev      # Start local dev server (localhost:4321)
-npm run build    # Build static site to dist/
-npm run preview  # Preview production build locally
+## Estrutura
+
+```
+notes/           # Notas em Markdown puro - cada arquivo vira uma página no site
+  index.md       # Página de entrada do lab no site
+  Fundamentos/   # Ambiente, introdução, sintaxe, operadores, controle de fluxo
+  Java/          # Orientação a objetos, Java Core, Java moderno
+  Spring/        # Spring Web, Spring Data, Spring Security
+  roadmap.md     # Trilha de estudos para backend com Java
+  recursos.md    # Materiais complementares
+sidebar.json     # Seções da barra lateral no site (labels e ordem)
+examples/        # Código Java executável com javac/java (não publicado no site)
 ```
 
-Deploy to GitHub Pages happens automatically on push to `main` via `.github/workflows/deploy.yml`. No manual deploy step exists.
+## Escrevendo notas
 
-## Structure
+As notas NÃO usam frontmatter. Regras:
 
-- `src/content/docs/` - All documentation pages (Markdown/MDX). Each file maps to a URL under `/java-labs/`.
-- `src/content/config.ts` - Astro content collection schema. Docs support optional `tags` and `date` frontmatter fields beyond Starlight defaults.
-- `src/styles/custom.css` - Global CSS overrides for Starlight.
-- `astro.config.mjs` - Site config: base path `/java-labs`, locale `pt-BR`, GitHub social link.
-- `examples/` - Standalone Java source files (`.java`) with their own `README.md`. These are not built by Astro - they are meant to be compiled and run directly with `javac`/`java`.
+- **A primeira linha da nota deve ser o título como `# H1`** - no site, ela vira o `title` da página (o hub injeta o frontmatter automaticamente)
+- Use `##` e `###` para as demais seções (apenas um `#` por arquivo, na primeira linha)
+- Prefixo numérico no nome do arquivo controla a ordem na barra lateral dentro da pasta: `01-nome.md`, `02-nome.md`
+- Imagens ficam junto das notas (ex: `notes/secao/assets/img.png`), referenciadas com caminho relativo em sintaxe Markdown: `![descrição](./assets/img.png)` - nunca use tags HTML `<img>` nem caminhos absolutos
+- Links para outras notas do site usam o caminho completo: `/labs/java/<secao>/<nota>/` (slug em minúsculas, mesmo com a pasta capitalizada)
 
-## Content conventions
+### Nova seção de tema
 
-- All content is in **Brazilian Portuguese**.
-- Doc filenames follow the pattern `NN-slug.md` (e.g. `01-introducao-java.md`).
-- `sidebar.order` is **sequential per directory**, not global. Order between sections is controlled by the `sidebar` array in `astro.config.mjs`. Within each folder, number files starting from 1.
-- The `roadmap.md` file uses `sidebar.order: 99` to keep it at the bottom.
-- Internal links between docs use the Starlight-relative path `/java-labs/<slug>/`.
-
-### Adding a new top-level section
-
-1. Create the directory under `src/content/docs/nova-categoria/`
-2. Add an `index.md` as the landing page
-3. Add an `autogenerate` entry in `astro.config.mjs`:
-   ```javascript
-   {
-     label: "Título da Seção",
-     autogenerate: { directory: "nova-categoria" },
-   }
+1. Crie a subpasta em `notes/NovaSecao/` com as notas
+2. Adicione a seção em `sidebar.json`:
+   ```json
+   { "label": "Título da Seção", "directory": "NovaSecao" }
    ```
+
+## Exemplos Java
+
+```bash
+cd examples/01-HelloWorld
+javac HelloWorld.java
+java HelloWorld
+```
+
+São arquivos `.java` standalone, compilados direto com `javac` - não há Maven/Gradle.
+
+## Convenções e preferências
+
+- Idioma: português brasileiro (pt-BR)
+- Usar hífens (-) em vez de travessões (—) em todos os textos
+- Em Markdown, NÃO usar `---` para separar seções (exceto para notas/atribuições no final do arquivo)
+- **Git:** Nunca fazer `git commit` ou `git push` automaticamente - apenas quando explicitamente solicitado
+
+## Recursos úteis
+
+- [labs (hub)](https://github.com/caramelotech/labs) - estrutura do site, script de fetch e deploy

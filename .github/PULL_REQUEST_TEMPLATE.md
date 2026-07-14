@@ -4,22 +4,21 @@
 
 ## Tipo de mudança
 
-- [ ] Nova anotação (`src/content/docs/`)
+- [ ] Nova anotação (`notes/`)
 - [ ] Novo exemplo (`examples/`)
 - [ ] Novo exercício (`examples/exercises.md`)
 - [ ] Novo projeto (`examples/projects.md`)
 - [ ] Correção de conteúdo existente
-- [ ] Melhoria no site (Astro/Starlight)
 - [ ] Outro: <!-- descreva -->
 
 ## Checklist
 
 - [ ] O conteúdo está em português
 - [ ] Os arquivos estão no diretório correto
-- [ ] As notas usam frontmatter Starlight válido, quando aplicável
-- [ ] Exemplos de código compilam e executam sem erros
+- [ ] Notas novas começam com `# Título` na primeira linha (sem frontmatter)
+- [ ] Nova subpasta de tema foi adicionada em `sidebar.json` (se aplicável)
+- [ ] Exemplos de código compilam e executam (`javac`/`java`)
 - [ ] Exercícios e projetos têm objetivo e critérios de sucesso descritos
-- [ ] Links e referências internas foram revisados
 - [ ] Minha branch está atualizada com `main`
 - [ ] Não há conflitos de merge
 

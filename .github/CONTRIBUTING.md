@@ -1,108 +1,85 @@
-# Guia de Contribuicao
+# Guia de Contribuição
 
-Obrigado por querer contribuir com o Java Labs.
+Obrigado por querer contribuir com o Java Labs!
 
-## O que pode ser contribuido
+## O que pode ser contribuído
 
-- Melhorias e correcoes nas notas em `src/content/docs/`
-- Novos exemplos de codigo em `examples/`
-- Exercicios adicionais em `examples/exercises.md`
-- Projetos praticos em `examples/projects.md`
-- Recursos recomendados em `src/content/docs/recursos.md`
-- Melhorias no site Astro + Starlight
+- Melhorias e correções nas anotações (`notes/`)
+- Novos exemplos de código em `examples/`
+- Exercícios adicionais em `examples/exercises.md`
+- Projetos práticos em `examples/projects.md`
+- Recursos recomendados em `notes/recursos.md`
+
+Melhorias no **site** (visual, navegação, deploy) são feitas no repositório hub [labs](https://github.com/caramelotech/labs).
 
 ## Processo
 
-1. Crie uma branch a partir de `main` seguindo o padrao:
+1. Crie uma branch a partir de `main` seguindo o padrão:
 
-   ```text
+   ```
    feature/descricao-curta
    fix/descricao-curta
    docs/descricao-curta
    ```
 
-2. Faca commits atomicos com mensagens no padrao Conventional Commits:
+2. Faça commits atômicos com mensagens no padrão de Conventional Commits:
 
-   ```text
-   feat: adicionar exercicios sobre loops
-   fix: corrigir exemplo de recursao
-   docs: melhorar conteudo sobre heranca
+   ```
+   feat: adicionar anotações sobre collections
+   fix: corrigir exemplo de herança
+   docs: melhorar introdução sobre Spring Data
    ```
 
-   Tipos validos: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`
+   Tipos válidos: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`
 
-3. Abra um Pull Request usando o template do repositorio.
+3. Abra um Pull Request usando o template disponível e aguarde revisão.
 
-4. Apos aprovacao, o merge sera feito por uma pessoa mantenedora.
+4. Após aprovação, o merge será feito por um mantenedor. As notas são publicadas automaticamente no [site do Caramelo Labs](https://caramelotech.com.br/labs/java/) após o merge.
 
-## Rodando o site localmente
+## Padrões de conteúdo
 
-O Java Labs usa Astro + Starlight para publicar a documentacao.
+### Anotações (`notes/`)
 
-```bash
-npm install
-npm run dev
-```
+As notas são **Markdown puro, sem frontmatter**:
 
-O site fica disponivel em `http://localhost:4321`.
+- Escreva em português
+- Comece o arquivo com o título: `# Título da Nota` (primeira linha)
+- Use títulos hierárquicos (`##`, `###`) para as seções
+- Prefira exemplos curtos e diretos
+- Inclua o "por quê", não apenas o "como"
+- Nomeie os arquivos com prefixo numérico sequencial dentro da pasta: `04-nome-do-topico.md`
+- Ao criar uma nova subpasta de tema, adicione a seção em `sidebar.json`
 
-Para validar antes de abrir o PR:
+### Exemplos (`examples/`)
 
-```bash
-npm run build
-npm run preview
-```
+- Um conceito por pasta/arquivo
+- O código deve compilar e executar com `javac`/`java` (JDK 17+)
+- Inclua um `README.md` explicando o objetivo e o resultado esperado
 
-## Padroes de conteudo
-
-### Notas em `src/content/docs/`
-
-- Escreva em portugues (pt-BR)
-- Use titulos hierarquicos (`##`, `###`)
-- Prefira exemplos curtos e objetivos
-- Explique o "por que" alem do "como"
-- Nomeie arquivos com prefixo numerico quando fizer parte da trilha, por exemplo `04-variaveis.md`
-- Use frontmatter Starlight completo
-
-Frontmatter recomendado:
-
-```yaml
----
-title: "Titulo da nota"
-description: "Resumo curto explicando o foco da pagina."
-lastUpdated: 2026-01-01
-sidebar:
-  order: 1
-tags: ["java", "tema", "iniciante"]
----
-```
-
-`sidebar.order` e sequencial por diretorio, nao global. A ordem entre secoes e definida pelo array `sidebar` em `astro.config.mjs`. Dentro de cada pasta, numere a partir de 1.
-
-Se a nota ficar melhor agrupada por assunto, voce pode criar subpastas dentro de `src/content/docs/`. Para que a nova pasta apareça na sidebar, adicione uma entrada `autogenerate` em `astro.config.mjs` (veja instrucoes em `CLAUDE.md`).
-
-### Exemplos em `examples/`
-
-- Um conceito por pasta, nomeada com prefixo sequencial quando fizer sentido, por exemplo `02-Variaveis/`
-- Inclua um comentario no topo do arquivo explicando o objetivo do exemplo
-- Adicione um `README.md` na pasta com contexto e instrucoes de execucao
-- Teste o codigo antes de submeter com `javac Arquivo.java` e `java NomeDaClasse`
-
-### Exercicios em `examples/exercises.md`
+### Exercícios (`examples/exercises.md`)
 
 - Descreva claramente o objetivo
-- Indique o nivel de dificuldade quando necessario
-- Inclua exemplos de saida esperada
-- Use criterios de sucesso em formato de checklist
-- Aponte para notas relacionadas em `src/content/docs/` quando isso ajudar
+- Indique o nível de dificuldade (iniciante / intermediário / avançado)
+- Inclua critérios de sucesso em formato de checklist
 
-### Projetos em `examples/projects.md`
+### Projetos (`examples/projects.md`)
 
 - Descreva o objetivo e o contexto
-- Liste requisitos em formato de checklist
-- Inclua ao menos um exemplo de uso ou saida esperada
-- Adicione dicas para quem esta comecando
+- Liste os requisitos em formato de checklist
+- Inclua ao menos um exemplo de entregável esperado
 
-## Duvidas
+## Visualizando as notas no site
+
+Não é necessário rodar nada para contribuir - as notas são Markdown puro e podem ser revisadas direto no GitHub. Se quiser ver como ficam no site, clone o repositório hub ao lado deste e rode lá:
+
+```bash
+git clone https://github.com/caramelotech/labs
+cd labs
+npm install
+npm run fetch:local   # usa o clone local deste repositório
+npm run dev           # localhost:4321
+```
+
+## Dúvidas?
 
 Abra uma issue com a tag `question`.
