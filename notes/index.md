@@ -1,6 +1,6 @@
 # Java Labs
 
-Base de conhecimento sobre **Java** da Caramelo Tech - do fundamento ao Spring, sua jornada Java começa aqui.
+Base de conhecimento sobre **Java** do Caramelo Tech - do fundamento ao Spring, sua jornada Java começa aqui.
 
 ## O que você vai encontrar
 
