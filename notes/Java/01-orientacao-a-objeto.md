@@ -1,11 +1,4 @@
----
-title: "Programacao Orientada a Objetos"
-description: "Classes, objetos, encapsulamento, abstracao, heranca, polimorfismo, interfaces e classes abstratas em Java"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 6
-tags: ["java", "poo", "orientacao-a-objetos", "heranca", "polimorfismo"]
----
+# Programacao Orientada a Objetos
 
 POO e um paradigma de programacao que organiza o codigo em torno de objetos - entidades que combinam estado (atributos) e comportamento (metodos). Em Java, tudo (exceto tipos primitivos) e um objeto.
 

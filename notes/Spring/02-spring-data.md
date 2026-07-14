@@ -1,11 +1,4 @@
----
-title: "Spring Data"
-description: "Persistência de dados com Spring Data JPA, Hibernate, repositórios e H2 Database"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 12
-tags: ["spring", "spring-data", "jpa", "hibernate", "banco-de-dados"]
----
+# Spring Data
 
 Spring Data JPA abstrai o acesso a banco de dados, eliminando a maior parte do código SQL manual. Com ele, você define entidades e repositórios, e o framework cuida da persistência.
 

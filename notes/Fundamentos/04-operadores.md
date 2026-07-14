@@ -1,11 +1,4 @@
----
-title: "Operadores em Java"
-description: "Operadores aritméticos, relacionais, lógicos, unários e ternário em Java"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 4
-tags: ["java", "operadores", "iniciante"]
----
+# Operadores em Java
 
 Neste capítulo você aprenderá:
 

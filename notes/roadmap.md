@@ -1,11 +1,4 @@
----
-title: "Backend Roadmap"
-description: "Um guia prático e progressivo para dominar Java moderno e backend."
-lastUpdated: 2026-05-07
-sidebar:
-  order: 99
-tags: ["java", "roadmap"]
----
+# Backend Roadmap
 
 Um guia prático e progressivo para dominar Java moderno e backend.
 

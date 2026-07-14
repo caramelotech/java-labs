@@ -1,11 +1,4 @@
----
-title: "Spring Security"
-description: "Autenticação e autorização com Spring Security: Basic Auth, JWT, OAuth2, refresh tokens e BCrypt"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 13
-tags: ["spring", "spring-security", "jwt", "autenticação", "segurança"]
----
+# Spring Security
 
 Spring Security é o framework padrão para segurança em aplicações Spring. Ele intercepta requisições HTTP e verifica se o usuário tem permissão para acessar o recurso antes de chegar ao controller.
 

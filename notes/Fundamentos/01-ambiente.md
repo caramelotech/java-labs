@@ -1,11 +1,4 @@
----
-title: "Configurando o Ambiente"
-description: "Instale o JDK, configure variáveis de ambiente e escolha uma IDE para começar a programar em Java"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 1
-tags: ["java", "jdk", "ambiente", "sdkman", "iniciante"]
----
+# Configurando o Ambiente
 
 Antes de escrever qualquer código Java, você precisa de três coisas:
 
@@ -173,4 +166,4 @@ Se algum item falhou, revise a seção correspondente acima antes de continuar.
 
 ## Próximos Passos
 
-Com o ambiente configurado, você está pronto para começar a aprender Java de verdade. Continue para [Introdução ao Java](/java-labs/fundamentos/02-introducao/) e escreva seu primeiro programa.
+Com o ambiente configurado, você está pronto para começar a aprender Java de verdade. Continue para [Introdução ao Java](/labs/java/fundamentos/02-introducao/) e escreva seu primeiro programa.

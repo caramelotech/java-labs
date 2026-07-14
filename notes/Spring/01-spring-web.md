@@ -1,11 +1,4 @@
----
-title: "Spring Web"
-description: "Criando APIs REST com Spring Boot: controllers, rotas, injeção de dependência, IoC e consumo de APIs externas"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 11
-tags: ["spring", "spring-boot", "rest", "java", "backend"]
----
+# Spring Web
 
 Spring Boot é o framework mais usado para construir aplicações Java modernas. Ele elimina grande parte da configuração manual do Spring tradicional e permite ter uma API funcionando em poucos minutos.
 

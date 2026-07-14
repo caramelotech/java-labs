@@ -1,11 +1,4 @@
----
-title: "Sintaxe Java"
-description: "Regras de escrita, tipos de dados primitivos, variáveis, strings e convenções de nomenclatura em Java"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 3
-tags: ["java", "sintaxe", "variáveis", "tipos-de-dados"]
----
+# Sintaxe Java
 
 A sintaxe Java é o conjunto de regras que define como um programa Java deve ser escrito. Compreender a sintaxe é fundamental para escrever código que o compilador Java possa entender e executar corretamente.
 

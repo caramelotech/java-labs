@@ -1,0 +1,10 @@
+{
+  "sections": [
+    { "label": "Visão geral", "slug": "." },
+    { "label": "Fundamentos", "directory": "Fundamentos" },
+    { "label": "Java", "directory": "Java" },
+    { "label": "Spring", "directory": "Spring" },
+    { "label": "Roadmap", "slug": "roadmap" },
+    { "label": "Recursos", "slug": "recursos" }
+  ]
+}

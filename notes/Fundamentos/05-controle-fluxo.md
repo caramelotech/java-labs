@@ -1,11 +1,4 @@
----
-title: "Controle de Fluxo"
-description: "Entrada e saída de dados, condicionais e estruturas de repetição em Java"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 5
-tags: ["java", "controle-de-fluxo", "condicionais", "loops"]
----
+# Controle de Fluxo
 
 ## Entrada e Saída de Dados
 

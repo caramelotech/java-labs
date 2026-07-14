@@ -1,11 +1,4 @@
----
-title: "Recursos Adicionais"
-description: "Livros, cursos, ferramentas e comunidades para aprofundar o aprendizado de Java"
-lastUpdated: 2026-03-01
-sidebar:
-  order: 100
-tags: ["java", "recursos", "livros", "cursos"]
----
+# Recursos Adicionais
 
 Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferramentas** para complementar seu aprendizado de Java.
 

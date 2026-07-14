@@ -1,11 +1,4 @@
----
-title: "Java Moderno"
-description: "Recursos do Java 8 em diante: lambdas, streams, optional, records, text blocks, sealed classes e virtual threads"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 8
-tags: ["java", "java8", "streams", "lambdas", "records", "java21"]
----
+# Java Moderno
 
 A partir do Java 8, a linguagem passou por uma transformação significativa com a adição de recursos de programação funcional. Desde então, cada versão trouxe novidades que tornam o código mais expressivo e conciso.
 

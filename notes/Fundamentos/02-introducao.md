@@ -1,11 +1,4 @@
----
-title: "Introdução ao Java"
-description: "Conheça Java, suas características, JVM, JDK e o ecossistema da plataforma"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 2
-tags: ["java", "jvm", "fundamentos", "iniciante"]
----
+# Introdução ao Java
 
 Java é uma das linguagens de programação mais populares e amplamente utilizadas no mundo. Criada com o objetivo de ser **portável, segura e robusta**, Java permite que você escreva um programa uma vez e execute em praticamente qualquer plataforma, desde computadores desktop até dispositivos móveis e servidores corporativos.
 

@@ -1,11 +1,4 @@
----
-title: "Java Core"
-description: "Enums, exceções, coleções, generics, autoboxing, upcasting e manipulação de arquivos em Java"
-lastUpdated: 2026-04-26
-sidebar:
-  order: 7
-tags: ["java", "exceptions", "collections", "generics", "enums"]
----
+# Java Core
 
 ## Enums
 
