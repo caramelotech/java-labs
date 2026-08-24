@@ -347,6 +347,40 @@ public class ContaDigital implements Pagamento, Investimento, Auditavel {
 | Atributos de instancia | Sim                        | Nao (so constantes)            |
 | Quando usar            | Compartilhar implementacao | Definir contratos              |
 
+### Como decidir: interface, classe abstrata ou heranca
+
+Diante de tres formas de reuso de codigo, a pergunta certa muda dependendo do que voce esta tentando modelar:
+
+- **Quero definir um contrato, sem me importar com a implementacao?** Use interface. Ela responde "o que esse objeto sabe fazer", sem dizer como.
+- **Quero compartilhar estado e comportamento entre tipos relacionados?** Use classe abstrata. Ela responde "o que esses objetos tem em comum".
+- **Existe uma relacao verdadeira de especializacao, um "e um"?** Use heranca. `Cachorro extends Animal` faz sentido porque um cachorro _e um_ animal.
+- **So quero reutilizar uma funcionalidade, sem relacao de especializacao nenhuma?** Prefira composicao - ter um objeto como atributo, em vez de herdar dele.
+
+O ultimo ponto e o mais facil de errar. Composicao significa que uma classe guarda uma instancia de outra como atributo, ao inves de estender ela:
+
+```java
+// Heranca forcada - Impressora nao "e um" Motor, so usa um
+public class Impressora extends Motor { }
+
+// Composicao - o jeito certo aqui
+public class Impressora {
+    private final Motor motor;
+
+    public Impressora(Motor motor) {
+        this.motor = motor;
+    }
+
+    public void imprimir() {
+        motor.ligar();
+        // logica de impressao
+    }
+}
+```
+
+Herdar de `Motor` so para reaproveitar o metodo `ligar()` cria um acoplamento que nao reflete a realidade - uma impressora nao e um tipo de motor, ela apenas usa um. Com composicao, `Impressora` fica livre para trocar de motor, testar com um motor falso, ou nem ter motor nenhum em outra situacao.
+
+Codigo profissional nao e sobre usar todo recurso disponivel na linguagem, e sobre escolher a abstracao certa para o problema que voce tem na frente. Isso rende menos acoplamento, codigo mais flexivel, um sistema mais facil de entender e mais facil de evoluir em equipe.
+
 ## Modificadores de Acesso
 
 | Modificador | Mesma classe | Mesmo pacote | Subclasse | Qualquer classe |
