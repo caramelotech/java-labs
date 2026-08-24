@@ -68,3 +68,6 @@ buildNumber.properties
 # Claude & AI 
 .claude
 bash.exe.stackdump
+
+# Personal
+ref/
