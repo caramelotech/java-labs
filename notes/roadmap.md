@@ -383,7 +383,48 @@ git pull
 - Performance tuning
 - Escalabilidade
 - Engenharia de plataforma
-- IA aplicada ao desenvolvimento
+
+## 🤖 21. IA Aplicada com Java
+
+Trilha para quem já tem uma base sólida em Java/Spring e quer evoluir para construir aplicações com IA.
+
+### Fundamentos de IA e LLMs
+
+- O que é IA, Machine Learning, Deep Learning e LLM
+- Como LLMs funcionam (tokens, embeddings, contexto)
+- Fundamentos de prompt engineering
+- Provedores: OpenAI, Azure OpenAI, Hugging Face
+
+### Spring AI
+
+- Spring AI - visão geral
+- Integração com ChatModel (OpenAI / Azure OpenAI)
+- Prompt templates
+- Memória, contexto e histórico de conversa
+- Saída estruturada e resposta em JSON
+
+### Agentes de IA e Tool Calling
+
+- Function calling / tool calling
+- Criar ferramentas customizadas (services Java expostos como tools)
+- Padrões de agentes (agentic patterns)
+- Raciocínio em múltiplas etapas
+- Agentes com memória
+
+### RAG, MCP e padrões avançados
+
+- RAG (Retrieval Augmented Generation)
+- Bancos vetoriais: Chroma, Pinecone, PGVector
+- Carregamento de documentos e embeddings
+- MCP (Model Context Protocol)
+- Orquestração de IA e fluxos avançados de agentes
+
+### Deploy de aplicações com IA
+
+- Aplicações de IA ponta a ponta
+- Deploy em nuvem (AWS, Render, Railway)
+- Autenticação e cobrança, quando necessário
+- Monitoramento, melhoria contínua e escala
 
 ## 🚀 Próximos Passos - Da Sintaxe à Produção
 
