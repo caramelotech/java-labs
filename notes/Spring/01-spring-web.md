@@ -28,6 +28,19 @@ O jeito mais simples é pelo **Spring Initializr** em [start.spring.io](https://
 implementation 'org.springframework.boot:spring-boot-starter-web'
 ```
 
+### Starters mais usados
+
+Starters são pacotes de dependências prontos - em vez de adicionar biblioteca por biblioteca e resolver conflito de versão manualmente, você adiciona um starter e ganha tudo que ele precisa:
+
+| Starter                          | Para que serve               |
+| -------------------------------- | ---------------------------- |
+| `spring-boot-starter-web`        | Construir aplicações web/API |
+| `spring-boot-starter-data-jpa`   | JPA e Hibernate              |
+| `spring-boot-starter-security`   | Segurança                    |
+| `spring-boot-starter-validation` | Validação de dados           |
+| `spring-boot-starter-test`       | Testes                       |
+| `spring-boot-starter-actuator`   | Monitoramento                |
+
 ## Classe principal
 
 Todo projeto Spring Boot tem uma classe com o método `main` anotada com `@SpringBootApplication`:
@@ -84,6 +97,66 @@ Um **bean** é um objeto gerenciado pelo container Spring. Para registrar uma cl
 | `@Repository`     | Acesso a dados                               |
 | `@Controller`     | Controlador MVC                              |
 | `@RestController` | Controlador REST (Controller + ResponseBody) |
+
+Assim que o Spring registra um bean, ele passa por um ciclo de vida fixo: primeiro **instancia** o objeto, depois **popula as propriedades** (injeta as dependências), em seguida **inicializa** o bean (chamando `@PostConstruct`, se existir), deixa ele disponível para **uso** durante toda a vida da aplicação e, ao encerrar o contexto, chama a **destruição** (`@PreDestroy`, se existir).
+
+```
+Instanciar -> Popular propriedades -> Inicializar -> Usar -> Destruir
+```
+
+### Injeção por Autowired, Qualifier e Primary
+
+`@Autowired` é a anotação que diz ao Spring "injete aqui a dependência certa automaticamente". Ela pode ir no construtor, num setter ou direto no campo:
+
+```java
+@Service
+public class PedidoService {
+
+    @Autowired
+    private EmailService emailService; // injeção por campo
+}
+```
+
+Isso funciona, mas existem três formas de injeção e elas não são equivalentes:
+
+1. **Construtor** - recomendada. Deixa as dependências explícitas, permite que os campos sejam `final` (imutáveis) e torna impossível criar o objeto num estado inválido, sem suas dependências.
+2. **Setter** - útil para dependências opcionais, que podem ser trocadas depois da criação do objeto.
+3. **Campo** - a mais simples de escrever, mas dificulta testes (não dá para injetar um mock sem reflection) e esconde as dependências reais da classe.
+
+Quando o construtor tem um único parâmetro de cada tipo, o Spring já resolve sozinho e o `@Autowired` no construtor nem precisa ser escrito explicitamente (como já visto na seção de IoC acima). O problema aparece quando existe mais de um bean candidato para o mesmo tipo:
+
+```java
+public interface Pagamento { }
+
+@Component
+public class PagamentoCartao implements Pagamento { }
+
+@Component
+public class PagamentoPix implements Pagamento { }
+```
+
+Se algum lugar do código pedir `Pagamento pagamento` sem mais detalhes, o Spring não sabe qual dos dois beans usar. `@Qualifier` resolve isso apontando o nome exato do bean desejado:
+
+```java
+@Service
+public class CheckoutService {
+    private final Pagamento pagamento;
+
+    public CheckoutService(@Qualifier("pagamentoPix") Pagamento pagamento) {
+        this.pagamento = pagamento;
+    }
+}
+```
+
+Outra alternativa é `@Primary`, que marca um dos beans como o padrão sempre que houver ambiguidade e nenhum `@Qualifier` for informado:
+
+```java
+@Component
+@Primary
+public class PagamentoCartao implements Pagamento { }
+```
+
+Use `@Qualifier` quando o código que injeta precisa escolher explicitamente qual implementação quer, e `@Primary` quando existe uma implementação "óbvia" que deve ser o padrão na maioria dos casos.
 
 ## Criando um Controller REST
 
@@ -158,6 +231,50 @@ public Produto criar(@RequestBody ProdutoRequest request) { ... }
 // Headers
 @GetMapping
 public String exemplo(@RequestHeader("Authorization") String auth) { ... }
+```
+
+### Códigos de status HTTP
+
+O código de status é a primeira coisa que quem consome a API olha para saber se algo deu certo. Os mais comuns em APIs REST:
+
+| Código | Significado           | Quando usar                               |
+| ------ | --------------------- | ----------------------------------------- |
+| 200    | OK                    | Requisição bem-sucedida (GET, PUT, PATCH) |
+| 201    | Created               | Recurso criado com sucesso (POST)         |
+| 204    | No Content            | Sucesso sem corpo de resposta (DELETE)    |
+| 400    | Bad Request           | Requisição inválida (validação falhou)    |
+| 401    | Unauthorized          | Não autenticado                           |
+| 403    | Forbidden             | Autenticado, mas sem permissão            |
+| 404    | Not Found             | Recurso não existe                        |
+| 500    | Internal Server Error | Erro inesperado no servidor               |
+
+Padronizar o formato da resposta - tanto de sucesso quanto de erro - facilita muito a vida de quem consome a API, porque o formato fica previsível independente do endpoint:
+
+```json
+{
+  "success": true,
+  "message": "Operação realizada com sucesso",
+  "data": { "id": 1, "nome": "Notebook" },
+  "timestamp": "2026-08-24T10:30:00"
+}
+```
+
+### Boas práticas RESTful
+
+- **Use substantivos, não verbos, nas URLs** - `/students`, não `/getStudents`. O verbo já está no método HTTP.
+- **Use o método HTTP correto** - GET para buscar, POST para criar, PUT para substituir, PATCH para atualizar parcialmente, DELETE para remover.
+- **Mantenha URLs em minúsculas** - `/students/10`, não `/Students/10`.
+- **Retorne o código de status apropriado** - não devolva 200 para tudo, nem 500 para um erro de validação que é culpa do cliente (isso é 400).
+- **Pagine listas grandes** - devolver 50 mil registros de uma vez trava tanto o servidor quanto quem consome.
+- **Use DTOs em vez da entidade crua** - evita expor colunas internas do banco e desacopla o contrato da API do modelo de persistência.
+- **Mantenha as respostas consistentes** - o mesmo formato de sucesso e erro em toda a API, não um formato diferente por endpoint.
+
+```
+✓ GET    /students          ✗ GET    /getStudents
+✓ GET    /students/10       ✗ GET    /students/getAllStudents
+✓ POST   /students          ✗ POST   /createStudent
+✓ PUT    /students/10       ✗ PUT    /updateStudent/10
+✓ DELETE /students/10       ✗ DELETE /deleteStudent/10
 ```
 
 ## ResponseEntity
@@ -331,6 +448,25 @@ logging.level.com.exemplo=DEBUG
 app.nome=Minha API
 app.versao=1.0.0
 ```
+
+O mesmo em `application.yml` - formato equivalente, só muda a sintaxe (hierárquico em vez de chave plana com pontos):
+
+```yaml
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    com.exemplo: DEBUG
+
+app:
+  nome: Minha API
+  versao: 1.0.0
+```
+
+Os dois formatos funcionam igual - `.properties` é mais direto para configurações pequenas, `.yml` fica mais legível quando a estrutura cresce e tem muitos níveis aninhados (como configuração de datasource, por exemplo).
 
 ```java
 // Injetando configurações

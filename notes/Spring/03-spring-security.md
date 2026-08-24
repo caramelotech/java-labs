@@ -2,6 +2,36 @@
 
 Spring Security é o framework padrão para segurança em aplicações Spring. Ele intercepta requisições HTTP e verifica se o usuário tem permissão para acessar o recurso antes de chegar ao controller.
 
+## Arquitetura do Spring Security
+
+Antes de entrar em JWT e roles, ajuda entender o caminho que uma requisição percorre dentro do Spring Security:
+
+```mermaid
+flowchart LR
+    A[Client Request] --> B[Security Filter Chain]
+    B --> C[Authentication Manager]
+    C --> D[UserDetailsService]
+    D --> E[UserDetails]
+    E --> F{Sucesso?}
+    F -->|Sim| G[Success: acesso liberado]
+    F -->|Não| H[Failure: 401/403]
+```
+
+Cada requisição passa primeiro pela **Security Filter Chain**, uma sequência de filtros que intercepta tudo antes de chegar ao controller. Um desses filtros aciona o **Authentication Manager**, responsável por autenticar o usuário. Ele delega para o **UserDetailsService**, que busca os dados do usuário (geralmente no banco) e devolve um objeto **UserDetails** com as informações necessárias (senha com hash, roles/authorities). Se tudo bater, a requisição segue autenticada; se não, o Spring devolve 401 ou 403.
+
+As peças principais desse fluxo:
+
+| Interface / Classe      | Papel                                                       |
+| ----------------------- | ----------------------------------------------------------- |
+| `UserDetails`           | Representa os dados de um usuário autenticado               |
+| `UserDetailsService`    | Carrega os dados do usuário (normalmente do banco)          |
+| `AuthenticationManager` | Autentica a requisição, delegando para o UserDetailsService |
+| `PasswordEncoder`       | Codifica e compara senhas                                   |
+| `GrantedAuthority`      | Representa uma role ou permissão do usuário                 |
+| `SecurityFilterChain`   | Configura quais rotas exigem autenticação e como            |
+
+Todo o código que você já viu nas seções anteriores (o bean `SecurityFilterChain`, o `PasswordEncoder`, o `JwtAuthFilter`) é uma implementação concreta dessas peças - o filtro JWT, por exemplo, é o que popula o `SecurityContextHolder` para que o `AuthenticationManager` saiba que a requisição já está autenticada.
+
 ## Autenticação vs Autorização
 
 - **Autenticação:** confirmar quem você é (login com senha, token, etc.)
@@ -387,6 +417,32 @@ public ResponseEntity<Void> deletar(@PathVariable Long id) { ... }
 ```
 
 Para usar `@PreAuthorize`, adicione `@EnableMethodSecurity` na classe de configuração.
+
+## CORS e CSRF
+
+São duas proteções diferentes, e é comum confundir uma com a outra.
+
+**CORS** (Cross-Origin Resource Sharing) entra em cena quando o frontend roda em uma origem diferente da API - por exemplo, `app.exemplo.com` chamando `api.exemplo.com`. Por padrão, o navegador bloqueia essa chamada por segurança, a menos que o servidor diga explicitamente quais origens têm permissão:
+
+```java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .cors(cors -> cors.configurationSource(request -> {
+            var config = new CorsConfiguration();
+            config.setAllowedOrigins(List.of("https://app.exemplo.com"));
+            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+            return config;
+        }))
+        // resto da configuração
+        ;
+    return http.build();
+}
+```
+
+**CSRF** (Cross-Site Request Forgery) protege contra um site malicioso que engana o navegador do usuário para enviar uma requisição autenticada sem ele perceber - um ataque que depende de o navegador enviar cookies de sessão automaticamente junto com a requisição.
+
+É por isso que, nas configurações vistas até aqui, `.csrf(csrf -> csrf.disable())` aparece toda vez: uma API REST stateless, autenticada via token JWT no header `Authorization`, não usa sessão nem cookie para autenticar - o navegador não envia o token sozinho, então o ataque de CSRF simplesmente não se aplica. Desabilitar CSRF só é seguro nesse cenário; numa aplicação que ainda usa sessão/cookie para autenticação, a proteção CSRF deve continuar ativa.
 
 ## OAuth2 / Login Social
 
