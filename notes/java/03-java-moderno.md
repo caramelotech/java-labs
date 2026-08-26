@@ -2,6 +2,30 @@
 
 A partir do Java 8, a linguagem passou por uma transformação significativa com a adição de recursos de programação funcional. Desde então, cada versão trouxe novidades que tornam o código mais expressivo e conciso.
 
+## var: inferência de tipo local
+
+Desde o Java 10, `var` deixa o compilador inferir o tipo de uma variável local a partir do valor atribuído, sem que você precise escrever o tipo por extenso:
+
+```java
+var nomes = new ArrayList<String>(); // o compilador infere ArrayList<String>
+var total = calcularTotal(pedidos);  // infere o tipo de retorno de calcularTotal
+```
+
+`var` não torna Java uma linguagem de tipagem dinâmica, o tipo continua sendo decidido em tempo de compilação, só não precisa ser escrito duas vezes quando já está óbvio do lado direito do `=`. Ele reduz ruído visual em casos como construtores explícitos ou métodos de fábrica com nome claro:
+
+```java
+var conexao = new ConexaoBancoDeDados(host, porta, credenciais);
+var usuario = Usuario.admin("Jane", "jane@x.com");
+```
+
+O cuidado é usar com moderação: se o tipo não fica óbvio pelo lado direito da atribuição, `var` esconde informação que ajudaria quem está lendo, sem ganhar nada em troca:
+
+```java
+var resultado = processar(dados); // qual é o tipo de resultado? só abrindo o método pra saber
+```
+
+O guia oficial do OpenJDK resume bem o critério: o código deveria ser compreensível por leitura direta, sem depender de recursos de IDE para descobrir um tipo escondido. `var` funciona bem quando o tipo já está evidente na própria linha (um construtor, uma fábrica com nome descritivo, uma variável extraída de um pipeline de stream complexo, onde o tipo genérico ficaria longo e repetitivo). Na dúvida, é melhor escrever o tipo por extenso do que forçar quem lê a investigar.
+
 ## Lambda Expressions
 
 Lambdas permitem tratar funções como valores - criando implementações de interfaces funcionais (interfaces com um único método abstrato) de forma inline:
@@ -242,6 +266,66 @@ String formatado = hoje.format(fmt); // "26/04/2026"
 LocalDate parseado = LocalDate.parse("25/12/2026", fmt);
 ```
 
+### Atravessando fusos horários sem se perder
+
+`LocalDateTime` guarda data e hora, mas nenhuma informação de fuso, ele não representa um instante único no tempo, só uma combinação de números de calendário. Isso é perigoso justamente quando o sistema precisa comparar horários de lugares diferentes, porque "14h" sozinho não diz *quando* isso é de verdade sem saber em qual fuso.
+
+`ZonedDateTime` e `Instant` resolvem isso porque representam um instante absoluto, o mesmo ponto exato na linha do tempo, só exibido de formas diferentes dependendo do fuso:
+
+```java
+ZonedDateTime emNovaYork = ZonedDateTime.now(ZoneId.of("America/New_York"));
+ZonedDateTime emSaoPaulo = emNovaYork.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
+```
+
+`withZoneSameInstant` não muda o instante, só a forma de exibir ele: se são 18h em Nova York, o resultado em São Paulo pode mostrar 19h, mas os dois `ZonedDateTime` apontam exatamente para o mesmo nanossegundo na linha do tempo universal. Essa garantia é o que permite comparar ou calcular diferença entre horários de fusos diferentes com segurança, algo que `LocalDateTime` sozinho não oferece, porque duas instâncias de `LocalDateTime` com os mesmos números podem representar momentos completamente diferentes se vierem de fusos diferentes.
+
+### Duration mede tempo físico, Period mede tempo de calendário
+
+`Duration` e `Period` respondem perguntas parecidas ("quanto tempo entre duas datas?"), mas não são intercambiáveis. `Duration` mede tempo físico, em segundos e nanossegundos, e opera sobre instantes absolutos (`Instant`, `ZonedDateTime`). `Period` mede tempo de calendário civil, em anos, meses e dias, e só faz sentido para tipos sem fuso, como `LocalDate`.
+
+```java
+Duration duracao = Duration.between(inicio, fim); // segundos entre dois instantes
+Period periodo = Period.between(dataInicio, dataFim); // "x anos, y meses, z dias"
+```
+
+A pegadinha mais comum é chamar `Period.between(...).getDays()` esperando o total de dias corridos entre duas datas. `getDays()` não devolve isso, devolve só o componente "dias" depois de já ter extraído os anos e os meses. Para um intervalo de 60 dias entre 1º de setembro e 31 de outubro, `Period.between` calcula algo como "1 mês e 30 dias", e `getDays()` devolve `30`, não `60`:
+
+```java
+Period periodo = Period.between(LocalDate.of(2026, 9, 1), LocalDate.of(2026, 10, 31));
+periodo.getDays();   // 30, não o total de dias do intervalo
+periodo.getMonths(); // 1
+```
+
+Quando o que você precisa é o total de dias corridos (para calcular um SLA, um prazo de validade), `ChronoUnit.DAYS.between(...)` é a ferramenta certa, não `Period`:
+
+```java
+long diasTotais = ChronoUnit.DAYS.between(LocalDate.of(2026, 9, 1), LocalDate.of(2026, 10, 31)); // 60
+```
+
+Regra prática: `Duration` para medir tempo físico entre instantes (latência, prazo em horas), `Period` só quando o resultado precisa ser expresso em unidades de calendário ("2 meses e 5 dias"), e `ChronoUnit.between` quando você só quer um número total numa única unidade.
+
+### nanoTime para medir duração, currentTimeMillis para saber a hora
+
+`System.currentTimeMillis()` representa tempo de calendário, o "relógio de parede" do sistema operacional, que pode avançar ou retroceder por ajuste manual, sincronização de NTP ou mudança de fuso. Usar essa diferença para medir quanto tempo uma operação levou é uma fonte clássica de bug sutil:
+
+```java
+long inicio = System.currentTimeMillis();
+operacaoDemorada();
+long duracao = System.currentTimeMillis() - inicio; // pode dar negativo se o relógio ajustar no meio
+```
+
+Se o relógio do sistema sofrer um ajuste (por sincronização NTP, por exemplo) durante essa operação, a duração calculada pode sair errada, e em casos raros até negativa, o que não faz sentido nenhum para uma medição de tempo decorrido.
+
+`System.nanoTime()` existe justamente para isso: funciona como um cronômetro monotônico da própria JVM, que só avança, nunca retrocede, baseado num ponto de referência arbitrário definido na inicialização do processo. O valor absoluto dele não representa uma data e não deveria ser comparado entre execuções diferentes do programa, mas a diferença entre duas leituras dentro da mesma execução é estável e imune a ajustes do relógio do sistema:
+
+```java
+long inicio = System.nanoTime();
+operacaoDemorada();
+long duracaoNanos = System.nanoTime() - inicio; // sempre correto, imune a ajuste de relógio
+```
+
+Regra prática: tempo de calendário, timestamp de evento e log usam `currentTimeMillis()` ou `Instant`. Para medir tempo decorrido, latência ou desempenho, a escolha correta é sempre `nanoTime()`.
+
 ## Text Blocks (Java 15+)
 
 Text blocks simplificam strings multilinha, eliminando escape de aspas e concatenações:
@@ -320,6 +404,38 @@ public record Temperatura(double celsius) {
 ```
 
 Records são ideais para DTOs, respostas de API e Value Objects.
+
+### Imutabilidade como proteção de domínio, não só estilo
+
+Boa parte dos bugs difíceis de rastrear não vem de algoritmo errado, vem de estado que mudou sem que ninguém percebesse. Conceitos como preço, desconto ou percentual costumam atravessar vários métodos e camadas, e se o objeto que os representa for mutável, uma referência reaproveitada em outro lugar pode alterar um valor que uma parte do código já assumia como fixo.
+
+```java
+// mutável: nada impede outro trecho do código de alterar esse preço "por baixo"
+class Preco {
+    private BigDecimal valor;
+    public void setValor(BigDecimal valor) { this.valor = valor; }
+}
+```
+
+Modelar esse tipo de conceito como um `record` remove essa possibilidade pela raiz: os campos já nascem `final`, sem setter, e aplicar um desconto ou somar um imposto deixa de ser "alterar o preço" e passa a ser "criar um preço novo a partir do anterior":
+
+```java
+record Preco(BigDecimal valor) {
+    Preco aplicarDesconto(BigDecimal percentual) {
+        return new Preco(valor.subtract(valor.multiply(percentual)));
+    }
+}
+```
+
+Isso elimina efeito colateral escondido, deixa o objeto seguro para compartilhar entre threads sem sincronização extra, e reduz o tipo de bug em que "ninguém mexeu, mas o valor mudou sozinho" (porque, na prática, alguém mexeu, só que num objeto que dava a falsa impressão de ser fixo). O custo é criar mais objetos ao longo do caminho, um custo pequeno perto do tempo que se gasta depurando estado compartilhado corrompido.
+
+### Onde Records não servem: entidades JPA
+
+Um Record parece uma boa forma de modernizar uma entidade JPA, até a aplicação simplesmente não subir. A Jakarta Persistence exige que uma entidade tenha um construtor sem argumentos, não seja `final` e não declare os campos persistidos como `final`, justamente para o provedor (Hibernate, na maioria dos projetos Spring) conseguir instanciar e popular o objeto via reflection, e para gerar proxies de carregamento tardio (lazy loading) quando necessário.
+
+Um `record` viola as três condições ao mesmo tempo: os componentes são implicitamente `final`, não existe construtor vazio, e a própria classe gerada é `final`, o que impede o Hibernate de criar uma proxy por herança. O resultado costuma aparecer ainda no `startup` da aplicação, antes de qualquer requisição ser aceita.
+
+Isso não invalida o Record como ferramenta, só marca onde ele não se aplica. Records continuam sendo a escolha certa para DTOs e projeções de leitura (inclusive em consultas JPQL com `constructor expression`), e, desde versões mais recentes do Hibernate, também servem como `@Embeddable`. Para entidades com ciclo de vida gerenciado pelo JPA, relacionamento lazy e mutação de estado ao longo do tempo, uma classe tradicional continua sendo o caminho correto (Spring Data detalha esse mapeamento).
 
 ## Sealed Classes (Java 17+)
 

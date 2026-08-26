@@ -226,3 +226,47 @@ public class OrderPlacedListener implements ApplicationListener<OrderPlacedEvent
 ```
 
 Vale usar eventos quando uma ação dispara efeitos colaterais que não fazem parte da responsabilidade principal do service - por exemplo, `PedidoService` não precisa saber que existe um serviço de email ou de estoque, ele só anuncia que um pedido foi criado. Para uma chamada direta e simples entre duas classes que sempre vão evoluir juntas, um método comum ainda é mais fácil de seguir do que um evento.
+
+## Auditoria de ações de negócio com AOP
+
+Registrar "quem fez o quê" é uma pergunta comum em sistemas com regra de negócio sensível (quem aprovou este pagamento, quem cancelou este pedido). O jeito mais direto de responder isso é colocar o registro dentro do próprio método que processa a ação, mas isso acopla a regra de negócio ao código de auditoria, e o mesmo bloco de captura do usuário e log acaba se repetindo em cada novo método que precisa ser auditado.
+
+Uma marker annotation, uma anotação vazia, sem nenhum atributo, resolve isso separando a marcação do comportamento. Ela não faz nada sozinha, só sinaliza semanticamente quais métodos representam ações de negócio auditáveis:
+
+```java
+@Retention(RetentionPolicy.RUNTIME) // obrigatório: sem isso, o proxy não enxerga a anotação em runtime
+@Target(ElementType.METHOD)
+public @interface Auditavel {
+}
+```
+
+Quem dá vida a essa marcação é um `@Aspect` do Spring AOP, com um pointcut que intercepta qualquer método anotado com `@Auditavel`:
+
+```java
+@Aspect
+@Component
+public class AuditoriaAspect {
+
+    @Before("@annotation(Auditavel)")
+    public void registrar(JoinPoint joinPoint) {
+        String usuario = SecurityContextHolder.getContext().getAuthentication().getName();
+        String metodo = joinPoint.getSignature().toShortString();
+        log.info("Ação auditada: {} executada por {}", metodo, usuario);
+    }
+}
+```
+
+```java
+@Service
+public class PedidoService {
+
+    @Auditavel
+    public void cancelar(Long pedidoId) {
+        // regra de negócio de cancelamento, sem nenhuma menção a log ou auditoria aqui dentro
+    }
+}
+```
+
+Com isso, `PedidoService.cancelar` fica só com a regra de cancelamento, sem nenhum código de captura de usuário ou log misturado, e qualquer outro método que precisar do mesmo tipo de auditoria só recebe a anotação, sem repetir o aspecto.
+
+Vale separar bem essa responsabilidade das outras formas de observabilidade já vistas nesta nota. Auditoria de estado de dado (o que mudou num registro específico, e para qual valor) normalmente é responsabilidade de uma ferramenta dedicada a isso, como o Hibernate Envers. Tempo de resposta e contagem de chamadas são responsabilidade do Actuator/Micrometer. Já "qual ação de negócio foi executada e por quem" é uma preocupação transversal com valor de negócio direto, e é exatamente esse o tipo de caso que marker annotation com AOP resolve sem espalhar código repetido pelos serviços.

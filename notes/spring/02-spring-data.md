@@ -81,6 +81,8 @@ public class Usuario {
 | `@CreationTimestamp`   | Preenchido automaticamente no INSERT             |
 | `@UpdateTimestamp`     | Preenchido automaticamente no UPDATE             |
 
+Uma entidade precisa ser uma classe mutável de verdade, com construtor sem argumentos: um `record` (visto em Java Moderno) não funciona como entidade JPA, porque a especificação exige exatamente o que um record proíbe por definição (campos não-`final`, classe não-`final`, construtor vazio). Records continuam sendo a escolha certa para DTO e projeção de leitura desse mesmo dado, só não para a entidade gerenciada pelo Hibernate.
+
 ## Relacionamentos
 
 ### @ManyToOne e @OneToMany
@@ -132,6 +134,23 @@ public class Produto {
     private List<Categoria> categorias = new ArrayList<>();
 }
 ```
+
+## Escolhendo a estratégia de chave primária
+
+`@GeneratedValue(strategy = GenerationType.IDENTITY)` (delegando para um `AUTO_INCREMENT`/`SERIAL` do banco) é a opção mais comum para começar, mas em sistemas distribuídos ou de alto volume, a escolha do tipo de ID afeta performance de um jeito que só aparece depois que a tabela já cresceu.
+
+`UUID.randomUUID()` (a versão 4 do UUID) é totalmente aleatório, e isso é justamente o problema para uma chave primária indexada. Bancos relacionais organizam índices numa estrutura de árvore (B-tree), pensada para inserções que chegam em sequência crescente. Um UUID aleatório cai num ponto imprevisível da árvore a cada inserção, o que aumenta a fragmentação do índice e o custo de I/O conforme a tabela cresce.
+
+```java
+@Id
+private UUID id = UUID.randomUUID(); // funciona, mas fragmenta o índice ao longo do tempo
+```
+
+Isso não significa que a alternativa seja voltar para um ID sequencial simples. Sequências puras trazem problemas próprios: expõem informação do sistema (criar um registro no primeiro e no último dia do mês permite inferir quantos registros existem no período), e em arquitetura distribuída dependem de um contador centralizado, o que cria contenção e dificulta escalar horizontalmente sem coordenação entre instâncias.
+
+O meio-termo mais usado hoje é UUIDv7 ou ULID, que incorporam um componente de tempo nos bits mais significativos do identificador, o que os torna aproximadamente ordenados por ordem de criação, e por isso muito mais amigáveis para índice B-tree e para particionamento por faixa (sharding) do que o UUIDv4 puro. UUIDv7 tem a vantagem de preservar o formato padrão de UUID, funcionando como substituto direto de `UUID.randomUUID()` sem mudar o tipo da coluna nem quebrar nenhum contrato existente.
+
+Regra prática: se a tabela é pequena ou local a um único banco, `IDENTITY` continua sendo a opção mais simples. Se o sistema é distribuído ou de alto volume e você precisa gerar o ID antes de persistir (fora do banco), prefira UUIDv7 a UUIDv4 aleatório.
 
 ## Repositórios
 

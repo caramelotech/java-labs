@@ -188,3 +188,109 @@ List<Integer> segura = Collections.synchronizedList(numeros); // envolve a lista
 ```
 
 `Collections` é útil justamente para operações que fazem sentido "de fora" da coleção - ordenar, embaralhar, tornar thread-safe - em vez de espalhar essa lógica pelas próprias classes `ArrayList`, `HashSet` etc.
+
+## Comparable e Comparator sem armadilha de overflow
+
+`Comparable<T>` define a ordem natural de uma classe (o método `compareTo`), usada quando existe um único critério óbvio de ordenação para aquele tipo. `Comparator<T>` é para ordens que dependem do contexto ou combinam vários critérios, sem precisar mexer na classe original:
+
+```java
+Comparator<Pedido> porValorEData = Comparator
+    .comparing(Pedido::getValor)
+    .thenComparing(Pedido::getData);
+
+pedidos.sort(porValorEData);
+```
+
+A armadilha mais comum acontece dentro de `compareTo`, quando o instinto leva a subtrair dois valores para decidir a ordem:
+
+```java
+@Override
+public int compareTo(Pedido outro) {
+    return (int) (this.valorEmCentavos - outro.valorEmCentavos); // parece ok, não é
+}
+```
+
+Isso parece direto, mas sofre overflow quando os valores têm sinais opostos e magnitude grande: o resultado da subtração pode estourar os limites do `int`, o sinal inverte, e a ordenação sai errada exatamente nos casos extremos, difíceis de pegar num teste com números pequenos. A correção é usar os métodos `compare` das classes wrapper, que já lidam com isso corretamente, ou os construtores de `Comparator`:
+
+```java
+@Override
+public int compareTo(Pedido outro) {
+    return Long.compare(this.valorEmCentavos, outro.valorEmCentavos); // sem risco de overflow
+}
+```
+
+Outro cuidado vale para `TreeSet` e `TreeMap`: essas estruturas tratam um resultado `0` de `compare` como equivalência para fins de ordenação e unicidade, não só de sequência. Um `Comparator` que devolve `0` para objetos diferentes (por comparar só um subconjunto de campos, por exemplo) pode fazer um `TreeSet` "perder" elementos que pareciam distintos, ou um `TreeMap` substituir uma entrada pela outra sem aviso.
+
+## Collectors.toMap() e chaves duplicadas
+
+`Collectors.toMap()` transforma um stream num `Map`, mas tem uma letra miúda que pega gente desprevenida: se duas entradas do stream gerarem a mesma chave, o coletor lança `IllegalStateException` em tempo de execução, não em compilação.
+
+```java
+Map<String, Usuario> porEmail = usuarios.stream()
+    .collect(Collectors.toMap(Usuario::getEmail, u -> u)); // quebra se algum email repetir
+```
+
+Como isso só aparece quando o dado real tem duplicata, é comum passar despercebido em desenvolvimento e estourar só em produção, com um dado específico. A correção é decidir explicitamente o que fazer com a duplicata, passando uma função de merge como terceiro argumento:
+
+```java
+Map<String, Usuario> porEmail = usuarios.stream()
+    .collect(Collectors.toMap(Usuario::getEmail, u -> u, (existente, novo) -> novo)); // fica com o último
+```
+
+Se a ordem original da lista for relevante para o resultado, `Collectors.toMap` sozinho não garante isso (o `Map` resultante não preserva ordem por padrão); passe `LinkedHashMap::new` como quarto argumento quando a ordem de inserção importar.
+
+## Sequenced Collections (Java 21+)
+
+Antes do Java 21, cada coleção lidava com "primeiro" e "último" elemento de um jeito diferente e sem interface em comum: `List` tinha `add(0, x)` para inserir no início (uma operação cara em `ArrayList`, como já vimos), `LinkedHashMap` não tinha um jeito direto de pegar a primeira entrada, e um `Set` ordenado exigia `NavigableSet` (disponível só em `TreeSet`) para percorrer de trás para frente.
+
+As interfaces `SequencedCollection`, `SequencedSet` e `SequencedMap` padronizaram isso para qualquer coleção que preserve ordem (`List`, `LinkedHashSet`, `LinkedHashMap`), com operações consistentes de início e fim:
+
+```java
+List<String> fila = new ArrayList<>(List.of("b", "c"));
+fila.addFirst("a");           // ["a", "b", "c"]
+fila.addLast("d");            // ["a", "b", "c", "d"]
+fila.getFirst();              // "a"
+fila.removeLast();            // remove "d"
+
+List<String> invertida = fila.reversed(); // vista invertida, não uma cópia
+```
+
+O detalhe que mais gera confusão em revisão de código é que `reversed()` devolve uma view viva da coleção original, não uma cópia independente. Alterações feitas através dessa view refletem na coleção original, e vice-versa, o que é ótimo para percorrer de trás para frente sem custo (a operação é O(1)), mas perigoso se você precisar de uma versão invertida independente para modificar sem afetar o original, nesse caso, copie explicitamente com `new ArrayList<>(fila.reversed())`.
+
+## Cópia rasa, cópia profunda e List.copyOf()
+
+Atribuir um objeto a outra variável em Java copia o valor da referência (o "endereço"), não o conteúdo do objeto. Duas variáveis apontando para o mesmo objeto enxergam qualquer mutação feita através de qualquer uma delas, o que vale igualmente para coleções.
+
+Existem dois níveis de cópia de verdade. A cópia rasa duplica o objeto (ou a coleção) mas mantém as mesmas referências internas, então campos ou elementos mutáveis continuam compartilhados entre original e cópia. A cópia profunda duplica esses elementos recursivamente, criando uma estrutura totalmente independente.
+
+O erro mais comum aparece em classes que se pretendem imutáveis, mas recebem ou devolvem uma coleção sem copiar:
+
+```java
+class Pedido {
+    private final List<Item> itens;
+    Pedido(List<Item> itens) {
+        this.itens = itens; // guarda a referência recebida, não uma cópia
+    }
+    List<Item> getItens() { return itens; } // devolve a referência interna
+}
+
+List<Item> lista = new ArrayList<>(List.of(new Item("A")));
+Pedido pedido = new Pedido(lista);
+lista.add(new Item("B")); // pedido.getItens() também muda, mesmo já "construído"
+```
+
+Desde o Java 10, `List.copyOf()`, `Set.copyOf()` e `Map.copyOf()` criam uma coleção nova, independente da original e não modificável:
+
+```java
+class Pedido {
+    private final List<Item> itens;
+    Pedido(List<Item> itens) {
+        this.itens = List.copyOf(itens); // cópia independente, o campo interno é seguro
+    }
+    List<Item> getItens() { return itens; } // pode devolver o campo direto, já é imutável
+}
+```
+
+Isso é diferente de `Collections.unmodifiableList(...)`, que não copia nada, só embrulha a lista original numa view que bloqueia `add`/`remove` feitos através dela. A lista original continua viva e mutável por quem ainda tiver a referência dela: se alguém adicionar um elemento na lista original, essa mudança aparece através da view "não modificável" também. `List.copyOf()` quebra esse vínculo de vez, criando uma cópia própria, sem caminho de volta para mutar o que está lá dentro por fora. Vale notar que `List.copyOf()` não aceita elementos `null`, o que costuma ajudar a manter invariantes, mas precisa estar claro no contrato do método.
+
+Para grafos mutáveis mais complexos, com objetos aninhados, um copy constructor recursivo funciona bem quando a estrutura é pequena e conhecida; para conversão entre tipos diferentes ao mesmo tempo (entidade para DTO, por exemplo), uma ferramenta de mapeamento dedicada resolve os dois problemas juntos.
