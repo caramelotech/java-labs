@@ -44,7 +44,7 @@ Este repositório contém **apenas conteúdo** - não há build, dependências o
 
 Se você está começando agora, este fluxo funciona bem:
 
-1. Leia as notas de `notes/Fundamentos/` na ordem numérica (ou pelo [site](https://caramelotech.com.br/labs/java/))
+1. Leia as notas de `notes/fundamentos/` na ordem numérica (ou pelo [site](https://caramelotech.com.br/labs/java/))
 2. Execute o exemplo [Hello World](examples/01-HelloWorld/)
 3. Resolva os desafios em [examples/exercises.md](examples/exercises.md)
 4. Escolha um projeto em [examples/projects.md](examples/projects.md)

@@ -17,12 +17,12 @@ Veja [CLAUDE.md](CLAUDE.md) para detalhes completos.
 
 ### Adicionar uma nova nota
 
-1. **Escolha a pasta:** `Fundamentos/`, `Java/` ou `Spring/`
+1. **Escolha a pasta:** `fundamentos/`, `java/` ou `spring/`
 2. **Nomeie com prefixo numérico** para controlar a ordem na barra lateral: se a pasta já tem `03-*.md`, crie `04-nome-do-topico.md`
 3. **Primeira linha = título:** comece o arquivo com `# Título da Nota` - o site usa esse H1 como título da página
 4. **Sem frontmatter:** escreva direto o Markdown
 
-Exemplo de nota nova (`notes/Java/04-collections.md`):
+Exemplo de nota nova (`notes/java/04-collections.md`):
 
 ```markdown
 # Collections em Java
@@ -46,7 +46,7 @@ Conteúdo aqui...
 - NÃO use `---` para separar seções (apenas para notas/atribuições no final do arquivo)
 - Apenas um `# H1` por arquivo, na primeira linha
 - Imagens ficam junto das notas e são referenciadas com caminho relativo em sintaxe Markdown: `![descrição](./assets/img.png)` - nunca `<img>` HTML nem caminho absoluto
-- Links para outras notas do site: caminho completo `/labs/java/<secao>/<nota>/` (slug em minúsculas, mesmo com a pasta capitalizada)
+- Links para outras notas do site: caminho completo `/labs/java/<secao>/<nota>/` (slug em minúsculas, igual ao nome da pasta)
 
 ## Publicação
 
