@@ -322,6 +322,8 @@ Controller → Service → Repository
 - **Service:** contém a lógica de negócio
 - **Repository:** acessa o banco de dados
 
+Essa divisão em três camadas dá conta da maioria dos projetos. Quando o domínio fica complexo e a regra de negócio começa a se espalhar, vale conhecer a [Arquitetura Limpa](/labs/java/spring/07-arquitetura-limpa/), que reorganiza essas responsabilidades para manter o núcleo de negócio independente de framework e banco.
+
 ```java
 // DTO - objeto de transferência de dados
 public record ProdutoRequest(String nome, double preco) {}
