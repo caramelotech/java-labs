@@ -247,6 +247,84 @@ System.out.println(pagina.getTotalElements()); // total de registros
 System.out.println(pagina.getTotalPages());    // total de páginas
 ```
 
+## Projeções: trazer só os campos que a tela usa
+
+Imagine uma tela que lista usuários e mostra só nome e email. O jeito óbvio é `findByAtivoTrue()`, que devolve `List<Usuario>`. Só que a entidade `Usuario` tem uns 15 campos, talvez um relacionamento com `Endereco`, outro com `Pedido`. O banco carrega tudo isso, o Hibernate monta os objetos, e você usa dois campos.
+
+Numa lista de 50 linhas isso passa despercebido. Numa de milhares, ou com relacionamentos que puxam mais tabelas junto, a diferença aparece: consultas que levam segundos para montar dados que ninguém vai olhar.
+
+O custo extra de carregar a entidade completa numa leitura tem três partes:
+
+- **Dirty checking**: toda entidade carregada entra no contexto de persistência, e o Hibernate guarda um snapshot dela para, no fim da transação, comparar campo a campo e ver o que mudou. Numa consulta só de leitura, esse trabalho é jogado fora.
+- **Memória**: o objeto mais o snapshot, multiplicados pela quantidade de linhas.
+- **SELECT gordo**: todas as colunas da tabela, mais os joins dos relacionamentos que forem `EAGER`.
+
+Projeção é pedir ao Spring Data para trazer só um subconjunto de campos, num objeto que não é a entidade. Existem três formatos.
+
+### Projeção com record (a mais direta)
+
+Um [record](/labs/java/java/03-java-moderno/) com os campos que você quer, e um método no repositório que retorna esse tipo:
+
+```java
+public record ResumoUsuario(String nome, String email) {}
+```
+
+```java
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
+    List<ResumoUsuario> findByAtivoTrue();
+}
+```
+
+O Spring Data olha o record, vê que os nomes dos componentes (`nome`, `email`) batem com atributos da entidade, e gera um `SELECT u.nome, u.email FROM Usuario u WHERE u.ativo = true`. O resultado é uma lista de `ResumoUsuario`, e nenhum desses objetos entra no contexto de persistência: sem snapshot, sem dirty checking, sem flush comparando estado.
+
+Para juntar dados de mais de uma tabela, use `@Query` com uma expressão de construtor JPQL (começa com `new` e o nome completo da classe):
+
+```java
+@Query("""
+    SELECT new com.exemplo.dto.ResumoPedido(p.numero, u.nome, p.valorTotal, p.criadoEm)
+    FROM Pedido p JOIN p.usuario u
+    WHERE p.status = :status
+    """)
+List<ResumoPedido> resumoPorStatus(@Param("status") StatusPedido status);
+```
+
+Isso também funciona em query nativa, com `nativeQuery = true`, desde que os nomes das colunas retornadas batam com o construtor.
+
+### Projeção por interface
+
+Em vez de um record, uma interface só com os getters:
+
+```java
+public interface ResumoUsuario {
+    String getNome();
+    String getEmail();
+}
+
+List<ResumoUsuario> findByAtivoTrue();
+```
+
+O Spring Data cria um proxy em tempo de execução que implementa a interface. É a opção mais enxuta quando você não precisa de lógica nenhuma no objeto de saída, só ler os campos.
+
+### Projeção dinâmica
+
+Quando o mesmo método precisa às vezes devolver a entidade e às vezes um resumo, dá para deixar o tipo aberto:
+
+```java
+<T> List<T> findByAtivoTrue(Class<T> tipo);
+```
+
+```java
+repository.findByAtivoTrue(Usuario.class);        // entidade completa
+repository.findByAtivoTrue(ResumoUsuario.class);  // só o resumo
+```
+
+### Quando ainda usar a entidade
+
+Projeção é para leitura. Se o fluxo vai alterar e salvar, você precisa da entidade gerenciada, porque é o dirty checking (aquele mesmo que era desperdício na leitura) que detecta a mudança e gera o `UPDATE`. A regra prática: consulta que só exibe dados pede projeção; consulta que carrega algo para modificar pede a entidade.
+
+Vale notar a simetria com o DTO de entrada visto em [Validação, DTO e Logging](/labs/java/spring/04-validacao-e-logs/): lá, um objeto separado protege a entidade dos dados que chegam na requisição; aqui, um objeto separado evita expor e carregar a entidade inteira na resposta. Mesma ideia, pontas opostas do fluxo.
+
 ## H2 Database
 
 H2 é um banco relacional em memória, ideal para desenvolvimento e testes. Não precisa de instalação.
