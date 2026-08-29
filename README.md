@@ -1,11 +1,6 @@
 # Java Labs
 
-> Base de conhecimento completa sobre Java para iniciantes em português.
-
 Bem-vindo ao **Java Labs**. Este repositório foi organizado para ensinar Java de forma clara, prática e progressiva, combinando notas em Markdown, exemplos executáveis e desafios para consolidar o aprendizado.
-
-[![License](https://img.shields.io/github/license/caramelotech/java-labs)](LICENSE)
-[![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](.github/CONTRIBUTING.md)
 
 As notas deste repositório são publicadas no site do [Caramelo Labs](https://caramelotech.com.br/labs/java/).
 
@@ -20,13 +15,13 @@ As notas deste repositório são publicadas no site do [Caramelo Labs](https://c
 
 ## Conteúdo
 
-| Tópico      | Descrição                                             |
-| ----------- | ----------------------------------------------------- |
-| Fundamentos | Ambiente, introdução, sintaxe, operadores e controle de fluxo |
-| Java        | Orientação a objetos, Java Core e Java moderno        |
-| Spring      | Spring Web, Spring Data e Spring Security             |
-| Roadmap     | Trilha de estudos para backend com Java               |
-| Recursos    | Materiais complementares para aprofundar              |
+| Seção       | Escopo                                                                                         |
+| ----------- | ---------------------------------------------------------------------------------------------- |
+| Fundamentos | Primeiros passos com Java: ambiente, o que é a linguagem e os primeiros programas              |
+| Java        | A linguagem a fundo, sem framework: OO, biblioteca padrão, Java moderno e trilha avançada      |
+| Spring      | Aplicações backend com Spring Boot: APIs, persistência, segurança, testes, deploy, arquitetura |
+| Roadmap     | Trilha de estudos de backend com Java, do zero à produção                                      |
+| Recursos    | Materiais externos para aprofundar cada assunto                                                |
 
 ## Estrutura do repositório
 
@@ -66,7 +61,7 @@ As notas em `notes/` são Markdown puro, sem frontmatter:
 
 - A primeira linha da nota deve ser o título: `# Título da Nota`
 - Use prefixo numérico no nome do arquivo para controlar a ordem na barra lateral: `01-ambiente.md`, `02-introducao.md`
-- Agrupe por tema em subpastas (`Fundamentos/`, `Java/`, `Spring/`)
+- Agrupe por tema em subpastas (`fundamentos/`, `java/`, `spring/`)
 - Imagens ficam junto das notas (ex: `notes/secao/assets/img.png`) e são referenciadas com caminho relativo: `![descrição](./assets/img.png)`
 - Links para outras notas do site usam o caminho completo: `/labs/java/<secao>/<nota>/`
 

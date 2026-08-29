@@ -4,11 +4,11 @@ Base de conhecimento sobre **Java** do Caramelo Tech - do fundamento ao Spring, 
 
 ## O que você vai encontrar
 
-- **Fundamentos** - ambiente, introdução, sintaxe, operadores e controle de fluxo
-- **Java** - orientação a objetos, Java Core, Collections, Java moderno, memória da JVM/OutOfMemoryError e uma trilha avançada (programação funcional, generics, enums, exceções, padrões de criação, concorrência e segurança)
-- **Spring** - Spring Web, Spring Data, Spring Security, Validação/DTO/Logging, Recursos Avançados, Testes/Deploy e Arquitetura Limpa
-- **Roadmap** - trilha de estudos para backend com Java
-- **Recursos** - materiais complementares para aprofundar
+- **Fundamentos** - seus primeiros passos com Java: preparar o ambiente, entender o que é a linguagem e escrever os primeiros programas. É por aqui que se começa.
+- **Java** - a linguagem a fundo, sem framework: orientação a objetos, a biblioteca padrão, os recursos do Java moderno e uma trilha avançada com os temas que aparecem em código de produção e em entrevista.
+- **Spring** - construir aplicações backend com Spring Boot: expor APIs, guardar dados, autenticar, validar, testar, fazer deploy, organizar a arquitetura e lidar com sistemas distribuídos.
+- **Roadmap** - a trilha de estudos de backend com Java, do zero à produção, para você saber o que estudar e em que ordem.
+- **Recursos** - materiais externos para aprofundar cada assunto.
 
 Navegue pelas seções na barra lateral. Se está começando, comece por Fundamentos.
 
