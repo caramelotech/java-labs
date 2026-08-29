@@ -321,6 +321,29 @@ public class Ponto {
 
 **Regra:** sempre que sobrescrever `equals()`, sobrescreva `hashCode()` também. Objetos iguais devem ter o mesmo hash.
 
+### BigDecimal e a armadilha do equals()
+
+`BigDecimal` é o tipo certo para dinheiro e qualquer número decimal onde precisão importa. Mas o `equals()` dele tem um comportamento que pega quase todo mundo de surpresa:
+
+```java
+BigDecimal a = new BigDecimal("1.0");
+BigDecimal b = new BigDecimal("1.00");
+
+System.out.println(a.equals(b)); // false 😬
+```
+
+Os dois representam o mesmo número, mas o `equals()` do `BigDecimal` compara **valor e escala**. Escala é a quantidade de casas decimais: `"1.0"` tem escala 1, `"1.00"` tem escala 2. Como as escalas diferem, `equals()` diz que são diferentes.
+
+Quem compara só o valor numérico é o `compareTo()`:
+
+```java
+System.out.println(a.compareTo(b) == 0); // true
+```
+
+A regra prática: use `equals()` quando a escala faz parte da identidade do valor (raro), e `compareTo() == 0` quando você só quer saber se os números são iguais (o caso comum).
+
+**Cuidado:** estruturas que dependem de `equals()` herdam esse comportamento. `BigDecimal` como chave de `HashMap`, elemento de `Set`, ou passado para `List.contains()` e `Stream.distinct()` trata `1.0` e `1.00` como entradas distintas. Se você precisa que valores numericamente iguais colidam, normalize a escala antes (`valor.setScale(2, RoundingMode.HALF_UP)`) ou não use `BigDecimal` como chave.
+
 ## Strings em Profundidade
 
 ### Imutabilidade
