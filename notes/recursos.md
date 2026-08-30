@@ -64,6 +64,9 @@ Esta seção contém uma curadoria de **livros, cursos, vídeos, artigos e ferra
 | **Oracle Java Documentation** | Documentação oficial                    | [docs.oracle.com/javase](https://docs.oracle.com/javase/)                     |
 | **Java Code Geeks**           | Tutoriais e exemplos                    | [javacodegeeks.com](https://www.javacodegeeks.com/)                           |
 | **Dev.to #java**              | Comunidade com artigos diversos         | [dev.to/t/java](https://dev.to/t/java)                                        |
+| **Inside.java**               | Blog oficial do time do OpenJDK, novidades de cada versão | [inside.java](https://inside.java/)                          |
+| **HappyCoders**               | Recursos do Java moderno explicados com exemplos | [happycoders.eu/java](https://www.happycoders.eu/java/)             |
+| **OpenJDK JEP Index**         | As propostas formais por trás de cada mudança na linguagem | [openjdk.org/jeps/0](https://openjdk.org/jeps/0)           |
 
 ## Ferramentas e IDEs
 
