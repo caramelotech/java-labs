@@ -1,6 +1,6 @@
 # Segurança Básica em Java
 
-Spring Security (visto em Spring Security) cuida de autenticação e autorização na camada web. Essa nota é sobre duas decisões que acontecem um nível abaixo disso, na própria linguagem: como lidar com dado sensível na memória e por que confiar cegamente em bytes vindos de fora pode custar caro.
+Spring Security (visto em Spring Security) cuida de autenticação e autorização na camada web. Essa nota é sobre decisões que acontecem um nível abaixo disso, na própria linguagem e na JVM: como lidar com dado sensível na memória, por que confiar cegamente em bytes vindos de fora pode custar caro, e o que muda na criptografia do TLS para aguentar a chegada dos computadores quânticos.
 
 ## Criptografia não é lugar para inventar
 
@@ -51,3 +51,28 @@ class Sessao implements Serializable {
 ```
 
 Quando a serialização nativa for realmente inevitável (integração com um sistema legado, por exemplo), `ObjectInputFilter` permite configurar uma allowlist explícita de classes aceitas, além de limites de profundidade e de número de referências, o que reduz bastante o espaço de ataque disponível para um payload malicioso. Vale reforçar: prefira sempre evitar o problema (schema explícito) a mitigar o problema (allowlist).
+
+## Criptografia pós-quântica e o TLS
+
+Quando dois sistemas abrem uma conexão HTTPS, a primeira coisa que acontece é uma troca de chave: os dois combinam, na frente de todo mundo, um segredo que só eles vão conhecer. Hoje isso é feito com ECDHE (uma variação de Diffie-Hellman sobre curvas elípticas), e a segurança disso depende de um problema matemático que os computadores atuais não conseguem resolver em tempo hábil.
+
+Um computador quântico grande o suficiente resolve esse problema. Ele ainda não existe, mas isso não deixa a ameaça no futuro por causa de um detalhe: o ataque **"harvest now, decrypt later"** (colher agora, decifrar depois). Um adversário com recursos pode gravar hoje todo o tráfego cifrado que passa por um ponto da rede e guardar. No dia em que a máquina quântica ligar, ele volta nesse arquivo e decifra tudo de uma vez. Dado que precisa ficar secreto por dez, vinte anos (prontuário, contrato, segredo industrial) já está em risco agora.
+
+A resposta da indústria são algoritmos novos, desenhados para resistir também ao ataque quântico. O NIST, órgão americano de padronização, publicou os principais: **ML-KEM** para troca de chave e **ML-DSA** para assinatura digital.
+
+O Java 27, pela JEP 527, coloca isso no TLS 1.3 usando um esquema **híbrido**: em vez de trocar o ECDHE pelo ML-KEM, o handshake roda os dois e combina os dois segredos. O nome do esquema padrão é `X25519MLKEM768`.
+
+```mermaid
+flowchart LR
+    C[Cliente] -->|"parte ECDHE (X25519)"| S[Servidor]
+    C -->|"parte ML-KEM-768"| S
+    S --> M["segredo final =<br/>combina os dois"]
+```
+
+A razão de ser híbrido é conservadora: o ML-KEM é recente e pode ter alguma falha ainda não descoberta. Enquanto o ECDHE segura contra os ataques clássicos de sempre e o ML-KEM segura contra o quântico, uma sessão só cai se **os dois** forem quebrados ao mesmo tempo.
+
+Do seu lado, não muda nada. Se o seu código não força um esquema de chave específico (e quase nenhum código faz isso), a JVM já vai negociar o `X25519MLKEM768` quando o outro lado suportar, e cair no ECDHE puro quando não. É outra das melhorias que chegam só por atualizar a versão, como discutido em [Java Recente](/labs/java/java/05-java-recente/).
+
+Duas ressalvas. Isso protege a **troca de chave** da conexão, não a assinatura do certificado TLS nem o dado guardado em banco, que continuam com algoritmos clássicos até os padrões pós-quânticos de assinatura amadurecerem. E o handshake híbrido troca mais bytes que o clássico, então em cenários com muitas conexões novas por segundo vale medir o efeito.
+
+Para se aprofundar: [JEP 527: Post-Quantum Hybrid Key Exchange for TLS 1.3](https://openjdk.org/jeps/527), o artigo [Post-Quantum Hybrid Key Exchange for TLS 1.3](https://inside.java/2026/02/17/tls-post-quantum-hybrid-key-exchange/) no blog oficial do OpenJDK, e a página [Post-Quantum Cryptography](https://csrc.nist.gov/projects/post-quantum-cryptography) do NIST sobre os padrões ML-KEM e ML-DSA.

@@ -1,6 +1,6 @@
 # Interfaces Funcionais
 
-Lambda e method reference (vistos em [Java Moderno](/labs/java/java/03-java-moderno/)) precisam de um "molde" para encaixar: uma interface funcional. O pacote `java.util.function` traz esses moldes prontos, e conhecer o catálogo evita que você reinvente `Predicate` toda semana com outro nome. Esta nota é o mapa desse pacote. As decisões mais finas (quando o boxing pesa, quando criar a sua própria interface) estão em [Programação Funcional Avançada](/labs/java/java/07-programacao-funcional-avancada/).
+Lambda e method reference (vistos em [Java Moderno](/labs/java/java/03-java-moderno/)) precisam de um "molde" para encaixar: uma interface funcional. O pacote `java.util.function` traz esses moldes prontos, e conhecer o catálogo evita que você reinvente `Predicate` toda semana com outro nome. Esta nota é o mapa desse pacote. As decisões mais finas (quando o boxing pesa, quando criar a sua própria interface) estão em [Programação Funcional Avançada](/labs/java/java/08-programacao-funcional-avancada/).
 
 ## O que é uma interface funcional
 
@@ -158,7 +158,7 @@ config.orElse(buscarPadrao());
 config.orElseGet(() -> buscarPadrao());
 ```
 
-A diferença entre "guardar o valor" e "guardar o jeito de obter o valor" tem mais desdobramentos, e eles estão em [Programação Funcional Avançada](/labs/java/java/07-programacao-funcional-avancada/).
+A diferença entre "guardar o valor" e "guardar o jeito de obter o valor" tem mais desdobramentos, e eles estão em [Programação Funcional Avançada](/labs/java/java/08-programacao-funcional-avancada/).
 
 ## UnaryOperator e BinaryOperator: entrada e saída do mesmo tipo
 
@@ -225,7 +225,7 @@ ToIntFunction<String> tamanho = String::length; // String -> int
 
 A família é grande: `IntPredicate`, `IntFunction<R>`, `ToIntFunction<T>`, `IntUnaryOperator`, `IntBinaryOperator`, `IntConsumer`, `IntSupplier`, e os equivalentes trocando `Int` por `Long` e `Double`. Tem ainda `BooleanSupplier`, um `Supplier` que devolve `boolean` primitivo. Usadas junto de `IntStream`, `LongStream` e `DoubleStream`, o valor atravessa o pipeline inteiro sem nunca virar objeto.
 
-Isso não é motivo para trocar toda `Function` do código por versão primitiva. Na maior parte da regra de negócio a clareza pesa mais que esse microcusto. O peso real, e quando vale medir com profiling antes de reescrever, está em [Programação Funcional Avançada](/labs/java/java/07-programacao-funcional-avancada/) e em [Memória e OutOfMemoryError](/labs/java/java/05-memoria-e-outofmemoryerror/).
+Isso não é motivo para trocar toda `Function` do código por versão primitiva. Na maior parte da regra de negócio a clareza pesa mais que esse microcusto. O peso real, e quando vale medir com profiling antes de reescrever, está em [Programação Funcional Avançada](/labs/java/java/08-programacao-funcional-avancada/) e em [Memória e OutOfMemoryError](/labs/java/java/06-memoria-e-outofmemoryerror/).
 
 ## Qual interface escolher
 
@@ -238,4 +238,4 @@ Roteiro rápido, na ordem das perguntas:
 5. Recebe e devolve o mesmo tipo? `UnaryOperator<T>` (dois: `BinaryOperator<T>`)
 6. Está mexendo com `int`, `long` ou `double` num caminho quente? Pegue a versão especializada (`IntFunction`, `IntPredicate` e companhia)
 
-E antes de escrever `@FunctionalInterface` na sua própria interface: se a assinatura cabe numa das do pacote, use a do pacote. Ela já é conhecida por quem lê, já se integra com o resto da API e já vem com os combinadores prontos. Os casos em que criar a sua compensa estão em [Programação Funcional Avançada](/labs/java/java/07-programacao-funcional-avancada/).
+E antes de escrever `@FunctionalInterface` na sua própria interface: se a assinatura cabe numa das do pacote, use a do pacote. Ela já é conhecida por quem lê, já se integra com o resto da API e já vem com os combinadores prontos. Os casos em que criar a sua compensa estão em [Programação Funcional Avançada](/labs/java/java/08-programacao-funcional-avancada/).

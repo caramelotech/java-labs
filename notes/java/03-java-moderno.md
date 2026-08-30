@@ -1,6 +1,6 @@
 # Java Moderno
 
-A partir do Java 8, a linguagem passou por uma transformação significativa com a adição de recursos de programação funcional. Desde então, cada versão trouxe novidades que tornam o código mais expressivo e conciso.
+A partir do Java 8, a linguagem passou por uma transformação significativa com a adição de recursos de programação funcional. Desde então, cada versão trouxe novidades que tornam o código mais expressivo e conciso. Para entender o modelo de releases por trás desses "(Java X+)" e o que há de mais recente, veja [Java Recente](/labs/java/java/05-java-recente/).
 
 ## var: inferência de tipo local
 
@@ -72,7 +72,7 @@ Supplier<String> hello = () -> "Olá";                  // -> A
 BiFunction<Integer, Integer, Integer> soma = (a, b) -> a + b;
 ```
 
-Essas são só as mais comuns. O pacote `java.util.function` traz o catálogo completo (`UnaryOperator`, `BinaryOperator`, as variantes de dois argumentos, as versões para primitivos) e os métodos de composição de cada uma. Tudo isso está em [Interfaces funcionais](/labs/java/java/06-interfaces-funcionais/).
+Essas são só as mais comuns. O pacote `java.util.function` traz o catálogo completo (`UnaryOperator`, `BinaryOperator`, as variantes de dois argumentos, as versões para primitivos) e os métodos de composição de cada uma. Tudo isso está em [Interfaces funcionais](/labs/java/java/07-interfaces-funcionais/).
 
 ## Method Reference
 
@@ -185,6 +185,48 @@ IntStream.rangeClosed(1, 5).sum();                  // 15
 int[] numeros = {1, 2, 3, 4, 5};
 Arrays.stream(numeros).average().ifPresent(System.out::println); // 3.0
 ```
+
+### Stream Gatherers (Java 24+)
+
+A lista de operações intermediárias acima (`filter`, `map`, `distinct`, `limit`...) é fixa. Se você precisa de algo que não está nela, como "agrupe os elementos de 3 em 3" ou "só passe adiante quando o valor mudar em relação ao anterior", não tem como encaixar no meio do pipeline. Antes do Java 24 a saída era quebrar o stream, resolver na mão com um laço e um `List`, e às vezes montar outro stream depois.
+
+O `Stream.gather()` preenche essa lacuna. Ele está para o meio do pipeline como o `collect()` está para o fim: um ponto de extensão onde você (ou a biblioteca padrão) define uma operação com estado.
+
+```java
+List<Integer> numeros = List.of(1, 2, 3, 4, 5, 6, 7);
+
+// janelas fixas de 3 elementos
+List<List<Integer>> janelas = numeros.stream()
+    .gather(Gatherers.windowFixed(3))
+    .toList();
+// [[1, 2, 3], [4, 5, 6], [7]]
+```
+
+A classe `java.util.stream.Gatherers` já traz alguns prontos:
+
+```java
+// windowSliding: janela que anda de 1 em 1
+Stream.of(1, 2, 3, 4).gather(Gatherers.windowSliding(2)).toList();
+// [[1, 2], [2, 3], [3, 4]]
+
+// scan: vai acumulando e emite cada resultado parcial
+Stream.of(1, 2, 3, 4).gather(Gatherers.scan(() -> 0, Integer::sum)).toList();
+// [1, 3, 6, 10]
+
+// fold: como o reduce, mas é um gatherer (emite só o valor final)
+Stream.of("a", "b", "c").gather(Gatherers.fold(() -> "", String::concat)).toList();
+// [abc]
+
+// mapConcurrent: aplica a função em várias virtual threads ao mesmo tempo,
+// preservando a ordem da saída. Bom para um passo de I/O no meio do pipeline
+List<Usuario> usuarios = ids.stream()
+    .gather(Gatherers.mapConcurrent(10, api::buscarUsuario))
+    .toList();
+```
+
+Dá para escrever o seu próprio `Gatherer` quando a lógica precisa lembrar dos elementos anteriores: deduplicar mantendo a ordem de chegada, emitir um elemento só quando ele for diferente do último, detectar sequências crescentes. Para transformação sem estado (um elemento entra, um sai) o `map` de sempre continua sendo o certo, não complique.
+
+Para se aprofundar: [JEP 485: Stream Gatherers](https://openjdk.org/jeps/485), o [tutorial oficial da Gatherer API](https://inside.java/2025/03/11/gatherers-tutorial/) no inside.java e [Stream Gatherers in Java](https://www.baeldung.com/java-stream-gatherers) no Baeldung.
 
 ## Optional
 

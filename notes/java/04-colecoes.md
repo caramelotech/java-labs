@@ -102,7 +102,7 @@ idades.put(null, -1); // HashMap aceita uma chave null, TreeMap não aceitaria
 
 `TreeMap` exige que as chaves implementem `Comparable`, ou que você passe um `Comparator` no construtor - sem isso, ele não sabe em que ordem organizar as entradas. `Hashtable` é a versão legada e sincronizada do `HashMap`, criada antes do Java 1.2; hoje é melhor usar `HashMap` (ou `ConcurrentHashMap` em cenário multi-thread) e evitar `Hashtable` em código novo.
 
-Entender como o `HashMap` guarda e busca as entradas por dentro (buckets, hash, treeification, resize) é assunto clássico de entrevista e ajuda a escrever `hashCode()` e `equals()` decentes. Isso está detalhado em [HashMap por dentro](/labs/java/java/14-hashmap-por-dentro/).
+Entender como o `HashMap` guarda e busca as entradas por dentro (buckets, hash, treeification, resize) é assunto clássico de entrevista e ajuda a escrever `hashCode()` e `equals()` decentes. Isso está detalhado em [HashMap por dentro](/labs/java/java/15-hashmap-por-dentro/).
 
 ## Métodos comuns
 

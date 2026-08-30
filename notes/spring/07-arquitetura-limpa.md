@@ -35,7 +35,7 @@ flowchart TD
     M -. implementa .-> PORT
 ```
 
-Repare no detalhe do diagrama: o repositório JPA aponta para a interface que está **dentro** do domínio. Isso é inversão de dependência, o mesmo princípio visto em [Design e padrões de criação](/labs/java/java/11-design-e-padroes-de-criacao/). Quem define o contrato ("preciso de um jeito de salvar pedidos") é a camada de dentro. Quem cumpre o contrato usando uma tecnologia concreta é a camada de fora. Se amanhã o banco mudar, só o adaptador muda, o domínio nem fica sabendo.
+Repare no detalhe do diagrama: o repositório JPA aponta para a interface que está **dentro** do domínio. Isso é inversão de dependência, o mesmo princípio visto em [Design e padrões de criação](/labs/java/java/12-design-e-padroes-de-criacao/). Quem define o contrato ("preciso de um jeito de salvar pedidos") é a camada de dentro. Quem cumpre o contrato usando uma tecnologia concreta é a camada de fora. Se amanhã o banco mudar, só o adaptador muda, o domínio nem fica sabendo.
 
 O resumo que o autor do cheat sheet usa: mantenha as regras de negócio no centro, dependa de abstrações e deixe os detalhes de infraestrutura viverem nas pontas.
 
@@ -86,7 +86,7 @@ public class Pedido {
 }
 ```
 
-Nenhuma anotação de framework, nenhuma menção a banco. `StatusPedido` é um enum modelando os estados válidos, exatamente o caso descrito em [Enums avançado](/labs/java/java/09-enums-avancado/). `Dinheiro` é um value object imutável, na linha do que [Java moderno](/labs/java/java/03-java-moderno/) discute sobre imutabilidade proteger o domínio. E a regra "pedido sem itens não existe" está no construtor, junto do estado que ela protege, não espalhada num service, o oposto do modelo anêmico.
+Nenhuma anotação de framework, nenhuma menção a banco. `StatusPedido` é um enum modelando os estados válidos, exatamente o caso descrito em [Enums avançado](/labs/java/java/10-enums-avancado/). `Dinheiro` é um value object imutável, na linha do que [Java moderno](/labs/java/java/03-java-moderno/) discute sobre imutabilidade proteger o domínio. E a regra "pedido sem itens não existe" está no construtor, junto do estado que ela protege, não espalhada num service, o oposto do modelo anêmico.
 
 ### Aplicação
 

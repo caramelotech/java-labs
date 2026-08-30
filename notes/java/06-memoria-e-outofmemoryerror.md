@@ -178,17 +178,51 @@ for (String linha : linhas) {
 
 O mesmo padrão vale para `DateTimeFormatter`, `ObjectMapper` e `Random`, criados de novo a cada chamada quando poderiam ser um único campo `static final` (ou, no caso de `Random` em ambiente com várias threads, `ThreadLocalRandom`, visto em Concorrência). Nenhum desses casos costuma dar erro nem gerar `OutOfMemoryError` sozinho, mas cada objeto temporário criado à toa é trabalho a mais para o GC recolher depois, então vale revisar esse tipo de instanciação especialmente dentro de loops que processam volume alto de dados.
 
-## Compact Object Headers (Java 25+)
+## Compact Object Headers
 
-Todo objeto Java carrega um pequeno cabeçalho interno, usado pela JVM para guardar informação como o hash e o estado de sincronização do objeto. Antes do Java 25, esse cabeçalho ocupava 12 bytes por objeto. Isso parece pouco, mas multiplicado por milhões de objetos vivos na heap de uma aplicação de alto volume, vira uma fatia relevante do consumo total de memória.
+Todo objeto Java carrega um pequeno cabeçalho interno, usado pela JVM para guardar informação como o hash e o estado de sincronização do objeto. Historicamente esse cabeçalho ocupava 12 bytes por objeto. Isso parece pouco, mas multiplicado por milhões de objetos vivos na heap de uma aplicação de alto volume, vira uma fatia relevante do consumo total de memória.
 
-O recurso de Compact Object Headers reduz esse cabeçalho para 8 bytes, habilitável com uma única flag na inicialização da JVM:
+O recurso de Compact Object Headers reduz esse cabeçalho para 8 bytes. A adoção foi acontecendo por etapas: experimental no Java 24, pronto para produção no Java 25 (habilitável com a flag `-XX:+UseCompactObjectHeaders`) e, a partir do Java 27, ligado por padrão, sem flag nenhuma.
 
 ```bash
+# no Java 25 e 26, ainda precisa pedir explicitamente
 java -XX:+UseCompactObjectHeaders -jar aplicacao.jar
 ```
 
-Não é uma mudança de código, é puramente de configuração da JVM, o que torna a adoção simples de testar num ambiente de homologação antes de levar para produção. O ganho é proporcionalmente maior em aplicações que mantêm muitos objetos pequenos vivos na heap ao mesmo tempo, exatamente o tipo de cenário que este capítulo inteiro discute.
+Não é uma mudança de código, é puramente comportamento da JVM, o que torna simples testar num ambiente de homologação antes de levar para produção. O ganho é proporcionalmente maior em aplicações que mantêm muitos objetos pequenos vivos na heap ao mesmo tempo, exatamente o tipo de cenário que este capítulo inteiro discute. Esse é um exemplo do que [Java Recente](/labs/java/java/05-java-recente/) chama de melhoria que você ganha só atualizando a JVM.
+
+## Garbage collectors: qual a JVM escolhe
+
+Até aqui a nota tratou "o GC" como uma coisa só, mas a HotSpot vem com vários coletores, e eles têm perfis bem diferentes. Todos fazem a mesma tarefa central, achar os objetos que ninguém mais alcança e devolver esse espaço para a heap, mas cada um resolve de um jeito o dilema entre pausar a aplicação e gastar CPU.
+
+Quando o GC roda, ele precisa de momentos em que a aplicação para completamente para ele mexer nas referências com segurança. Esses momentos são as pausas ("stop-the-world"). Um coletor pode fazer pausas raras e longas, ou muitas pausas curtíssimas, e essa escolha afeta direto a latência que o seu usuário sente.
+
+```mermaid
+graph LR
+    Serial["Serial<br/>1 thread<br/>heap pequena"]
+    Parallel["Parallel<br/>N threads<br/>throughput"]
+    G1["G1<br/>heap em regiões<br/>pausas previsíveis"]
+    ZGC["ZGC<br/>pausas < 1ms<br/>heaps enormes"]
+    Serial --> Parallel --> G1 --> ZGC
+```
+
+- **Serial**: usa uma thread só para coletar e para a aplicação inteira enquanto trabalha. Simples e com pouco custo fixo, serve bem para heap pequena, aplicação de linha de comando curta ou container com um núcleo só.
+- **Parallel**: usa várias threads para coletar mais rápido. O foco é throughput, ou seja, terminar o máximo de trabalho da aplicação num intervalo, aceitando pausas maiores quando elas acontecem. Foi o padrão por muitos anos.
+- **G1** (Garbage-First): divide a heap em muitas regiões pequenas e coleta primeiro as que têm mais lixo. A meta dele é manter as pausas dentro de um alvo que você configura (por padrão, 200ms). É o coletor de uso geral hoje.
+- **ZGC**: trabalha quase todo o tempo em paralelo com a aplicação, com pausas na casa de menos de 1 milissegundo mesmo em heaps de centenas de GB. O preço é um consumo de CPU e de memória um pouco maior.
+
+Você raramente escolhe o coletor na mão. A JVM decide um padrão, e até o Java 26 essa decisão levava o hardware em conta: máquina com menos de 2 núcleos ou menos de ~2 GB de RAM caía no Serial automaticamente, o que às vezes pegava gente de surpresa num container apertado. O Java 27 (JEP 523) acaba com essa regra e torna o **G1 o padrão em qualquer ambiente**.
+
+Se em algum momento você precisar trocar de propósito, a flag é direta:
+
+```bash
+java -XX:+UseZGC -jar aplicacao.jar
+java -XX:+UseParallelGC -jar aplicacao.jar
+```
+
+Antes de mexer, meça. Ligue os logs de GC com `-Xlog:gc*` e olhe a frequência das coletas, a duração das pausas e quanta memória cada ciclo recupera. Trocar de coletor sem esse dado costuma só mudar o sintoma de lugar. Na maioria dos serviços web, o G1 no padrão dá conta, e o ganho real vem de reduzir a alocação de objetos (as seções anteriores dessa nota) antes de pensar em trocar de GC.
+
+Para se aprofundar: o [HotSpot Virtual Machine Garbage Collection Tuning Guide](https://docs.oracle.com/en/java/javase/25/gctuning/) da Oracle, [JEP 534: Compact Object Headers](https://openjdk.org/jeps/534) e [JEP 523: Make G1 the Default Garbage Collector in All Environments](https://openjdk.org/jeps/523).
 
 ## Uso inadequado de coleções
 

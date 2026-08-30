@@ -1,6 +1,6 @@
 # Concorrência
 
-Em Java Moderno você viu Virtual Threads e a Concurrency API por cima. Essa nota entra em alguns detalhes práticos que aparecem assim que um código que "funcionava sozinho" passa a rodar com mais de uma thread ao mesmo tempo: coleções que parecem seguras e não são, geradores de número aleatório que viram gargalo, um problema específico que pegou até times grandes de olho em Virtual Threads, e como disparar várias chamadas ao mesmo tempo sem transformar isso num novo gargalo.
+Em Java Moderno você viu Virtual Threads e a Concurrency API por cima. Essa nota entra em alguns detalhes práticos que aparecem assim que um código que "funcionava sozinho" passa a rodar com mais de uma thread ao mesmo tempo: coleções que parecem seguras e não são, geradores de número aleatório que viram gargalo, um problema específico que pegou até times grandes de olho em Virtual Threads, como disparar várias chamadas ao mesmo tempo sem transformar isso num novo gargalo, e as APIs mais recentes para organizar tudo isso (Structured Concurrency e Scoped Values).
 
 ## HashMap não é thread-safe
 
@@ -148,9 +148,67 @@ var payFut = CompletableFuture
 
 O `orTimeout` (Java 9+) completa a future com `TimeoutException` se ela passar do prazo, e aí o `exceptionally` devolve um valor de reserva. Se você prefere já entregar o fallback direto no timeout, sem passar pela exceção, use `completeOnTimeout(Pagamento.desconhecido(), 2, TimeUnit.SECONDS)`. Sem nenhum dos dois, uma dependência travada segura a thread do pool e o resultado agregado até o socket estourar sozinho, o que costuma ser bem mais que 2 segundos.
 
-A diferença entre `exceptionally`, `handle` e `whenComplete` está em [Exceções: técnicas avançadas](/labs/java/java/10-excecoes-avancado/). Para quem quer ir além do fallback manual, Retry, Circuit Breaker e Bulkhead com Resilience4j estão em [Spring Boot e System Design](/labs/java/spring/08-system-design-com-spring/).
+A diferença entre `exceptionally`, `handle` e `whenComplete` está em [Exceções: técnicas avançadas](/labs/java/java/11-excecoes-avancado/). Para quem quer ir além do fallback manual, Retry, Circuit Breaker e Bulkhead com Resilience4j estão em [Spring Boot e System Design](/labs/java/spring/08-system-design-com-spring/).
 
-## Não bloqueie dentro de código assíncrono
+## Structured Concurrency
+
+O padrão com `CompletableFuture` da seção anterior funciona, mas deixa buracos. Se você dispara três chamadas e a segunda falha na hora, as outras duas continuam rodando até terminarem sozinhas, gastando conexão e CPU por um resultado que ninguém vai usar. Cancelar tudo direito, propagar o erro certo e ainda respeitar um timeout global vira um monte de código de encanamento que é fácil errar.
+
+A Structured Concurrency parte de uma ideia simples: se um método abre várias subtarefas para resolver uma coisa só, essas subtarefas deviam viver e morrer juntas, dentro de um escopo bem delimitado, do mesmo jeito que um bloco `{ }` delimita variáveis.
+
+```java
+import java.util.concurrent.StructuredTaskScope;
+import java.util.concurrent.StructuredTaskScope.*;
+
+Tela montarTela(Long id) throws Exception {
+    try (var scope = StructuredTaskScope.open(Joiner.<Object>allSuccessfulOrThrow())) {
+        Subtask<Usuario> usuario = scope.fork(() -> usuarioClient.buscar(id));
+        Subtask<List<Pedido>> pedidos = scope.fork(() -> pedidoClient.buscar(id));
+
+        scope.join(); // espera as duas terminarem
+
+        return new Tela(usuario.get(), pedidos.get());
+    }
+}
+```
+
+O que o escopo garante:
+
+- se `usuarioClient.buscar` lança uma exceção, o `scope` cancela a subtarefa de pedidos na hora e o `join()` relança o erro, sem esperar a outra chamada
+- se a thread que chamou `montarTela` for interrompida, as duas subtarefas são canceladas juntas
+- o `try-with-resources` fecha o escopo no fim, então nenhuma subtarefa "escapa" e continua rodando depois que o método retornou
+
+Cada `fork` roda numa virtual thread nova, então não tem pool para dimensionar nem `shutdown()` para lembrar. O comportamento na hora de juntar os resultados vem do `Joiner` que você passa: `allSuccessfulOrThrow()` espera todas darem certo, `anySuccessfulResultOrThrow()` devolve o primeiro sucesso e cancela o resto (bom para consultar réplicas e ficar com a mais rápida).
+
+Comparando com o `CompletableFuture.allOf` da seção anterior: o objetivo é o mesmo, fan-out de chamadas independentes, mas aqui o cancelamento e a propagação de erro já vêm prontos, e o ciclo de vida das tarefas fica preso ao bloco. A API ainda está em preview (precisa de `--enable-preview`) e aparece de novo no [Java Recente](/labs/java/java/05-java-recente/).
+
+Para se aprofundar: [JEP 533: Structured Concurrency](https://openjdk.org/jeps/533), a [Javadoc de `StructuredTaskScope`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html) com exemplo de cada `Joiner`, e [Structured Concurrency in Java with StructuredTaskScope](https://www.happycoders.eu/java/structured-concurrency-structuredtaskscope/) no HappyCoders.
+
+## Scoped Values
+
+`ThreadLocal` é o jeito clássico de guardar um dado "da requisição atual" (usuário logado, id de rastreamento, locale) sem passar esse dado como parâmetro em toda função da pilha. O problema é que ele foi feito para threads que nascem e morrem. Em servidores que reaproveitam threads num pool, se você esquece de chamar `remove()` no fim, o valor da requisição anterior fica lá e vaza para a próxima que pegar aquela thread. E cada virtual thread carregar seu mapa de `ThreadLocal` não escala quando são milhões delas.
+
+`ScopedValue` resolve os dois pontos. O valor fica visível só durante a execução de um bloco, e some sozinho quando o bloco termina:
+
+```java
+public static final ScopedValue<Usuario> USUARIO_ATUAL = ScopedValue.newInstance();
+
+// na borda (um filtro HTTP, por exemplo):
+ScopedValue.where(USUARIO_ATUAL, usuarioAutenticado)
+    .run(() -> processarRequisicao(request));
+
+// lá no fundo da pilha de chamadas, sem ter recebido nada por parâmetro:
+void gravarAuditoria(String acao) {
+    Usuario u = USUARIO_ATUAL.get();
+    log.info("{} fez {}", u.id(), acao);
+}
+```
+
+Fora do `run`, chamar `USUARIO_ATUAL.get()` lança exceção, porque o valor simplesmente não existe ali. Isso é proposital: não tem como uma requisição enxergar o contexto de outra por engano. O valor é imutável dentro do escopo, e as subtarefas de um `StructuredTaskScope` aberto lá dentro enxergam o mesmo valor de graça.
+
+`ScopedValue` é final desde o Java 25. Onde ele encaixa: contexto de requisição em API, propagação de trace id, tenant em aplicação multi-cliente. Onde `ThreadLocal` ainda serve: quando você precisa de fato mudar o valor no meio do caminho, coisa que `ScopedValue` não deixa.
+
+Para se aprofundar: [JEP 506: Scoped Values](https://openjdk.org/jeps/506) e [What Is a Scoped Value in Java?](https://www.happycoders.eu/java/scoped-values/) no HappyCoders.
 
 Um padrão que aparece com frequência e quebra a proposta de código assíncrono por dentro: chamar `.get()` ou `.join()` de um `CompletableFuture` dentro de uma camada que deveria continuar assíncrona.
 
