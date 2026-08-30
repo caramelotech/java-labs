@@ -72,6 +72,8 @@ Supplier<String> hello = () -> "Olá";                  // -> A
 BiFunction<Integer, Integer, Integer> soma = (a, b) -> a + b;
 ```
 
+Essas são só as mais comuns. O pacote `java.util.function` traz o catálogo completo (`UnaryOperator`, `BinaryOperator`, as variantes de dois argumentos, as versões para primitivos) e os métodos de composição de cada uma. Tudo isso está em [Interfaces funcionais](/labs/java/java/06-interfaces-funcionais/).
+
 ## Method Reference
 
 Method reference (`::`) é uma forma ainda mais concisa de referenciar métodos existentes quando o lambda apenas delega a chamada:

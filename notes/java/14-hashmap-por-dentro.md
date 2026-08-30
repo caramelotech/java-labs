@@ -132,7 +132,7 @@ Map<String, Usuario> cache = new HashMap<>(1334);
 
 O `HashMap` só funciona se a chave respeitar duas coisas:
 
-**`equals()` e `hashCode()` consistentes.** Se dois objetos são `equals`, eles têm que ter o mesmo `hashCode()`. Se você sobrescreve um e esquece o outro, o mapa guarda a entrada num bucket e procura em outro. O contrato completo entre os dois está em [Java Core](/labs/java/java/02-java-core/) e detalhado em [Exceções: o contrato entre equals e hashCode](/labs/java/java/09-excecoes-avancado/).
+**`equals()` e `hashCode()` consistentes.** Se dois objetos são `equals`, eles têm que ter o mesmo `hashCode()`. Se você sobrescreve um e esquece o outro, o mapa guarda a entrada num bucket e procura em outro. O contrato completo entre os dois está em [Java Core](/labs/java/java/02-java-core/) e detalhado em [Exceções: o contrato entre equals e hashCode](/labs/java/java/10-excecoes-avancado/).
 
 **Chave imutável nos campos usados no hash.** Se você usa um objeto como chave e depois muda um campo que entra no `hashCode()`, o hash da chave muda, mas ela continua guardada no bucket antigo. A entrada vira um fantasma: está no mapa, mas `get` com a mesma chave não acha mais.
 
