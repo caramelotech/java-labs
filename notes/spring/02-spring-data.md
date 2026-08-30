@@ -83,6 +83,70 @@ public class Usuario {
 
 Uma entidade precisa ser uma classe mutável de verdade, com construtor sem argumentos: um `record` (visto em Java Moderno) não funciona como entidade JPA, porque a especificação exige exatamente o que um record proíbe por definição (campos não-`final`, classe não-`final`, construtor vazio). Records continuam sendo a escolha certa para DTO e projeção de leitura desse mesmo dado, só não para a entidade gerenciada pelo Hibernate.
 
+### @Enumerated e a armadilha do EnumType.ORDINAL
+
+No código acima o campo `status` é um enum (`StatusPedido`), mas a coluna no banco é um número ou um texto. Quem decide qual dos dois é a anotação `@Enumerated`, e o default dela é justamente a opção que mais dá dor de cabeça.
+
+Sem argumento nenhum, `@Enumerated` equivale a `@Enumerated(EnumType.ORDINAL)`: o Hibernate grava a posição da constante no enum, o valor de `ordinal()`.
+
+```java
+public enum StatusPedido {
+    NOVO,       // 0
+    PAGO,       // 1
+    ENVIADO,    // 2
+    ENTREGUE    // 3
+}
+
+@Enumerated // ORDINAL implícito
+private StatusPedido status;
+```
+
+Um pedido `PAGO` vira o número `1` na coluna. Funciona, ocupa pouco espaço, e é uma bomba-relógio. No dia em que alguém precisar de um status `AGUARDANDO_PAGAMENTO` entre `NOVO` e `PAGO`:
+
+```java
+public enum StatusPedido {
+    NOVO,                  // 0
+    AGUARDANDO_PAGAMENTO,  // 1  <- novo
+    PAGO,                  // 2  (era 1)
+    ENVIADO,               // 3  (era 2)
+    ENTREGUE               // 4  (era 3)
+}
+```
+
+Todas as linhas que tinham `1` continuam com `1`, só que agora `1` significa `AGUARDANDO_PAGAMENTO`. Cada pedido pago virou "aguardando pagamento" de uma vez, sem erro e sem log. O banco não faz ideia de que o significado dos números mudou.
+
+`@Enumerated(EnumType.STRING)` resolve isso gravando o nome da constante:
+
+```java
+@Enumerated(EnumType.STRING)
+@Column(length = 20)
+private StatusPedido status;
+```
+
+Agora a coluna guarda o texto `PAGO`. Você pode reordenar o enum, inserir constantes no meio ou remover as que não usa mais, e as linhas antigas continuam apontando para a constante certa. O preço é modesto: a coluna vira um `varchar` em vez de um `smallint`, e renomear uma constante (`PAGO` para `PAGAMENTO_CONFIRMADO`) passa a exigir um `UPDATE` para acertar os dados que já estão gravados.
+
+Quando você quer um código curto e estável na coluna, desacoplado do nome da constante Java, dá para assumir o controle total com um `AttributeConverter`:
+
+```java
+@Converter(autoApply = true)
+public class StatusPedidoConverter implements AttributeConverter<StatusPedido, String> {
+
+    @Override
+    public String convertToDatabaseColumn(StatusPedido status) {
+        return status == null ? null : status.getCodigo(); // "N", "P", "E"...
+    }
+
+    @Override
+    public StatusPedido convertToEntityAttribute(String codigo) {
+        return StatusPedido.peloCodigo(codigo);
+    }
+}
+```
+
+Assim o nome da constante e o valor no banco evoluem separados: renomear o enum não toca no banco, e mudar o código gravado não toca no enum.
+
+Regra prática: em toda entidade nova, use `EnumType.STRING`. Nunca deixe o `@Enumerated` no default. Se precisar economizar espaço ou já herdou uma coluna com códigos, parta para o `AttributeConverter` em vez de voltar para `ORDINAL`.
+
 ## Relacionamentos
 
 ### @ManyToOne e @OneToMany
