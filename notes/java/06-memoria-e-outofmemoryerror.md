@@ -222,7 +222,15 @@ java -XX:+UseParallelGC -jar aplicacao.jar
 
 Antes de mexer, meça. Ligue os logs de GC com `-Xlog:gc*` e olhe a frequência das coletas, a duração das pausas e quanta memória cada ciclo recupera. Trocar de coletor sem esse dado costuma só mudar o sintoma de lugar. Na maioria dos serviços web, o G1 no padrão dá conta, e o ganho real vem de reduzir a alocação de objetos (as seções anteriores dessa nota) antes de pensar em trocar de GC.
 
-Para se aprofundar: o [HotSpot Virtual Machine Garbage Collection Tuning Guide](https://docs.oracle.com/en/java/javase/25/gctuning/) da Oracle, [JEP 534: Compact Object Headers](https://openjdk.org/jeps/534) e [JEP 523: Make G1 the Default Garbage Collector in All Environments](https://openjdk.org/jeps/523).
+### Quando trocar o G1 pelo ZGC
+
+- Heap grande (dezenas de GB ou mais) e a pausa do G1 já incomoda mesmo depois de ajustada
+- Requisito de latência de cauda: p99/p99.9 sensível a pausas de dezenas ou centenas de milissegundos
+- Cargas com muito objeto vivo ao mesmo tempo (caches grandes em memória, processamento de grafos)
+- Quando NÃO trocar: heap pequeno ou médio, serviço sem requisito de latência apertado, ou antes de ter medido o G1 sob carga real
+- O custo do ZGC: mais CPU e mais memória de folga; o ZGC hoje é geracional (JEP 439), o que reduziu bastante esse overhead
+
+Para se aprofundar: o [HotSpot Virtual Machine Garbage Collection Tuning Guide](https://docs.oracle.com/en/java/javase/25/gctuning/) da Oracle, [JEP 439: Generational ZGC](https://openjdk.org/jeps/439), [JEP 534: Compact Object Headers](https://openjdk.org/jeps/534) e [JEP 523: Make G1 the Default Garbage Collector in All Environments](https://openjdk.org/jeps/523).
 
 ## Uso inadequado de coleções
 
@@ -274,6 +282,31 @@ ByteBuffer buffer = ByteBuffer.allocateDirect(10_000_000); // fora da heap, GC n
 
 Buffers diretos costumam ser liberados só quando o objeto Java que os referencia é coletado, o que pode demorar - então uso pesado dessa API sem cuidado de liberação explícita tende a acumular memória nativa aos poucos.
 
+## A JVM dentro de um container
+
+Rodar a aplicação num container muda de onde a JVM tira os números. Desde o Java 10 ela é "container-aware": lê os limites de CPU e memória do cgroup do container, não os da máquina física por baixo. Numa VM de 64 GB rodando um container limitado a 512 MB, a JVM enxerga 512 MB, e é sobre isso que ela dimensiona a heap.
+
+O tamanho da heap num container costuma ser definido por percentual, não por valor fixo:
+
+```bash
+java -XX:MaxRAMPercentage=75.0 -jar aplicacao.jar
+```
+
+O default é conservador (em torno de 25%); 75% é um valor comum depois de medir quanto a aplicação usa de fato. O erro clássico é querer aproveitar toda a memória e setar `-Xmx` igual ao limite do container. A heap não é o único consumo do processo: metaspace, pilhas de thread, code cache, memória nativa e buffers diretos ficam todos fora dela. Se a heap sozinha já ocupa o limite inteiro, qualquer uso de não-heap empurra o processo para além do teto do cgroup.
+
+Quando isso acontece, o kernel mata o processo e o container registra `OOMKilled`. É diferente do `OutOfMemoryError`: no `OOMKilled` a JVM nem chega a reclamar, ela some de uma vez, sem stack trace e sem heap dump automático. Ver o pod reiniciando com `OOMKilled` no evento aponta para "o processo inteiro passou do limite", não necessariamente para um vazamento de heap.
+
+Antes de apertar os limites, meça o não-heap com Native Memory Tracking:
+
+```bash
+java -XX:NativeMemoryTracking=summary -jar aplicacao.jar
+jcmd <pid> VM.native_memory summary
+```
+
+Vale lembrar que o limite de CPU também conta. Um `--cpus=1` faz a JVM escolher menos threads de GC e um `ForkJoinPool.commonPool` minúsculo, então "o Java está lento no container" às vezes é só CPU de menos, não um problema de código.
+
+Para se aprofundar: [Java Heap Space Inside Docker](https://www.baeldung.com/ops/docker-jvm-heap-size) no Baeldung e a seção de [Native Memory Tracking](https://docs.oracle.com/en/java/javase/25/troubleshoot/diagnostic-tools.html) do Troubleshooting Guide da Oracle.
+
 ## Boas práticas
 
 - **Monitorar** o uso de memória com ferramentas como VisualVM, JConsole ou `jcmd`, em vez de só reagir depois que o erro já aconteceu em produção
@@ -282,3 +315,5 @@ Buffers diretos costumam ser liberados só quando o objeto Java que os referenci
 - **Revisar coleções estáticas, caches e listeners** em busca de referências que nunca são liberadas
 - **Preferir streaming e processamento em lotes** a carregar arquivos ou respostas inteiras na memória
 - **Usar um `ExecutorService`** com pool de threads limitado em vez de criar `Thread` nova sob demanda
+
+Para investigar um pico de CPU, um thread dump ou uma gravação de JFR num processo que já está rodando, veja [Diagnóstico da JVM em Produção](/labs/java/java/17-diagnostico-em-producao/).
