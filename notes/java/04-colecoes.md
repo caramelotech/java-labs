@@ -35,6 +35,79 @@ graph TD
 - **Queue** - fila, pensada para elementos que aguardam processamento (FIFO na maioria das implementações)
 - **Map** - pares chave-valor, cada chave aparece no máximo uma vez
 
+## List, Set ou Map: qual escolher
+
+As três guardam um grupo de objetos, mas cada uma responde a uma pergunta diferente. Antes de pensar em `ArrayList` ou `HashMap`, decida qual das interfaces encaixa no problema. Um jeito de chegar lá é seguir essas três perguntas, nessa ordem:
+
+```mermaid
+flowchart TD
+    A[Preciso guardar um grupo de objetos] --> B{Preciso associar<br/>uma chave a um valor?}
+    B -->|sim| M[Map]
+    B -->|não| C{Os elementos<br/>precisam ser únicos?}
+    C -->|sim| S[Set]
+    C -->|não| L[List]
+```
+
+`Map` entra quando cada dado tem um identificador e você vai buscar por ele: usuários por ID, preço por código de produto, contador por palavra. `Set` entra quando o que importa é "esse valor já está aqui?" e repetição não faz sentido: e-mails cadastrados, tags de um post, IDs já processados. `List` fica com o resto, que é a maioria dos casos: uma sequência em que a ordem importa e o mesmo valor pode aparecer duas vezes.
+
+```java
+List<String> carrinho = new ArrayList<>();   // itens na ordem em que foram adicionados, repetição ok
+Set<String> emailsUsados = new HashSet<>();  // "esse e-mail já foi cadastrado?"
+Map<Long, Usuario> usuariosPorId = new HashMap<>(); // pega o usuário pelo ID
+```
+
+Existe um argumento comum de que `List` resolveria 90% dos casos, e ele não está errado: `List` é o padrão quando você está na dúvida. Mas `Set` e `Map` não são só conveniência de organização, eles mudam o custo das operações, e é aí que a escolha aparece no perfil de performance.
+
+### Custo de buscar um elemento
+
+Procurar um valor dentro de uma `List` é uma busca sequencial. A estrutura olha um elemento por vez, do começo ao fim, até achar ou acabar a lista. Numa lista de 1 milhão de itens, no pior caso, são 1 milhão de comparações. Isso é O(n): o tempo cresce junto com o tamanho.
+
+`HashSet` e `HashMap` usam uma tabela hash. O valor (ou a chave) é convertido num número que aponta direto para o "gaveteiro" certo, então a busca não depende de quantos elementos existem. Isso é O(1) em média, esteja a coleção com 10 ou com 10 milhões de itens.
+
+```java
+List<String> emails = new ArrayList<>(carregarMilharesDeEmails());
+emails.contains("ana@exemplo.com"); // pode varrer a lista inteira
+
+Set<String> emails = new HashSet<>(carregarMilharesDeEmails());
+emails.contains("ana@exemplo.com"); // vai direto ao ponto
+```
+
+| Operação                     | `ArrayList` | `HashSet` / `HashMap` | `TreeSet` / `TreeMap` |
+| ---------------------------- | ----------- | --------------------- | --------------------- |
+| buscar por valor / por chave | O(n)        | O(1) em média         | O(log n)              |
+| adicionar                    | O(1) no fim | O(1) em média         | O(log n)              |
+
+O O(1) do hash é uma média. No pior caso (muitas chaves caindo no mesmo bucket) ele degrada, e desde o Java 8 o `HashMap` reorganiza esses buckets cheios numa árvore para segurar o pior caso em O(log n) em vez de O(n). Como isso funciona por dentro está em [HashMap por dentro](/labs/java/java/15-hashmap-por-dentro/). `TreeSet` e `TreeMap` já são O(log n) por natureza, porque guardam tudo numa árvore balanceada, e entregam a coleção sempre ordenada como parte do pacote.
+
+Na prática, um `contains` rodando dentro de um laço sobre uma `List` grande é um sinal de alerta: quase sempre esses dados deveriam estar num `Set` ou num `Map`. O preço a pagar é memória, `Set` e `Map` gastam mais que uma `List` com os mesmos valores, por causa da tabela hash ou dos nós da árvore.
+
+### As fábricas `List.of`, `Set.of` e `Map.of` com duplicados
+
+Desde o Java 9 dá para criar coleções pequenas e imutáveis direto com `List.of(...)`, `Set.of(...)` e `Map.of(...)`. Tem uma pegadinha aqui que vale conhecer:
+
+```java
+List.of("Ana", "João", "Ana");         // ok: lista imutável com 3 elementos
+Set.of("Ana", "João", "Ana");          // IllegalArgumentException: duplicate element
+Map.of("Ana", 1, "João", 2, "Ana", 3); // IllegalArgumentException: duplicate key
+```
+
+`List.of` aceita repetidos, porque repetição é normal numa lista. Já `Set.of` e `Map.of` lançam `IllegalArgumentException` na hora da criação se encontrarem um elemento ou uma chave duplicada. Elas não removem a duplicata em silêncio de propósito: a ideia é que escrever `Set.of("Ana", "Ana")` no código é quase sempre um bug, e falhar na cara é melhor do que esconder.
+
+Quando os dados vêm de fora e podem ter duplicatas de verdade (uma lista carregada do banco, por exemplo), use `Set.copyOf(lista)` ou `new HashSet<>(lista)`, que aí sim descartam as repetições sem reclamar. Vale lembrar também que nenhuma das três fábricas aceita `null`, e que `Map.of` só vai até 10 pares chave-valor, acima disso é `Map.ofEntries(...)`.
+
+### Combinar as estruturas
+
+As três não são exclusivas. O valor de um `Map` pode ser qualquer coleção, e é comum precisar disso:
+
+```java
+Map<String, List<Pedido>> pedidosPorCliente = new HashMap<>();
+pedidosPorCliente
+    .computeIfAbsent("ana@exemplo.com", cliente -> new ArrayList<>())
+    .add(novoPedido);
+```
+
+Aqui o `Map` dá a busca rápida pelo cliente e a `List` mantém os pedidos daquele cliente em ordem. Escolher a estrutura certa em cada nível é o que deixa esse tipo de código legível.
+
 ## Implementações de List
 
 | Classe       | Ordem | Duplicatas | Null | Thread-safe | Performance                   |
@@ -296,3 +369,11 @@ class Pedido {
 Isso é diferente de `Collections.unmodifiableList(...)`, que não copia nada, só embrulha a lista original numa view que bloqueia `add`/`remove` feitos através dela. A lista original continua viva e mutável por quem ainda tiver a referência dela: se alguém adicionar um elemento na lista original, essa mudança aparece através da view "não modificável" também. `List.copyOf()` quebra esse vínculo de vez, criando uma cópia própria, sem caminho de volta para mutar o que está lá dentro por fora. Vale notar que `List.copyOf()` não aceita elementos `null`, o que costuma ajudar a manter invariantes, mas precisa estar claro no contrato do método.
 
 Para grafos mutáveis mais complexos, com objetos aninhados, um copy constructor recursivo funciona bem quando a estrutura é pequena e conhecida; para conversão entre tipos diferentes ao mesmo tempo (entidade para DTO, por exemplo), uma ferramenta de mapeamento dedicada resolve os dois problemas juntos.
+
+## Referências
+
+- [Entendendo as Coleções do Java: List, Set e Map](https://dev.to/isaacmaciel/entendendo-as-colecoes-do-java-list-set-e-map-33jh) - Isaac Maciel (DEV Community), pt-BR
+- [The Collections Framework](https://dev.java/learn/api/collections-framework/) - Oracle / Dev.java, inglês
+- [Time Complexity of Java Collections](https://www.baeldung.com/java-collections-complexity) - Baeldung, inglês
+- [Performance of contains() in a HashSet vs ArrayList](https://www.baeldung.com/java-hashset-arraylist-contains-performance) - Baeldung, inglês
+- [Set (documentação oficial do Java)](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html) - Oracle, inglês
