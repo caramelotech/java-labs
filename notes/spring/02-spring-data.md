@@ -147,6 +147,64 @@ Assim o nome da constante e o valor no banco evoluem separados: renomear o enum 
 
 Regra prática: em toda entidade nova, use `EnumType.STRING`. Nunca deixe o `@Enumerated` no default. Se precisar economizar espaço ou já herdou uma coluna com códigos, parta para o `AttributeConverter` em vez de voltar para `ORDINAL`.
 
+## Ciclo de vida de uma entidade
+
+A maior parte da confusão com JPA some quando você entende que uma entidade não está sempre "conectada" ao banco. Ela passa por estados, e o comportamento do Hibernate muda em cada um.
+
+O centro de tudo é o **contexto de persistência** (persistence context), também chamado de cache de primeiro nível. Durante uma transação, o Hibernate mantém ali dentro uma cópia de cada entidade que ele está gerenciando, com a garantia de que existe uma única instância por identidade: se você buscar o `Usuario` de id 7 duas vezes na mesma transação, recebe o mesmo objeto Java, não duas cópias.
+
+### Os quatro estados
+
+```mermaid
+stateDiagram-v2
+    [*] --> Transient: new
+    Transient --> Managed: persist()
+    Managed --> Detached: fim da transação / detach() / clear()
+    Detached --> Managed: merge()
+    Managed --> Removed: remove()
+    Removed --> [*]: DELETE no flush
+```
+
+**Transient** (a especificação JPA chama de _new_): um objeto que você criou com `new` e mais nada. Não tem linha correspondente no banco, não está no contexto de persistência, e o Hibernate não sabe que ele existe. Mudar os campos dele não gera SQL nenhum.
+
+```java
+Usuario u = new Usuario("Ana", "ana@exemplo.com"); // transient
+```
+
+**Managed** (ou _persistent_): a entidade está no contexto de persistência e é um espelho de uma linha da tabela. Todo campo que você alterar é detectado e sincronizado com o banco automaticamente. Uma entidade fica managed depois de um `persist()`, ou quando você a carrega com `findById`, uma query, etc.
+
+```java
+Usuario u = repository.findById(7L).orElseThrow(); // managed
+u.setNome("Ana Paula"); // sem chamar save, o UPDATE vai sair no fim da transação
+```
+
+**Detached**: a entidade já teve (ou tem) uma linha no banco, mas não está mais sendo acompanhada por nenhum contexto de persistência, porque a transação terminou, ou você chamou `detach()`/`clear()`. O objeto continua na memória com os dados que tinha, mas alterá-lo não afeta o banco.
+
+**Removed**: a entidade foi marcada para exclusão com `remove()` (ou o `delete` do repositório). Ela ainda está no contexto, mas o Hibernate já agendou um `DELETE` para o próximo flush.
+
+### As transições
+
+| De        | Para     | Como                                                                      |
+| --------- | -------- | ------------------------------------------------------------------------- |
+| Transient | Managed  | `entityManager.persist(e)` (ou `repository.save(e)` num objeto novo)      |
+| Managed   | Detached | fim da transação, `detach(e)`, `clear()`, ou `close()` do `EntityManager` |
+| Detached  | Managed  | `entityManager.merge(e)`                                                  |
+| Managed   | Removed  | `entityManager.remove(e)` (ou `repository.delete(e)`)                     |
+
+Um detalhe que pega muita gente: `merge()` não transforma o objeto que você passou em managed. Ele copia os dados desse objeto para uma instância managed (buscando no banco se preciso) e devolve **essa outra instância**. Depois de `Usuario gerenciado = em.merge(destacado)`, quem está managed é `gerenciado`, não `destacado`. Continuar mexendo em `destacado` não faz nada.
+
+### Dirty checking
+
+O motivo de uma entidade managed não precisar de `save()` para persistir mudanças é o **dirty checking**. Quando a entidade entra no contexto, o Hibernate guarda um retrato (snapshot) do estado dela. No **flush** (quando ele envia o SQL pendente ao banco), ele compara o estado atual campo a campo com esse snapshot e, para cada entidade com pelo menos um campo diferente, gera um `UPDATE`.
+
+Isso tem um custo: em toda entidade carregada, o Hibernate carrega o dobro de dados na memória (o objeto e o snapshot) e faz a comparação no flush. É por isso que uma consulta só de leitura se beneficia de projeções (o resultado de uma projeção não entra no contexto, então não tem snapshot nem dirty checking) e de `@Transactional(readOnly = true)`. Esse assunto está na seção **Projeções** mais abaixo.
+
+### Flush x commit
+
+Não são a mesma coisa. O **flush** é o momento em que o Hibernate traduz as mudanças pendentes em SQL e manda para o banco. O **commit** é o momento em que a transação é confirmada e essas mudanças ficam definitivas.
+
+O Hibernate faz flush automaticamente antes do commit, e às vezes antes de uma query (para o resultado refletir o que você já alterou). Então o SQL pode "sair" antes do fim do método `@Transactional`, mas ainda dá para reverter tudo com um rollback até o commit acontecer. O `@Transactional` que fecha esse ciclo está na seção do fim da nota.
+
 ## Relacionamentos
 
 ### @ManyToOne e @OneToMany
@@ -566,3 +624,10 @@ public void transferir(Long origemId, Long destinoId, BigDecimal valor) {
 ```
 
 Use `@Transactional(readOnly = true)` em métodos de apenas leitura - é uma dica de otimização para o banco.
+
+## Referências
+
+- [Entidades Managed, Transient e Detached no Hibernate e JPA](https://www.alura.com.br/artigos/entidades-managed-transient-e-detached-no-hibernate-e-jpa) - Alura, pt-BR
+- [Hibernate Entity Lifecycle](https://www.baeldung.com/hibernate-entity-lifecycle) - Baeldung, inglês
+- [Entity Lifecycle Model in JPA & Hibernate](https://thorben-janssen.com/entity-lifecycle-model/) - Thorben Janssen, inglês
+- [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa) - guia oficial do Spring, inglês
