@@ -227,6 +227,32 @@ public class OrderPlacedListener implements ApplicationListener<OrderPlacedEvent
 
 Vale usar eventos quando uma ação dispara efeitos colaterais que não fazem parte da responsabilidade principal do service - por exemplo, `PedidoService` não precisa saber que existe um serviço de email ou de estoque, ele só anuncia que um pedido foi criado. Para uma chamada direta e simples entre duas classes que sempre vão evoluir juntas, um método comum ainda é mais fácil de seguir do que um evento.
 
+### @TransactionalEventListener: reagir só depois do commit
+
+Tem um detalhe no exemplo acima que morde quando você menos espera. Suponha que o `criarPedido` seja `@Transactional` e, depois de publicar o evento, uma constraint do banco estoure e a transação faça rollback. O pedido não foi salvo, mas o `OrderPlacedListener` já rodou (um `@EventListener` comum é síncrono e executa na hora do `publishEvent`), então o email de confirmação foi enviado, o estoque foi baixado e a auditoria registrou um pedido que não existe.
+
+A anotação `@TransactionalEventListener` resolve isso prendendo a execução do listener a uma fase da transação em que o evento foi publicado:
+
+```java
+@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+public void aoConfirmarPedido(OrderPlacedEvent event) {
+    emailService.enviarConfirmacao(event.getOrderId());
+}
+```
+
+Com `AFTER_COMMIT` (que é o valor padrão, dá para omitir o `phase`), o método só roda se a transação chegar ao commit. Se der rollback, o listener nem é chamado. As fases disponíveis no enum `TransactionPhase`:
+
+| Fase                    | Quando roda                                               |
+| ----------------------- | --------------------------------------------------------- |
+| `AFTER_COMMIT` (padrão) | logo depois do commit bem-sucedido                        |
+| `AFTER_ROLLBACK`        | depois de um rollback                                     |
+| `AFTER_COMPLETION`      | depois do fim da transação, tendo dado commit ou rollback |
+| `BEFORE_COMMIT`         | logo antes do commit ser efetivado                        |
+
+A diferença para o `@EventListener` puro: o listener comum não sabe que existe transação, roda imediatamente. O transacional espera a fase pedida. Um efeito colateral disso: se você publicar o evento fora de qualquer transação, o `@TransactionalEventListener` simplesmente não executa, o evento é descartado em silêncio. Para ele rodar mesmo sem transação, é preciso `@TransactionalEventListener(fallbackExecution = true)`.
+
+Uma ressalva importante: `AFTER_COMMIT` não torna a entrega confiável. O listener roda depois do commit, fora da transação, então se a aplicação cair entre o commit e o envio do email, o evento se perde e não há rollback que traga ele de volta. Para garantia de entrega de verdade, o caminho é o padrão Transactional Outbox (gravar o evento numa tabela na mesma transação do pedido e publicar depois) ou mensageria, assunto de [Mensageria com Kafka](/labs/java/spring/09-mensageria-com-kafka/).
+
 ## Auditoria de ações de negócio com AOP
 
 Registrar "quem fez o quê" é uma pergunta comum em sistemas com regra de negócio sensível (quem aprovou este pagamento, quem cancelou este pedido). O jeito mais direto de responder isso é colocar o registro dentro do próprio método que processa a ação, mas isso acopla a regra de negócio ao código de auditoria, e o mesmo bloco de captura do usuário e log acaba se repetindo em cada novo método que precisa ser auditado.
@@ -270,3 +296,10 @@ public class PedidoService {
 Com isso, `PedidoService.cancelar` fica só com a regra de cancelamento, sem nenhum código de captura de usuário ou log misturado, e qualquer outro método que precisar do mesmo tipo de auditoria só recebe a anotação, sem repetir o aspecto.
 
 Vale separar bem essa responsabilidade das outras formas de observabilidade já vistas nesta nota. Auditoria de estado de dado (o que mudou num registro específico, e para qual valor) normalmente é responsabilidade de uma ferramenta dedicada a isso, como o Hibernate Envers. Tempo de resposta e contagem de chamadas são responsabilidade do Actuator/Micrometer. Já "qual ação de negócio foi executada e por quem" é uma preocupação transversal com valor de negócio direto, e é exatamente esse o tipo de caso que marker annotation com AOP resolve sem espalhar código repetido pelos serviços.
+
+## Referências
+
+- [Transaction-bound Events](https://docs.spring.io/spring-framework/reference/data-access/transaction/event.html) - documentação oficial do Spring, inglês
+- [Eventos em Transações do Spring](https://medium.com/@luksrn/eventos-em-transa%C3%A7%C3%B5es-do-spring-ec5db69c1006) - Lucas Farias, pt-BR
+- [Spring Boot Actuator](https://docs.spring.io/spring-boot/reference/actuator/index.html) - documentação oficial do Spring, inglês
+- [Spring AOP](https://docs.spring.io/spring-framework/reference/core/aop.html) - documentação oficial do Spring, inglês
