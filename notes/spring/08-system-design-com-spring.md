@@ -370,3 +370,5 @@ O que só faz sentido com vários serviços de verdade:
 - **Eureka, Feign, LoadBalancer e Gateway** pressupõem que você já tem serviços separados com bom motivo para isso
 
 Sinais de que quebrar em serviços pode valer a pena: times diferentes travando no mesmo deploy, partes do sistema com necessidade de escala muito diferente (o processamento de imagem precisa de 10 máquinas, o resto de 1), ou um pedaço que precisa de uma stack que não convive com o resto no mesmo processo. Se não é nada disso, um monólito modular bem estruturado entrega mais rápido e quebra menos.
+
+Para o outro lado do problema, quando o objetivo é fazer uma API só aguentar muita carga (banco, cache, escala horizontal, teste de carga), veja [Escalando uma API para Alta Carga](/labs/java/spring/11-escalando-para-alta-carga/).
