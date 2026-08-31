@@ -158,7 +158,7 @@ public class PagamentoCartao implements Pagamento { }
 
 Use `@Qualifier` quando o código que injeta precisa escolher explicitamente qual implementação quer, e `@Primary` quando existe uma implementação "óbvia" que deve ser o padrão na maioria dos casos.
 
-Preferir injeção por construtor tem outro efeito: quando dois beans dependem um do outro, o ciclo aparece já no startup em vez de ser resolvido silenciosamente. Veja [Dependência circular no Spring](/labs/java/spring/09-dependencia-circular/) para entender como o framework lida com isso.
+Preferir injeção por construtor tem outro efeito: quando dois beans dependem um do outro, o ciclo aparece já no startup em vez de ser resolvido silenciosamente. Veja [Dependência circular no Spring](/labs/java/spring/10-dependencia-circular/) para entender como o framework lida com isso.
 
 ## Criando um Controller REST
 
@@ -211,6 +211,22 @@ public class ProdutoController {
 | `@PutMapping`    | PUT         | Substituir completo    |
 | `@PatchMapping`  | PATCH       | Atualizar parcialmente |
 | `@DeleteMapping` | DELETE      | Remover                |
+
+Todas essas anotações são atalhos para `@RequestMapping` com o método HTTP já fixado. `@RequestMapping` sozinho aparece no nível da classe, definindo o prefixo de rota comum a todos os endpoints do controller.
+
+### PUT x PATCH
+
+A dúvida mais comum na hora de montar um endpoint de atualização. As duas mexem num recurso que já existe, mas com semânticas diferentes.
+
+`PUT` substitui o recurso inteiro pelo que veio no corpo. Se o cliente manda `{"nome": "Notebook Pro"}` e omite o campo `preco`, a interpretação correta é que o preço deve virar nulo (ou o valor padrão), não que ele fica como estava. O corpo do PUT é o novo estado completo do recurso.
+
+`PATCH` aplica uma alteração parcial. O corpo descreve só o que muda, e os campos ausentes ficam intocados. `{"preco": 3499.99}` num PATCH altera apenas o preço.
+
+Uma consequência prática é a idempotência. `PUT` é idempotente: mandar a mesma requisição uma ou dez vezes deixa o recurso no mesmo estado final. `PATCH` não é necessariamente, depende de como a alteração é descrita (um PATCH do tipo "incremente o estoque em 1" muda o resultado a cada chamada). O `PATCH` foi padronizado depois dos outros métodos, pela RFC 5789, justamente para cobrir o caso de atualização parcial que o `PUT` não atende bem.
+
+Na prática, muita API trata o PATCH como "PUT parcial" (manda um subconjunto dos campos, esses são atualizados) em vez de seguir formatos de patch mais formais como JSON Patch. Funciona, só não é o que a RFC descreve ao pé da letra.
+
+E o POST? Ele até serve para atualizar (o HTTP permite), mas num design REST limpo o POST fica reservado para criar recursos, e a atualização vai de PUT ou PATCH conforme o caso.
 
 ### Extraindo dados da requisição
 
@@ -503,3 +519,10 @@ curl -X DELETE http://localhost:8080/produtos/1
 ```
 
 Ferramentas com interface gráfica: **Postman**, **Insomnia** ou a extensão **REST Client** do VS Code.
+
+## Referências
+
+- [Web MVC - Annotated Controllers: Mapping Requests](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html) - documentação oficial do Spring, inglês
+- [RFC 5789: PATCH Method for HTTP](https://www.rfc-editor.org/rfc/rfc5789.html) - IETF, inglês
+- [HTTP request methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) - MDN Web Docs, inglês
+- [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service) - guia oficial do Spring, inglês
