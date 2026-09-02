@@ -158,7 +158,7 @@ public class PagamentoCartao implements Pagamento { }
 
 Use `@Qualifier` quando o código que injeta precisa escolher explicitamente qual implementação quer, e `@Primary` quando existe uma implementação "óbvia" que deve ser o padrão na maioria dos casos.
 
-Preferir injeção por construtor tem outro efeito: quando dois beans dependem um do outro, o ciclo aparece já no startup em vez de ser resolvido silenciosamente. Veja [Dependência circular no Spring](/labs/java/spring/10-dependencia-circular/) para entender como o framework lida com isso.
+Preferir injeção por construtor tem outro efeito: quando dois beans dependem um do outro, o ciclo aparece já no startup em vez de ser resolvido silenciosamente. Veja [Dependência circular no Spring](/labs/java/spring/11-dependencia-circular/) para entender como o framework lida com isso.
 
 ## Criando um Controller REST
 

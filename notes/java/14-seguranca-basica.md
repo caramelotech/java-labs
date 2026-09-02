@@ -29,7 +29,7 @@ Regra prática: precisa ler o dado de volta depois? AEAD. Só precisa provar que
 
 ## Desserialização não é a mesma coisa que parsing
 
-A serialização nativa do Java (`ObjectInputStream`/`ObjectOutputStream`) reconstrói objetos Java inteiros a partir de uma sequência de bytes. O risco central é tratar esses bytes como dado inofensivo quando eles vêm de uma fonte não confiável.
+A serialização nativa do Java (`ObjectInputStream`/`ObjectOutputStream`) reconstrói objetos Java inteiros a partir de uma sequência de bytes. Como o mecanismo funciona por dentro (o que é `Serializable`, `serialVersionUID`, `transient`) está em [Serialização e Desserialização](/labs/java/java/16-serializacao/). O risco central é tratar esses bytes como dado inofensivo quando eles vêm de uma fonte não confiável.
 
 `ObjectInputStream` pode carregar qualquer classe presente no classpath da aplicação e acionar métodos como `readObject()` durante a reconstrução. Isso significa que bytes maliciosos, desenhados especificamente para o classpath daquela aplicação, podem encadear chamadas de métodos já existentes em bibliotecas legítimas (uma técnica chamada gadget chain) até conseguir executar código arbitrário no servidor, sem nunca ter explorado uma vulnerabilidade de memória, só a própria confiança do mecanismo de desserialização.
 

@@ -17,7 +17,7 @@ Antes de otimizar, olhe os números:
 - CPU, memória e tempo gasto em pausas de GC
 - conexões de banco em uso, taxa de acerto do cache (cache hit ratio), atraso da fila (Kafka lag)
 
-Boa parte disso sai de graça: `/actuator/metrics` e `/actuator/prometheus` no Spring Boot, mais um painel no Grafana. Para pegar N+1 ainda em desenvolvimento, ligue o log de SQL local e conte as queries de um endpoint. O diagnóstico de CPU, memória e GC num processo já rodando está em [Diagnóstico da JVM em Produção](/labs/java/java/17-diagnostico-em-producao/).
+Boa parte disso sai de graça: `/actuator/metrics` e `/actuator/prometheus` no Spring Boot, mais um painel no Grafana. Para pegar N+1 ainda em desenvolvimento, ligue o log de SQL local e conte as queries de um endpoint. O diagnóstico de CPU, memória e GC num processo já rodando está em [Diagnóstico da JVM em Produção](/labs/java/java/18-diagnostico-em-producao/).
 
 Uma última distinção antes de seguir: 10 mil GETs leves por segundo não é a mesma coisa que 10 mil transações complexas por segundo. Cargas diferentes quebram em lugares diferentes, e o número sozinho não diz quase nada.
 

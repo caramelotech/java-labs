@@ -198,6 +198,8 @@ A defesa é fazer o handler **idempotente**: processar a mesma mensagem duas vez
 - Usar `UPDATE ... WHERE status = 'PENDENTE'` em vez de somar valores, para que a segunda execução não faça nada.
 - Checar o estado antes de agir ("esse pedido já foi cobrado?").
 
+Idempotência e deduplicação têm uma nota dedicada, com o padrão Idempotency-Key para APIs, a tabela de mensagens processadas e as garantias at-least-once/exactly-once: [Idempotência e Deduplicação](/labs/java/spring/10-idempotencia-e-deduplicacao/).
+
 Do lado do produtor, ative o **produtor idempotente** para não gerar duplicatas quando ele mesmo faz retry de um envio:
 
 ```properties
