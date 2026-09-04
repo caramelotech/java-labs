@@ -207,6 +207,57 @@ O Hibernate faz flush automaticamente antes do commit, e às vezes antes de uma 
 
 ## Relacionamentos
 
+### @OneToOne
+
+Relacionamento 1:1: cada `Usuario` tem no máximo um `Perfil`, e vice-versa. A forma mais simples é unidirecional, com a chave estrangeira do lado que faz mais sentido "possuir" a referência:
+
+```java
+@Entity
+public class Perfil {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String bio;
+    private String avatarUrl;
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id", unique = true)
+    private Usuario usuario;
+}
+```
+
+Para navegar dos dois lados (`usuario.getPerfil()` e `perfil.getUsuario()`), o relacionamento vira bidirecional. Só um dos lados pode ter a coluna de chave estrangeira (o lado **dono**, marcado com `@JoinColumn`); o outro lado só declara `mappedBy`, apontando o nome do campo dono:
+
+```java
+@Entity
+public class Usuario {
+    // ...
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Perfil perfil;
+}
+```
+
+Uma FK separada com `unique = true` funciona, mas duplica a garantia de unicidade que já existe na chave primária da outra tabela. Quando as duas entidades sempre nascem e morrem juntas (não existe `Perfil` sem `Usuario`), o `@MapsId` é a opção mais enxuta: a tabela `perfil` usa o mesmo valor de `usuario_id` como sua própria chave primária, em vez de ter um `id` autoincrementado e uma coluna de FK à parte.
+
+```java
+@Entity
+public class Perfil {
+    @Id
+    private Long id; // sem @GeneratedValue: o valor vem do usuário associado
+
+    private String bio;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+}
+```
+
+Antes de modelar como `@OneToOne`, vale perguntar se as duas classes realmente precisam ser entidades separadas. Se `Perfil` não tem ciclo de vida próprio nem é consultado sozinho, colocar `bio` e `avatarUrl` como colunas direto na entidade `Usuario` é mais simples e evita um `JOIN` a mais em toda consulta.
+
 ### @ManyToOne e @OneToMany
 
 ```java
@@ -630,4 +681,5 @@ Use `@Transactional(readOnly = true)` em métodos de apenas leitura - é uma dic
 - [Entidades Managed, Transient e Detached no Hibernate e JPA](https://www.alura.com.br/artigos/entidades-managed-transient-e-detached-no-hibernate-e-jpa) - Alura, pt-BR
 - [Hibernate Entity Lifecycle](https://www.baeldung.com/hibernate-entity-lifecycle) - Baeldung, inglês
 - [Entity Lifecycle Model in JPA & Hibernate](https://thorben-janssen.com/entity-lifecycle-model/) - Thorben Janssen, inglês
+- [The best way to map a @OneToOne relationship with JPA and Hibernate](https://vladmihalcea.com/the-best-way-to-map-a-onetoone-relationship-with-jpa-and-hibernate/) - Vlad Mihalcea, inglês
 - [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa) - guia oficial do Spring, inglês
