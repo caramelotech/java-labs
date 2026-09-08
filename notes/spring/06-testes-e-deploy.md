@@ -143,6 +143,8 @@ docker run -p 8080:8080 minha-api
 
 `docker build` lê o `Dockerfile` e monta a imagem; `docker run -p 8080:8080` sobe um container a partir dela, mapeando a porta 8080 do container para a porta 8080 da sua máquina. A partir daqui, a mesma imagem pode ser publicada num registry (Docker Hub, ECR, GCR) e usada por qualquer orquestrador (Kubernetes, ECS, etc).
 
+Rodar esses passos (testar, empacotar, gerar a imagem, publicar, fazer deploy) na mão a cada mudança é onde entra o pipeline de CI/CD. Como montar essa esteira com GitHub Actions está em [CI/CD](/labs/java/spring/13-ci-cd/).
+
 ## Boas práticas gerais
 
 Uma lista curta que resume boa parte do que já foi visto nas outras notas de Spring, reunida num só lugar:

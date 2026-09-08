@@ -315,5 +315,3 @@ Para se aprofundar: [Java Heap Space Inside Docker](https://www.baeldung.com/ops
 - **Revisar coleções estáticas, caches e listeners** em busca de referências que nunca são liberadas
 - **Preferir streaming e processamento em lotes** a carregar arquivos ou respostas inteiras na memória
 - **Usar um `ExecutorService`** com pool de threads limitado em vez de criar `Thread` nova sob demanda
-
-Para investigar um pico de CPU, um thread dump ou uma gravação de JFR num processo que já está rodando, veja [Diagnóstico da JVM em Produção](/labs/java/java/18-diagnostico-em-producao/).

@@ -104,6 +104,7 @@ Um resumo rápido do que apareceu nas versões recentes, com link para as notas 
 | Java 21 (LTS) | Virtual threads, pattern matching para `switch`, sequenced collections, records e sealed classes já finais                                      |
 | Java 24       | Stream Gatherers final, visto em [Java Moderno](/labs/java/java/03-java-moderno/)                                                               |
 | Java 25 (LTS) | Scoped Values, Module Import Declarations, Compact Object Headers pronto para produção                                                          |
+| Java 26       | HTTP/3 no `HttpClient` (ver [Cliente HTTP e HTTP/3](/labs/java/java/18-cliente-http/))                                                          |
 | Java 27       | Compact Object Headers e G1 por padrão, criptografia pós-quântica no TLS (ver [Segurança Básica em Java](/labs/java/java/14-seguranca-basica/)) |
 
 Se você está num projeto no Java 21 hoje, pular para o 25 traz principalmente Scoped Values e os imports de módulo do lado da linguagem, mais as melhorias de JVM que vêm de brinde.

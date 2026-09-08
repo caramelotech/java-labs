@@ -19,7 +19,7 @@ Cada pasta em `notes/` é uma seção do site, com um escopo próprio. Use o esc
 
 - **`fundamentos/`** - primeiros passos com Java: instalar e configurar o ambiente, entender o que é a linguagem e escrever os primeiros programas (sintaxe, tipos, operadores, controle de fluxo). Para quem nunca programou em Java.
 - **`java/`** - a linguagem Java a fundo, sem framework: orientação a objetos, biblioteca padrão (Collections, exceções, IO, acesso a banco com JDBC), recursos do Java moderno (records, streams, pattern matching, virtual threads) e uma trilha avançada com os temas de código de produção e entrevista (concorrência, generics, enums, padrões de criação, memória da JVM, internos das coleções, segurança).
-- **`spring/`** - construir aplicações backend com Spring Boot: expor APIs REST, persistir com Spring Data/JPA, autenticar e autorizar, validar entrada, observar, testar, empacotar e fazer deploy, organizar a arquitetura e lidar com tópicos de sistemas distribuídos.
+- **`spring/`** - construir aplicações backend com Spring Boot: expor APIs REST, persistir com Spring Data/JPA, autenticar e autorizar, validar entrada, observar, testar, empacotar, automatizar a entrega com CI/CD e fazer deploy, organizar a arquitetura e lidar com tópicos de sistemas distribuídos.
 - **`roadmap.md`** (nota solta) - trilha de estudos de backend com Java, do zero à produção. É um guia de percurso, mantido à parte e independente da cobertura atual das notas.
 - **`recursos.md`** (nota solta) - materiais externos para aprofundar (livros, cursos, documentação, canais).
 
