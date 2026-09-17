@@ -370,6 +370,8 @@ Isso é diferente de `Collections.unmodifiableList(...)`, que não copia nada, s
 
 Para grafos mutáveis mais complexos, com objetos aninhados, um copy constructor recursivo funciona bem quando a estrutura é pequena e conhecida; para conversão entre tipos diferentes ao mesmo tempo (entidade para DTO, por exemplo), uma ferramenta de mapeamento dedicada resolve os dois problemas juntos.
 
+O mesmo cuidado vale para `record`: o construtor compacto e o acessor gerado também precisam de cópia defensiva quando um componente é uma coleção ou um array, como detalhado em [Java Moderno](/labs/java/java/03-java-moderno/).
+
 ## Referências
 
 - [Entendendo as Coleções do Java: List, Set e Map](https://dev.to/isaacmaciel/entendendo-as-colecoes-do-java-list-set-e-map-33jh) - Isaac Maciel (DEV Community), pt-BR

@@ -312,7 +312,7 @@ LocalDate parseado = LocalDate.parse("25/12/2026", fmt);
 
 ### Atravessando fusos horários sem se perder
 
-`LocalDateTime` guarda data e hora, mas nenhuma informação de fuso, ele não representa um instante único no tempo, só uma combinação de números de calendário. Isso é perigoso justamente quando o sistema precisa comparar horários de lugares diferentes, porque "14h" sozinho não diz *quando* isso é de verdade sem saber em qual fuso.
+`LocalDateTime` guarda data e hora, mas nenhuma informação de fuso, ele não representa um instante único no tempo, só uma combinação de números de calendário. Isso é perigoso justamente quando o sistema precisa comparar horários de lugares diferentes, porque "14h" sozinho não diz _quando_ isso é de verdade sem saber em qual fuso.
 
 `ZonedDateTime` e `Instant` resolvem isso porque representam um instante absoluto, o mesmo ponto exato na linha do tempo, só exibido de formas diferentes dependendo do fuso:
 
@@ -449,6 +449,48 @@ public record Temperatura(double celsius) {
 
 Records são ideais para DTOs, respostas de API e Value Objects.
 
+### Imutabilidade rasa: cuidado com campo mutável
+
+`record` só garante que o campo não pode ser reatribuído depois de construído. Se esse campo referencia um objeto mutável (uma lista, um array, um `Date`), o conteúdo desse objeto continua editável por fora, mesmo com o record "pronto":
+
+```java
+public record Pedido(String cliente, List<String> itens) {}
+
+List<String> itens = new ArrayList<>(List.of("Caneca"));
+Pedido pedido = new Pedido("Ana", itens);
+
+itens.add("Teclado"); // pedido.itens() também muda, mesmo o record já "construído"
+```
+
+É a mesma armadilha de cópia rasa vs cópia profunda que qualquer classe imutável enfrenta - o mecanismo e o porquê estão detalhados em [Java Collections Framework](/labs/java/java/04-colecoes/). Num record, a correção usa o construtor compacto, que roda em toda construção, para copiar o campo assim que ele entra:
+
+```java
+public record Pedido(String cliente, List<String> itens) {
+    public Pedido {
+        itens = List.copyOf(itens); // cópia independente, o campo interno é seguro
+    }
+}
+
+itens.add("Teclado"); // não afeta mais pedido.itens()
+```
+
+Isso resolve a entrada, mas o acessor gerado automaticamente (`itens()`) ainda devolve a referência interna. Para tipos como `List`, `List.copyOf()` já devolve uma coleção não modificável, então devolver o campo direto já é seguro. Já um `array` não tem essa proteção embutida (`array.clone()` faz uma cópia, mas o array copiado continua mutável), então nesse caso também vale sobrescrever o acessor gerado para devolver uma cópia a cada chamada:
+
+```java
+public record Sensor(String nome, int[] leituras) {
+    public Sensor {
+        leituras = leituras.clone(); // cópia na entrada
+    }
+
+    @Override
+    public int[] leituras() {
+        return leituras.clone(); // cópia na saída, senão quem chama pode alterar o array interno
+    }
+}
+```
+
+Vale registrar isso como parte do contrato do record, não como uma regra automática: para um DTO que nunca sai da sua própria camada, a preocupação costuma ser exagero. Ela importa quando o record atravessa uma fronteira, uma API pública, um cache compartilhado entre threads, onde você não controla quem mais segura a referência original.
+
 ### Imutabilidade como proteção de domínio, não só estilo
 
 Boa parte dos bugs difíceis de rastrear não vem de algoritmo errado, vem de estado que mudou sem que ninguém percebesse. Conceitos como preço, desconto ou percentual costumam atravessar vários métodos e camadas, e se o objeto que os representa for mutável, uma referência reaproveitada em outro lugar pode alterar um valor que uma parte do código já assumia como fixo.
@@ -555,6 +597,11 @@ try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 ```
 
 Virtual threads são ideais para operações de I/O (chamadas de API, banco de dados), onde a thread fica bloqueada esperando resposta. Com threads tradicionais, isso desperdiça recursos; com virtual threads, a JVM reutiliza o carrier thread enquanto espera.
+
+## Referências
+
+- [Java Records: The Complete Guide (with Examples)](https://www.happycoders.eu/java/records/) - HappyCoders, inglês
+- [Records in Java: the illusion of immutability](https://loukmanemaada.dev/records-in-java-the-illusion-of-immutability) - Loukmane Maada, inglês
 
 ## Concurrency API
 

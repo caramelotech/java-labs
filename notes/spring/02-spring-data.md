@@ -308,6 +308,65 @@ public class Produto {
 }
 ```
 
+### CascadeType: o que propaga do pai para o filho
+
+Sem `cascade`, cada entidade é salva, atualizada e removida por conta própria: persistir um `Usuario` novo com uma lista de `Pedido` novos dentro não persiste os pedidos junto, e vai estourar erro reclamando que o `Pedido` não tem `id`. `cascade` diz ao JPA para repetir automaticamente, na entidade filha, a mesma operação que você fez na entidade pai.
+
+Os seis tipos, e o que cada um propaga:
+
+| Tipo      | Propaga                                                                 |
+| --------- | ----------------------------------------------------------------------- |
+| `PERSIST` | salvar o pai também salva o filho novo                                  |
+| `MERGE`   | atualizar o pai também atualiza o filho                                 |
+| `REMOVE`  | remover o pai também remove o filho                                     |
+| `REFRESH` | recarregar o pai do banco também recarrega o filho                      |
+| `DETACH`  | desconectar o pai do contexto de persistência também desconecta o filho |
+| `ALL`     | os cinco de uma vez                                                     |
+
+```java
+@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+private List<Pedido> pedidos = new ArrayList<>();
+```
+
+O cuidado que mais pega gente iniciante é o `CascadeType.REMOVE` (e por consequência o `ALL`, que já inclui ele). Ele funciona bem quando o filho não existe sem o pai, um `Pedido` realmente não faz sentido sem o `Usuario` dono. Mas aplicado num relacionamento onde o filho é compartilhado ou tem vida própria, `CascadeType.REMOVE` apaga mais do que devia: remover uma `Categoria` com `cascade = CascadeType.REMOVE` sobre os `Produto` associados apagaria produtos que talvez ainda pertençam a outras categorias.
+
+Existe ainda `orphanRemoval = true`, que resolve um problema diferente: ele remove o filho quando ele sai da coleção do pai, mesmo que o pai continue vivo.
+
+```java
+@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+private List<Pedido> pedidos = new ArrayList<>();
+
+// ...
+usuario.getPedidos().remove(pedido); // com orphanRemoval, isso já gera o DELETE do pedido
+```
+
+`CascadeType.REMOVE` cuida do "o pai morreu, o filho morre junto". `orphanRemoval` cuida do "o filho foi desligado do pai, então ele morre". Os dois juntos, num relacionamento de posse real (o filho não existe fora daquele pai), cobrem o ciclo de vida inteiro sem código manual de limpeza.
+
+### FetchType: LAZY vs EAGER
+
+Fetch decide **quando** o relacionamento é carregado do banco: junto com o pai, ou só quando alguém pedir explicitamente.
+
+A especificação JPA define um padrão diferente para cada tipo de relacionamento, e ele costuma pegar quem não sabe que existe:
+
+| Relacionamento | Padrão  |
+| -------------- | ------- |
+| `@OneToOne`    | `EAGER` |
+| `@ManyToOne`   | `EAGER` |
+| `@OneToMany`   | `LAZY`  |
+| `@ManyToMany`  | `LAZY`  |
+
+Com `EAGER`, o relacionamento vem sempre no mesmo `SELECT` (ou num `JOIN` logo em seguida), mesmo quando ninguém vai usar aquele dado. Isso é a origem do "SELECT gordo" citado na seção de Projeções, e também da armadilha clássica do N+1: buscar uma lista de 50 `Pedido` com `usuario` em `EAGER` dispara 1 query para os pedidos e mais 50, uma para cada `usuario`, se o Hibernate não conseguir otimizar num `JOIN` só.
+
+Com `LAZY`, o relacionamento só é buscado no banco na primeira vez que o código chama o getter dele. Isso evita o custo quando ninguém precisa do dado, mas troca o problema: se esse acesso acontecer depois que a transação já fechou (por exemplo, serializando a entidade para JSON num controller sem `@Transactional`), o resultado é `LazyInitializationException`, porque não existe mais sessão aberta para buscar o dado no banco.
+
+```java
+@ManyToOne(fetch = FetchType.LAZY) // sobrescreve o padrão EAGER
+@JoinColumn(name = "usuario_id")
+private Usuario usuario;
+```
+
+A recomendação que a comunidade Hibernate repete há anos: declare `fetch = FetchType.LAZY` em todo relacionamento, inclusive nos que já nascem `EAGER`, e resolva a necessidade pontual de carregar junto com uma query explícita (`JOIN FETCH` no JPQL, ou `@EntityGraph` no Spring Data) no método que realmente precisa disso. Isso evita carregar dado demais no caminho comum e ainda deixa claro, no código da consulta, onde o join está acontecendo de propósito.
+
 ## Escolhendo a estratégia de chave primária
 
 `@GeneratedValue(strategy = GenerationType.IDENTITY)` (delegando para um `AUTO_INCREMENT`/`SERIAL` do banco) é a opção mais comum para começar, mas em sistemas distribuídos ou de alto volume, a escolha do tipo de ID afeta performance de um jeito que só aparece depois que a tabela já cresceu.
@@ -655,7 +714,7 @@ public class ProdutoController {
 }
 ```
 
-## @Transactional
+## @Transactional e as garantias ACID
 
 Garante que operações de banco aconteçam dentro de uma transação:
 
@@ -676,6 +735,93 @@ public void transferir(Long origemId, Long destinoId, BigDecimal valor) {
 
 Use `@Transactional(readOnly = true)` em métodos de apenas leitura - é uma dica de otimização para o banco.
 
+### As quatro garantias (ACID)
+
+`@Transactional` existe para dar a uma sequência de operações de banco as garantias que a sigla ACID descreve. No `transferir` acima:
+
+- **Atomicidade**: débito e crédito acontecem os dois, ou nenhum dos dois. Se `destino.creditar(valor)` lançar exceção depois que `origem.debitar(valor)` já rodou, o Spring desfaz o débito também. É essa garantia que o `@Transactional` entrega diretamente, via rollback.
+- **Consistência**: depois da transação, os dados continuam respeitando as regras do sistema (saldo não fica negativo se há uma constraint pra isso, chave estrangeira aponta pra uma linha que existe). Quem garante isso é o próprio banco, através de constraints e das regras de negócio que você escreve - o `@Transactional` não valida nada sozinho, só delimita onde a transação começa e termina.
+- **Isolamento**: enquanto essa transferência está no meio do caminho, outra transação lendo a mesma conta não pode ver um estado "pela metade" (o débito já aplicado, o crédito ainda não). O quanto isso é garantido depende do nível de isolamento, assunto da próxima seção.
+- **Durabilidade**: depois que a transação commita, o resultado sobrevive a uma queda de energia no servidor do banco no minuto seguinte. Isso é trabalho do log de transação do banco (o WAL do PostgreSQL, o redo log do MySQL), não do Spring.
+
+Resumindo: `@Transactional` entrega atomicidade e controla isolamento. Consistência e durabilidade são responsabilidade do banco de dados por baixo.
+
+### Isolamento e concorrência
+
+Quando duas transações mexem nos mesmos dados ao mesmo tempo, três problemas clássicos podem aparecer:
+
+- **Dirty read**: uma transação lê um dado que outra transação alterou mas ainda não commitou. Se a segunda transação der rollback, a primeira trabalhou em cima de um dado que nunca existiu de verdade.
+- **Non-repeatable read**: dentro da mesma transação, você lê a mesma linha duas vezes e recebe valores diferentes, porque outra transação commitou uma alteração entre as duas leituras.
+- **Phantom read**: parecido, mas com uma consulta que retorna um conjunto de linhas: rodar o mesmo `WHERE` duas vezes na mesma transação traz uma linha a mais (ou a menos), porque outra transação inseriu ou apagou uma linha que bate com o filtro.
+
+O nível de isolamento decide contra quais desses três a transação está protegida:
+
+| Nível              | Protege contra                                            |
+| ------------------ | --------------------------------------------------------- |
+| `READ_UNCOMMITTED` | nada - permite até dirty read                             |
+| `READ_COMMITTED`   | dirty read (padrão do PostgreSQL, Oracle e SQL Server)    |
+| `REPEATABLE_READ`  | dirty read e non-repeatable read (padrão do MySQL/InnoDB) |
+| `SERIALIZABLE`     | os três - equivale a rodar as transações uma de cada vez  |
+
+```java
+@Transactional(isolation = Isolation.REPEATABLE_READ)
+public void transferir(Long origemId, Long destinoId, BigDecimal valor) {
+    // ...
+}
+```
+
+O trade-off é direto: quanto mais forte o isolamento, mais proteção, e menos transações conseguem rodar em paralelo sem travar uma na outra. Na prática, o padrão do banco (`READ_COMMITTED` na maioria) resolve a esmagadora maioria dos casos. Suba o nível só quando um bug de concorrência específico exigir, não como precaução geral.
+
+### Propagação
+
+Propagação decide o que acontece quando um método `@Transactional` chama outro método `@Transactional`. As duas opções que aparecem o tempo todo:
+
+- **`REQUIRED`** (o padrão): se já existe uma transação rolando, o método entra nela. Se não existe, cria uma nova. É o comportamento que você quer na maioria das vezes - um `Service` chamando outro `Service`, tudo dentro da mesma unidade de trabalho.
+- **`REQUIRES_NEW`**: suspende a transação atual (se houver) e abre uma completamente independente. Útil para logging ou auditoria que precisa persistir mesmo se a transação principal der rollback depois:
+
+```java
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void registrarAuditoria(String evento) {
+    auditoriaRepository.save(new Auditoria(evento));
+    // commita sozinha, mesmo que o método que chamou aqui dê rollback depois
+}
+```
+
+Existem outras cinco opções (`NESTED`, que cria um savepoint dentro da transação atual; `MANDATORY`, que exige uma transação já aberta e lança exceção se não houver; entre outras), mas `REQUIRED` e `REQUIRES_NEW` cobrem o que aparece no dia a dia.
+
+### Duas pegadinhas comuns
+
+**Self-invocation não funciona.** O `@Transactional` funciona através de um proxy que o Spring cria em volta do seu bean. Quando você chama o método de fora (outro bean chamando o `Service`), a chamada passa pelo proxy, que abre a transação antes de delegar para o método de verdade. Quando você chama de dentro da mesma classe (`this.outroMetodo()` ou simplesmente `outroMetodo()`), a chamada nunca passa pelo proxy, e o `@Transactional` daquele método é ignorado silenciosamente:
+
+```java
+@Service
+public class PedidoService {
+
+    public void processar(Long id) {
+        // ...
+        salvarComTransacao(id); // chamada interna: NÃO passa pelo proxy, @Transactional ignorado
+    }
+
+    @Transactional
+    public void salvarComTransacao(Long id) {
+        // ...
+    }
+}
+```
+
+A correção mais simples é mover `salvarComTransacao` para outro bean e injetar ele, em vez de chamar via `this`.
+
+**Rollback só acontece por padrão em exceção não checada.** O Spring reverte a transação automaticamente quando uma `RuntimeException` (ou `Error`) sobe do método. Uma exceção checada (`Exception` que não é `RuntimeException`) **não** dispara rollback por padrão - a transação commita normalmente, mesmo com a exceção estourando. Se o método lança uma checada e você precisa de rollback nela, declare explicitamente:
+
+```java
+@Transactional(rollbackFor = PagamentoRecusadoException.class)
+public void pagar(Long pedidoId) throws PagamentoRecusadoException {
+    // ...
+}
+```
+
+E se você captura a exceção dentro do próprio método sem relançar, o Spring nem chega a saber que algo deu errado - do ponto de vista dele, o método terminou normalmente, e o commit acontece.
+
 ## Referências
 
 - [Entidades Managed, Transient e Detached no Hibernate e JPA](https://www.alura.com.br/artigos/entidades-managed-transient-e-detached-no-hibernate-e-jpa) - Alura, pt-BR
@@ -683,3 +829,7 @@ Use `@Transactional(readOnly = true)` em métodos de apenas leitura - é uma dic
 - [Entity Lifecycle Model in JPA & Hibernate](https://thorben-janssen.com/entity-lifecycle-model/) - Thorben Janssen, inglês
 - [The best way to map a @OneToOne relationship with JPA and Hibernate](https://vladmihalcea.com/the-best-way-to-map-a-onetoone-relationship-with-jpa-and-hibernate/) - Vlad Mihalcea, inglês
 - [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa) - guia oficial do Spring, inglês
+- [Bancos de dados ACID - atomicidade, consistência, isolamento e durabilidade explicados](https://www.freecodecamp.org/portuguese/news/bancos-de-dados-acid-atomicidade-consistencia-isolamento-e-durabilidade-explicados/) - freeCodeCamp, pt-BR
+- [Transaction Propagation and Isolation in Spring @Transactional](https://www.baeldung.com/spring-transactional-propagation-isolation) - Baeldung, inglês
+- [JPA CascadeType.REMOVE vs orphanRemoval](https://www.baeldung.com/jpa-cascade-remove-vs-orphanremoval) - Baeldung, inglês
+- [FetchType: Lazy/Eager loading for Hibernate & JPA](https://thorben-janssen.com/entity-mappings-introduction-jpa-fetchtypes/) - Thorben Janssen, inglês
