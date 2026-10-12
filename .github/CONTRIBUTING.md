@@ -6,8 +6,8 @@ Obrigado por querer contribuir com o Java Labs!
 
 - Melhorias e correções nas anotações (`notes/`)
 - Novos exemplos de código em `examples/`
-- Exercícios adicionais em `examples/exercises.md`
-- Projetos práticos em `examples/projects.md`
+- Exercícios adicionais em `notes/pratica/01-exercicios.md`
+- Projetos práticos em `notes/pratica/02-projetos.md`
 - Recursos recomendados em `notes/recursos.md`
 
 Melhorias no **site** (visual, navegação, deploy) são feitas no repositório hub [labs](https://github.com/caramelotech/labs).
@@ -56,13 +56,13 @@ As notas são **Markdown puro, sem frontmatter**:
 - O código deve compilar e executar com `javac`/`java` (JDK 17+)
 - Inclua um `README.md` explicando o objetivo e o resultado esperado
 
-### Exercícios (`examples/exercises.md`)
+### Exercícios (`notes/pratica/01-exercicios.md`)
 
 - Descreva claramente o objetivo
 - Indique o nível de dificuldade (iniciante / intermediário / avançado)
 - Inclua critérios de sucesso em formato de checklist
 
-### Projetos (`examples/projects.md`)
+### Projetos (`notes/pratica/02-projetos.md`)
 
 - Descreva o objetivo e o contexto
 - Liste os requisitos em formato de checklist

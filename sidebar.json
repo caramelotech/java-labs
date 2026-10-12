@@ -1,10 +1,33 @@
 {
   "sections": [
-    { "label": "Visão geral", "slug": "." },
-    { "label": "Fundamentos", "directory": "fundamentos" },
-    { "label": "Java", "directory": "java" },
-    { "label": "Spring", "directory": "spring" },
-    { "label": "Roadmap", "slug": "roadmap" },
-    { "label": "Recursos", "slug": "recursos" }
+    {
+      "label": "Visão geral",
+      "slug": "."
+    },
+    {
+      "label": "Fundamentos",
+      "directory": "fundamentos"
+    },
+    {
+      "label": "Java",
+      "directory": "java"
+    },
+    {
+      "label": "Spring",
+      "directory": "spring"
+    },
+    {
+      "label": "Prática",
+      "directory": "pratica"
+    },
+    {
+      "label": "Roadmap",
+      "slug": "roadmap"
+    },
+    {
+      "label": "Recursos",
+      "slug": "recursos"
+    }
   ]
 }
+

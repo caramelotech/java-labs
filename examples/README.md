@@ -1,43 +1,17 @@
-# Exemplos
+# Examples
 
-Esta pasta concentra os materiais praticos do repositorio: exemplos executaveis, exercicios e projetos.
+Este diretório reúne exemplos de código e projetos já implementados para acompanhar o conteúdo do Java Labs.
 
-## Indice
+## Como usar
 
-| Caminho          | Tipo       | Descricao                                                |
-| ---------------- | ---------- | -------------------------------------------------------- |
-| `01-HelloWorld/` | Exemplo    | Primeiro programa em Java com codigo e README proprio    |
-| `exercises.md`   | Exercicios | Lista de desafios para praticar os conceitos das notas   |
-| `projects.md`    | Projetos   | Propostas de mini projetos para consolidar o aprendizado |
+1. Escolha um exemplo implementado
+2. Leia o README do exemplo, quando existir
+3. Execute o código no ambiente indicado
+4. Modifique, teste e experimente variações
 
-## Como usar os exemplos
+## Prática guiada
 
-1. Entre na pasta do exemplo desejado
-2. Compile com `javac`
-3. Execute com `java`
+As sugestões de exercícios e projetos ficam publicadas no hub:
 
-Exemplo:
-
-```bash
-cd examples/01-HelloWorld
-javac HelloWorld.java
-java HelloWorld
-```
-
-## Relacao com as notas
-
-As explicacoes teoricas vivem em `src/content/docs/`. Uma boa sequencia e:
-
-1. Ler a nota correspondente
-2. Executar o exemplo relacionado
-3. Resolver um exercicio
-4. Evoluir para um projeto
-
-## Adicionando novos exemplos
-
-- Use uma pasta propria para cada exemplo relevante
-- Inclua um `README.md` com contexto e instrucoes
-- Prefira nomes claros, com prefixo numerico quando fizer parte da trilha
-- Teste o codigo antes de abrir o PR
-
-Mais detalhes estao em [../.github/CONTRIBUTING.md](../.github/CONTRIBUTING.md).
+- [Exercícios](../notes/pratica/01-exercicios.md)
+- [Projetos](../notes/pratica/02-projetos.md)

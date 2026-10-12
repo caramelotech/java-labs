@@ -1,84 +1,60 @@
 # Java Labs
 
-Bem-vindo ao **Java Labs**. Este repositório foi organizado para ensinar Java de forma clara, prática e progressiva, combinando notas em Markdown, exemplos executáveis e desafios para consolidar o aprendizado.
+Bem-vindo ao **Java Labs**, a trilha aberta do Caramelo Tech sobre **Java**.
+
+Este repositório existe para ajudar pessoas curiosas a aprender, construir e compartilhar conhecimento em comunidade. A ideia é estudar com calma, praticar com exemplos reais e evoluir junto com outras pessoas que também gostam de tecnologia.
 
 As notas deste repositório são publicadas no site do [Caramelo Labs](https://caramelotech.com.br/labs/java/).
 
 ## O que você vai encontrar
 
-- Conteúdo didático em português (pt-BR)
-- Explicações claras e acessíveis
-- Exemplos práticos e funcionais
-- Exercícios para fixação
-- Projetos para aplicar os conceitos em contexto real
-- Recursos adicionais curados
+- Conteúdo didático em português, pensado para estudo progressivo
+- Notas em Markdown publicadas no hub do Caramelo Labs
+- Exemplos de código e projetos implementados em `examples/`
+- Exercícios e ideias de projetos em `notes/pratica/`
+- Espaço aberto para contribuições da comunidade
 
 ## Conteúdo
 
-| Seção       | Escopo                                                                                         |
-| ----------- | ---------------------------------------------------------------------------------------------- |
-| Fundamentos | Primeiros passos com Java: ambiente, o que é a linguagem e os primeiros programas              |
-| Java        | A linguagem a fundo, sem framework: OO, biblioteca padrão, Java moderno e trilha avançada      |
-| Spring      | Aplicações backend com Spring Boot: APIs, persistência, segurança, testes, deploy, arquitetura |
-| Roadmap     | Trilha de estudos de backend com Java, do zero à produção                                      |
-| Recursos    | Materiais externos para aprofundar cada assunto                                                |
+| Seção       | Escopo                                                                      |
+| ----------- | --------------------------------------------------------------------------- |
+| Fundamentos | Ambiente, primeiros passos e base da linguagem                              |
+| Java        | Orientação a objetos, biblioteca padrão, Java moderno e trilha avançada     |
+| Spring      | APIs, persistência, segurança, testes, deploy e arquitetura com Spring Boot |
+| Roadmap     | Trilha de estudos de backend com Java                                       |
+| Recursos    | Materiais externos para aprofundamento                                      |
+| Prática     | Exercícios e projetos para aplicar os conteúdos do lab                      |
 
 ## Estrutura do repositório
 
 ```text
 java-labs/
-├── notes/           → Anotações em Markdown puro (publicadas no site do Caramelo Labs)
-├── sidebar.json     → Seções da barra lateral no site
-├── examples/        → Exemplos de código, exercícios e projetos práticos
-└── .github/         → Workflows, templates e guias de contribuição
+├── notes/           -> Notas em Markdown puro publicadas no Caramelo Labs
+│   └── pratica/     -> Exercícios e projetos propostos
+├── examples/        -> Exemplos de código Java prontos para executar
+├── sidebar.json     -> Ordem das seções no hub
+├── .github/         -> Templates e guias de contribuição
+└── LICENSE
 ```
 
-Este repositório contém **apenas conteúdo** - não há build, dependências ou configuração de site. A estrutura web (Astro + Starlight) vive no repositório hub [labs](https://github.com/caramelotech/labs), que busca as notas daqui a cada atualização e publica o site.
+Este repositório contém conteúdo e exemplos. A estrutura web que publica os labs vive no repositório hub [labs](https://github.com/caramelotech/labs), que busca as notas daqui e monta o site.
 
-## Como usar
+## Como estudar
 
-Se você está começando agora, este fluxo funciona bem:
-
-1. Leia as notas de `notes/fundamentos/` na ordem numérica (ou pelo [site](https://caramelotech.com.br/labs/java/))
-2. Execute o exemplo [Hello World](examples/01-HelloWorld/)
-3. Resolva os desafios em [examples/exercises.md](examples/exercises.md)
-4. Escolha um projeto em [examples/projects.md](examples/projects.md)
-5. Consulte o [roadmap](notes/roadmap.md) e os [recursos adicionais](notes/recursos.md) para aprofundar
-
-## Executando os exemplos Java
-
-```bash
-cd examples/01-HelloWorld
-javac HelloWorld.java
-java HelloWorld
-```
-
-Recomendação de ambiente: JDK 17 LTS ou superior (`java --version`, `javac --version`).
+1. Comece pelo [site do lab](https://caramelotech.com.br/labs/java/) ou pelas notas em `notes/`
+2. Siga a ordem sugerida em `sidebar.json`
+3. Use `examples/` para ver implementações prontas
+4. Pratique com os [exercícios](notes/pratica/01-exercicios.md)
+5. Aplique os aprendizados nos [projetos](notes/pratica/02-projetos.md)
 
 ## Escrevendo notas
 
 As notas em `notes/` são Markdown puro, sem frontmatter:
 
 - A primeira linha da nota deve ser o título: `# Título da Nota`
-- Use prefixo numérico no nome do arquivo para controlar a ordem na barra lateral: `01-ambiente.md`, `02-introducao.md`
-- Agrupe por tema em subpastas (`fundamentos/`, `java/`, `spring/`)
-- Imagens ficam junto das notas (ex: `notes/secao/assets/img.png`) e são referenciadas com caminho relativo: `![descrição](./assets/img.png)`
-- Links para outras notas do site usam o caminho completo: `/labs/java/<secao>/<nota>/`
+- Use prefixo numérico no nome do arquivo para controlar a ordem: `01-introducao.md`, `02-conceitos.md`
+- Agrupe conteúdos por tema em subpastas
+- Imagens ficam junto das notas e usam caminho relativo
+- Links internos publicados no hub usam o caminho completo: `/labs/java/<secao>/<arquivo-com-prefixo>/`
 
 Ao criar uma nova subpasta de tema, adicione a seção correspondente em `sidebar.json`.
-
-## Contribuição
-
-Contribuições são muito bem-vindas. Você pode ajudar com:
-
-- Melhorias nas notas de `notes/`
-- Novos exemplos em `examples/`
-- Novos exercícios em `examples/exercises.md`
-- Novos projetos em `examples/projects.md`
-- Curadoria de recursos em `notes/recursos.md`
-
-Antes de abrir um PR, leia o [Guia de Contribuição](.github/CONTRIBUTING.md).
-
-## Licença
-
-Este projeto está sob a licença definida em [LICENSE](LICENSE).
