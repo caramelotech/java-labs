@@ -65,8 +65,9 @@ buildNumber.properties
 .gradle/
 !gradle-wrapper.jar
 
-# Claude & AI 
-.claude
+# Claude & AI
+.claude/
+.codex/
 bash.exe.stackdump
 
 # Personal
