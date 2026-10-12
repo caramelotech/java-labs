@@ -446,21 +446,44 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 ### @Query para queries customizadas
 
+Query methods resolvem o caso comum, mas têm limite. Um nome de método com quatro condições encadeadas (`findByAtivoAndEmailContainingAndCriadoEmAfterAndCidade`) já fica difícil de ler, e tem consulta que Spring Data simplesmente não consegue derivar de um nome: uma agregação com `GROUP BY`, um `JOIN` que atravessa três entidades, uma busca com filtros opcionais que mudam conforme o que o usuário preencheu na tela. Para esses casos existe o `@Query`, que deixa você escrever a consulta por conta própria, em dois dialetos diferentes.
+
+**JPQL** (Java Persistence Query Language) é o dialeto padrão do `@Query`. Ele parece SQL, mas opera sobre entidades e seus atributos Java, não sobre tabelas e colunas do banco: você escreve `FROM Usuario u`, não `FROM usuarios`, e `u.dataNascimento`, não `data_nascimento`. Por rodar em cima do modelo de entidades, o JPQL continua **independente de banco**, a mesma query roda em PostgreSQL, MySQL ou H2 sem alteração, porque quem traduz para o SQL de cada banco é o Hibernate por baixo.
+
 ```java
-// JPQL - usa nomes de classes e atributos Java, não SQL
 @Query("SELECT u FROM Usuario u WHERE u.email = :email AND u.ativo = true")
 Optional<Usuario> buscarAtivoPorEmail(@Param("email") String email);
+```
 
-// SQL nativo
-@Query(value = "SELECT * FROM usuarios WHERE YEAR(data_nascimento) = :ano",
+**SQL nativo** é o SQL de verdade do banco por trás, ativado com `nativeQuery = true`. Você abre mão da portabilidade entre bancos (a sintaxe agora é a do PostgreSQL, do MySQL, ou de qual banco você estiver usando), mas ganha acesso a tudo que o dialeto do banco oferece e o JPQL não cobre: uma função específica do PostgreSQL, uma CTE (`WITH ... AS`) para organizar uma query complexa em passos nomeados, ou uma window function (`ROW_NUMBER() OVER (...)`) para ranquear linhas dentro de um grupo sem precisar de subquery.
+
+```java
+@Query(value = "SELECT * FROM usuarios WHERE EXTRACT(YEAR FROM data_nascimento) = :ano",
        nativeQuery = true)
 List<Usuario> buscarPorAnoNascimento(@Param("ano") int ano);
+```
 
-// Update/Delete via @Modifying
+A regra prática para escolher entre os dois: comece por JPQL, porque ele cobre a maioria dos casos e mantém a aplicação portável entre bancos. Só desça para SQL nativo quando precisar de um recurso que o dialeto do seu banco tem e o JPQL não expõe.
+
+O `@Query` também serve para operações de escrita, com `@Modifying`:
+
+```java
 @Modifying
 @Query("UPDATE Usuario u SET u.ativo = false WHERE u.id = :id")
 void desativar(@Param("id") Long id);
 ```
+
+Sem `@Modifying`, o Spring Data espera que toda `@Query` seja um `SELECT` e recusa rodar um `UPDATE` ou `DELETE`. Repare também que esse `UPDATE` roda direto no banco, sem passar pelo ciclo de vida da entidade: se alguma instância de `Usuario` com aquele `id` já estiver carregada no contexto de persistência da transação atual, ela **não** é atualizada automaticamente, e você pode acabar lendo um valor desatualizado dela até a transação recarregar a entidade.
+
+Onde o `@Query` costuma aparecer na prática:
+
+- **JOINs mais complexos**, que um nome de método não consegue expressar de forma legível
+- **Agregações** (`COUNT`, `SUM`, `AVG`) para dashboards e relatórios
+- **Busca com múltiplos filtros opcionais**, tipo uma tela de busca onde o usuário pode preencher nome, categoria e faixa de preço em qualquer combinação, montando a cláusula `WHERE` com os parâmetros que vieram preenchidos
+- **Relatórios com SQL específico do banco**, quando o relatório usa uma função ou uma CTE que só faz sentido escrita direto no dialeto do banco
+- **Operações que o dialeto JPQL não cobre**, como uma função proprietária do banco
+
+Vale a máxima: o objetivo não é escrever mais SQL, é buscar exatamente o dado necessário, do jeito mais direto disponível. Um query method resolve a maioria dos casos sem esforço nenhum; `@Query` entra quando o nome do método viraria ilegível ou quando a consulta faz algo que a derivação automática não alcança.
 
 ### Paginação e ordenação
 
@@ -833,3 +856,5 @@ E se você captura a exceção dentro do próprio método sem relançar, o Sprin
 - [Transaction Propagation and Isolation in Spring @Transactional](https://www.baeldung.com/spring-transactional-propagation-isolation) - Baeldung, inglês
 - [JPA CascadeType.REMOVE vs orphanRemoval](https://www.baeldung.com/jpa-cascade-remove-vs-orphanremoval) - Baeldung, inglês
 - [FetchType: Lazy/Eager loading for Hibernate & JPA](https://thorben-janssen.com/entity-mappings-introduction-jpa-fetchtypes/) - Thorben Janssen, inglês
+- [JPQL - Jakarta Persistence Specification](https://jakarta.ee/specifications/persistence/3.1/jakarta-persistence-spec-3.1#a4415) - especificação oficial, inglês
+- [Spring Data JPA Query Creation](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html) - documentação oficial do Spring, inglês
