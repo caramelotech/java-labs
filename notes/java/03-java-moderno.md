@@ -186,6 +186,23 @@ int[] numeros = {1, 2, 3, 4, 5};
 Arrays.stream(numeros).average().ifPresent(System.out::println); // 3.0
 ```
 
+### Streams paralelos: parallelStream()
+
+Trocar `.stream()` por `.parallelStream()` (ou chamar `.parallel()` num stream já existente) divide a coleção em pedaços e processa cada pedaço numa thread diferente, juntando o resultado no final:
+
+```java
+long total = numeros.parallelStream()
+    .filter(n -> n % 2 == 0)
+    .mapToLong(n -> n * n)
+    .sum();
+```
+
+A sintaxe é idêntica à de um stream sequencial, mas o ganho de performance não é automático nem garantido. Vale a pena quando a coleção é grande e o trabalho por elemento é pesado o bastante para compensar o custo de dividir o trabalho e juntar o resultado no fim; numa lista de 20 elementos, esse custo de coordenação costuma ser maior que o ganho.
+
+O detalhe que pega quem usa pela primeira vez: por baixo, `parallelStream()` usa o mesmo `ForkJoinPool.commonPool()` compartilhado por toda a aplicação, inclusive pelo `CompletableFuture.supplyAsync()` sem executor explícito, visto em [Concorrência](/labs/java/java/13-concorrencia/). Esse pool tem poucas threads (perto de uma por núcleo de CPU) e foi desenhado para trabalho de CPU, não para esperar rede ou banco. Chamar um serviço HTTP ou consultar o banco de dentro de um `parallelStream()` é o mesmo erro de fazer isso num `supplyAsync()` sem pool próprio: poucas chamadas já ocupam todas as threads disponíveis, e como o pool é compartilhado, até outras partes da aplicação que dependem dele (outro `parallelStream`, outro `CompletableFuture`) ficam esperando na fila.
+
+Regra prática: `parallelStream()` serve para processamento de CPU em memória (calcular, filtrar, agregar uma coleção grande já carregada). Para trabalho de I/O (chamada de rede, banco, arquivo), use `CompletableFuture` com um `Executor` dedicado, ou virtual threads.
+
 ### Stream Gatherers (Java 24+)
 
 A lista de operações intermediárias acima (`filter`, `map`, `distinct`, `limit`...) é fixa. Se você precisa de algo que não está nela, como "agrupe os elementos de 3 em 3" ou "só passe adiante quando o valor mudar em relação ao anterior", não tem como encaixar no meio do pipeline. Antes do Java 24 a saída era quebrar o stream, resolver na mão com um laço e um `List`, e às vezes montar outro stream depois.
@@ -598,11 +615,6 @@ try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
 Virtual threads são ideais para operações de I/O (chamadas de API, banco de dados), onde a thread fica bloqueada esperando resposta. Com threads tradicionais, isso desperdiça recursos; com virtual threads, a JVM reutiliza o carrier thread enquanto espera.
 
-## Referências
-
-- [Java Records: The Complete Guide (with Examples)](https://www.happycoders.eu/java/records/) - HappyCoders, inglês
-- [Records in Java: the illusion of immutability](https://loukmanemaada.dev/records-in-java-the-illusion-of-immutability) - Loukmane Maada, inglês
-
 ## Concurrency API
 
 Para além de virtual threads, o pacote `java.util.concurrent` oferece ferramentas de alto nível:
@@ -634,3 +646,10 @@ CompletableFuture<String> cf = CompletableFuture
 
 cf.thenAccept(System.out::println);
 ```
+
+## Referências
+
+- [Java Records: The Complete Guide (with Examples)](https://www.happycoders.eu/java/records/) - HappyCoders, inglês
+- [Records in Java: the illusion of immutability](https://loukmanemaada.dev/records-in-java-the-illusion-of-immutability) - Loukmane Maada, inglês
+- [Be Aware of ForkJoinPool#commonPool()](https://dzone.com/articles/be-aware-of-forkjoinpoolcommonpool) - DZone, inglês
+- [Custom Thread Pools in Java Parallel Streams](https://www.baeldung.com/java-8-parallel-streams-custom-threadpool) - Baeldung, inglês
