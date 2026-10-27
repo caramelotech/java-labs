@@ -282,3 +282,7 @@ public class Estatisticas {
     }
 }
 ```
+
+## Próximos Passos
+
+Com condicionais e laços dominados, você já consegue repetir uma ação várias vezes - o que falta é um jeito de guardar várias informações do mesmo tipo juntas, em vez de uma variável só. É isso que os **arrays** resolvem, e eles aparecem naturalmente combinados com o `for` que você acabou de aprender.
